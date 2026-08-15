@@ -979,9 +979,14 @@ const arCount = (n, sing, plur) => {
 };
 const sizeLabel = s => s < 1024 ? s.toFixed(2) + ' MB' : (s/1024).toFixed(2) + ' GB';
 const groupLabel = g => GROUP_LABELS[g] || (g === '' ? 'الجذر' : g);
-const FILE_BASE = 'https://raw.githubusercontent.com/hbouzourdaz/DVD2027/main/files/';
+const FILE_JS  = 'https://cdn.jsdelivr.net/gh/hbouzourdaz/DVD2027@main/files/';
+const FILE_RAW = 'https://raw.githubusercontent.com/hbouzourdaz/DVD2027/main/files/';
 const encPath = p => p.replace(/\\/g,'/').split('/').map(encodeURIComponent).join('/');
-const fileUrl = p => FILE_BASE + encPath(p);
+let SIZE_MAP = null;
+const fileUrl = p => {
+  if(!SIZE_MAP) SIZE_MAP = new Map(DATA.map(f => [f.p, f.s]));
+  return ((SIZE_MAP.get(p)||0) >= 20 ? FILE_RAW : FILE_JS) + encPath(p);
+};
 const fileKey = f => f ? f.p : '';
 const getFileByKey = k => DATA.find(f => f.p === k);
 const isFavorite = f => state.favorites.has(fileKey(f));
@@ -1403,9 +1408,18 @@ function renderSelectionBar(){
 function openFile(f){ pushRecent(f); window.open(fileUrl(f.p), '_blank', 'noopener'); }
 function directFileUrl(f){ return new URL(fileUrl(f.p), window.location.href).href; }
 function copyFileLink(f, msg='تم نسخ رابط الملف'){ return copyText(directFileUrl(f), msg); }
-function downloadFile(f){
+async function downloadFile(f){
   pushRecent(f);
-  const a = document.createElement('a'); a.href = fileUrl(f.p); a.download = f.n; document.body.appendChild(a); a.click(); a.remove();
+  const url = fileUrl(f.p);
+  if((f.s||0) >= 20){ const a = document.createElement('a'); a.href = url; a.download = f.n; document.body.appendChild(a); a.click(); a.remove(); return; }
+  try {
+    const res = await fetch(url);
+    const blob = await res.blob();
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = f.n; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
+  } catch(_) {
+    const a = document.createElement('a'); a.href = url; a.download = f.n; document.body.appendChild(a); a.click(); a.remove();
+  }
 }
 async function shareFile(f){
   const url = directFileUrl(f);

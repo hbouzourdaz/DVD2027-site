@@ -320,9 +320,14 @@ const arCount = (n, sing, plur) => {
 };
 const sizeLabel = s => s < 1024 ? s.toFixed(2) + ' MB' : (s/1024).toFixed(2) + ' GB';
 const groupLabel = g => GROUP_LABELS[g] || (g === '' ? 'الجذر' : g);
-const FILE_BASE = 'https://raw.githubusercontent.com/hbouzourdaz/DVD2027/main/files/';
+const FILE_JS  = 'https://cdn.jsdelivr.net/gh/hbouzourdaz/DVD2027@main/files/';
+const FILE_RAW = 'https://raw.githubusercontent.com/hbouzourdaz/DVD2027/main/files/';
 const encPath = p => p.replace(/\\/g,'/').split('/').map(encodeURIComponent).join('/');
-const fileUrl = p => FILE_BASE + encPath(p);
+let SIZE_MAP = null;
+const fileUrl = p => {
+  if(!SIZE_MAP) SIZE_MAP = new Map(DATA.map(f => [f.p, f.s]));
+  return ((SIZE_MAP.get(p)||0) >= 20 ? FILE_RAW : FILE_JS) + encPath(p);
+};
 const topicOf = f => {
   const p = f.p;
   if (/اختبار/.test(p)) return 'اختبارات';
