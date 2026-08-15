@@ -1032,7 +1032,7 @@ function updateArchiveMetrics(){
   if(sidebarMetricFiles) sidebarMetricFiles.textContent = count;
   if(metricFolders) metricFolders.textContent = Object.keys(TREE.dirs).length.toLocaleString('en-US');
   if(metricStatus) metricStatus.textContent = 'جاهز';
-  $('#searchInput').placeholder = 'ابحث داخل '+count+' ملفًا تعليميًا ( / )';
+  $('#searchInput').placeholder = 'إبحث';
 }
 function agg(node){
   if(AGG.has(node)) return AGG.get(node);
