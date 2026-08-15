@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مكتبة محتوى DVD2027</title>
+<meta name="description" content="مكتبة تفاعلية لتنظيم محتوى مجلد DVD2027 — دروس، امتحانات، مذكرات، ملخصات، كتب ومراجع بتصميم Google Drive.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a73e8'%3E%3Cpath d='M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5z'/%3E%3Cpath d='M9 5v14M15 5v14' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: { sans: ['Cairo', 'Segoe UI', 'Tahoma', 'sans-serif'] },
+      keyframes: {
+        fadeUp: { '0%': { opacity: '0', transform: 'translateY(6px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        pop:    { '0%': { opacity: '0', transform: 'scale(.96) translateY(8px)' }, '100%': { opacity: '1', transform: 'scale(1) translateY(0)' } },
+        slideUp:{ '0%': { opacity: '0', transform: 'translate(-50%, 12px)' }, '100%': { opacity: '1', transform: 'translate(-50%, 0)' } }
+      },
+      animation: {
+        fadeUp:  'fadeUp .25s ease both',
+        pop:     'pop .2s cubic-bezier(.2,.8,.3,1.1) both',
+        slideUp: 'slideUp .22s ease both'
+      }
+    } }
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif; }
+
+  /* ===== مقياس خطوط سائل متجاوب ===== */
+  .f-lg   { font-size: clamp(1.125rem, 1.04rem + 0.45vw, 1.5rem); }
+  .f-title{ font-size: clamp(0.9375rem, 0.85rem + 0.4vw, 1.1875rem); }
+  .f-body { font-size: clamp(0.875rem, 0.82rem + 0.28vw, 1rem); }
+  .f-meta { font-size: clamp(0.78125rem, 0.73rem + 0.25vw, 0.875rem); }
+  .f-xs   { font-size: clamp(0.65625rem, 0.62rem + 0.18vw, 0.75rem); }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(95,99,104,.3); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(95,99,104,.5); }
+  :focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; border-radius: 8px; }
+  mark { background: #fef08a; color: inherit; border-radius: 3px; padding: 0 1px; }
+
+  .item-hover { transition: background-color .12s ease, box-shadow .12s ease; }
+  .item-hover:hover { background-color: #f1f3f4; }
+
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+</style>
+</head>
+<body class="min-h-screen bg-white text-gray-800">
+
+  <!-- ===== Top Bar ===== -->
+  <header class="sticky top-0 z-40 border-b border-gray-200 bg-white">
+    <div class="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:gap-4">
+      <button id="homeBtn" class="flex shrink-0 items-center gap-2.5 rounded-full px-1.5 py-1 transition hover:bg-gray-100" title="العودة إلى البداية">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-[#1a73e8] text-white shadow-sm">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5z"/><path d="M9 4v16M15 4v16"/></svg>
+        </span>
+        <span class="hidden text-right leading-tight sm:block">
+          <span class="block f-title font-extrabold text-gray-800">مكتبة محتوى DVD2027</span>
+          <span class="block f-xs font-medium text-gray-500">علوم فيزيائية وتكنولوجيا</span>
+        </span>
+      </button>
+
+      <!-- Search (نوع Google Drive) -->
+      <div class="relative mx-auto w-full max-w-xl flex-1">
+        <span class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+        </span>
+        <input id="searchInput" type="text" autocomplete="off" placeholder="ابحث في Drive... ( / )"
+               class="w-full rounded-full bg-[#f1f3f4] py-2.5 pr-11 pl-10 f-body font-medium text-gray-800 outline-none transition placeholder:text-gray-500 hover:bg-[#e8eaed] focus:bg-white focus:ring-2 focus:ring-[#1a73e8]">
+        <button id="searchClear" class="absolute left-3 top-1/2 hidden -translate-y-1/2 rounded-full p-1 text-gray-500 transition hover:bg-gray-200 hover:text-gray-700" title="مسح البحث">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+      </div>
+
+      <button id="filterToggle" class="relative grid h-10 w-10 shrink-0 place-items-center rounded-full text-gray-600 transition hover:bg-gray-100 lg:hidden" title="الفلاتر">
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <span id="mobileFilterBadge" class="absolute -left-0.5 -top-0.5 hidden h-4 min-w-4 items-center justify-center rounded-full bg-[#1a73e8] px-1 text-[9px] font-bold text-white">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="mx-auto max-w-7xl px-4 pb-24">
+
+    <div class="mt-4 lg:grid lg:grid-cols-[240px_1fr] lg:items-start lg:gap-8">
+
+      <!-- ===== الشريط الجانبي (نوع Drive nav) ===== -->
+      <aside id="sidebar" class="fixed inset-0 z-50 hidden lg:sticky lg:top-[72px] lg:z-auto lg:block lg:max-h-[calc(100vh-92px)] lg:overflow-y-auto">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm lg:hidden" data-close-filters></div>
+        <div class="absolute left-0 top-0 h-full w-80 max-w-[88vw] overflow-y-auto rounded-l-3xl border border-gray-200 bg-white p-5 shadow-2xl transition lg:relative lg:w-auto lg:max-w-none lg:translate-x-0 lg:overflow-visible lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+          <div class="mb-4 flex items-center justify-between lg:hidden">
+            <h2 class="f-title font-extrabold text-gray-800">الفلاتر</h2>
+            <div class="flex items-center gap-2">
+              <span id="activeFilterBadge" class="hidden rounded-full bg-[#e8f0fe] px-2 py-0.5 f-xs font-bold text-[#1a73e8]">0</span>
+              <button id="clearFilters" class="rounded-full px-3 py-1.5 f-meta font-bold text-[#1a73e8] transition hover:bg-blue-50">مسح الكل</button>
+              <button data-close-filters class="grid h-8 w-8 place-items-center rounded-full text-gray-500 transition hover:bg-gray-100" aria-label="إغلاق">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- الفئة -->
+          <div class="mb-5">
+            <h3 class="mb-1.5 px-3 f-xs font-bold text-gray-500">الفئة</h3>
+            <div id="catList" class="space-y-0.5"></div>
+          </div>
+
+          <!-- الامتداد -->
+          <div class="mb-5">
+            <h3 class="mb-1.5 px-3 f-xs font-bold text-gray-500">الامتداد</h3>
+            <select id="extSelect" class="w-full rounded-full border border-gray-200 bg-white px-4 py-2 f-body font-medium outline-none transition focus:ring-2 focus:ring-[#1a73e8]"></select>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ===== المحتوى ===== -->
+      <section class="mt-4 min-w-0 lg:mt-0">
+
+        <!-- شريط الأدوات -->
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <div id="viewToggle" class="flex rounded-full bg-[#f1f3f4] p-0.5">
+              <button data-view="folders" class="rounded-full px-4 py-1.5 f-meta font-bold transition">المجلدات</button>
+              <button data-view="flat" class="rounded-full px-4 py-1.5 f-meta font-bold text-gray-500 transition hover:text-gray-700">كل الملفات</button>
+            </div>
+            <button id="upBtn" class="hidden items-center gap-1.5 rounded-full px-3 py-1.5 f-meta font-bold text-[#1a73e8] transition hover:bg-blue-50">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 15l8-8 8 8"/></svg>
+              مستوى أعلى
+            </button>
+          </div>
+          <div class="flex items-center gap-2">
+            <div id="layoutToggle" class="flex items-center rounded-full border border-gray-200 bg-white p-0.5">
+              <button data-layout="grid" title="عرض الشبكة" class="grid h-8 w-8 place-items-center rounded-full text-gray-500 transition hover:bg-gray-100">
+                <svg class="h-4.5 w-4.5 h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              </button>
+              <button data-layout="list" title="عرض القائمة" class="grid h-8 w-8 place-items-center rounded-full text-gray-500 transition hover:bg-gray-100">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1.3"/><circle cx="4" cy="12" r="1.3"/><circle cx="4" cy="18" r="1.3"/></svg>
+              </button>
+            </div>
+            <select id="quickSort" class="rounded-full border border-gray-200 bg-white px-3 py-1.5 f-meta font-medium outline-none transition focus:ring-2 focus:ring-[#1a73e8]"></select>
+          </div>
+        </div>
+
+        <!-- شرائح السنة -->
+        <div id="groupChips" class="mt-4 flex flex-wrap gap-2"></div>
+        <!-- شرائح الموضوع -->
+        <div id="topicChips" class="mt-2 flex flex-wrap gap-2"></div>
+
+        <!-- شريط النتائج -->
+        <div class="mt-4 flex flex-wrap items-center gap-2 border-b border-gray-100 pb-2">
+          <p class="f-title font-extrabold text-gray-800" id="resultCount">—</p>
+          <p class="f-xs font-medium text-gray-500" id="resultSub">—</p>
+        </div>
+        <div id="crumbBar" class="mt-2 hidden flex flex-wrap items-center gap-1"></div>
+        <div id="activeChips" class="mt-2 hidden flex flex-wrap items-center gap-1.5"></div>
+
+        <!-- الشبكة / القائمة -->
+        <div id="grid" class="mt-3 grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"></div>
+
+        <!-- حالة فارغة -->
+        <div id="empty" class="mt-10 hidden flex-col items-center gap-3 rounded-2xl border border-dashed border-gray-300 py-16 text-center">
+          <span class="grid h-14 w-14 place-items-center rounded-full bg-gray-100 text-gray-400">
+            <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5M8 11h6"/></svg>
+          </span>
+          <p class="f-lg font-extrabold text-gray-800" id="emptyTitle">لا توجد نتائج مطابقة</p>
+          <p class="f-meta font-medium text-gray-500" id="emptySub">جرّب تعديل البحث أو إزالة بعض الفلاتر.</p>
+          <div class="flex flex-wrap items-center justify-center gap-2">
+            <button id="emptyReset" class="rounded-full bg-[#1a73e8] px-6 py-2.5 f-body font-bold text-white shadow-sm transition hover:bg-[#1765cc]">مسح الفلاتر</button>
+            <button id="emptyHome" class="rounded-full border border-gray-300 bg-white px-6 py-2.5 f-body font-bold text-gray-700 transition hover:bg-gray-50">الرجوع إلى الجذر</button>
+          </div>
+        </div>
+
+        <!-- تحميل المزيد -->
+        <div class="mt-8 text-center">
+          <button id="loadMore" class="hidden rounded-full px-8 py-3 f-body font-bold text-[#1a73e8] transition hover:bg-blue-50">
+            عرض المزيد من النتائج
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="border-t border-gray-200 bg-white py-8 text-center f-xs font-medium text-gray-500">
+    مكتبة محتوى DVD2027 — واجهة مستوحاة من Google Drive
+  </footer>
+
+  <!-- ===== نافذة تفاصيل الملف ===== -->
+  <div id="modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" data-close-modal></div>
+    <div id="modalCard" class="relative w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl animate-pop sm:max-w-xl"></div>
+  </div>
+
+  <!-- ===== Snackbar ===== -->
+  <div id="toast" class="fixed bottom-6 left-1/2 z-[70] -translate-x-1/2 hidden max-w-[90vw] items-center gap-2.5 rounded-lg bg-gray-800 px-4 py-3 f-body font-bold text-white shadow-2xl"></div>
+
+  <!-- ===== زر العودة للأعلى ===== -->
+  <button id="toTop" class="fixed bottom-6 left-6 z-40 hidden h-12 w-12 place-items-center rounded-full bg-white text-gray-600 shadow-md transition hover:bg-gray-50" title="العودة إلى الأعلى">
+    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"/></svg>
+  </button>
+
+<script src="data.js"></script>
+<script>
+/* ================= الإعدادات ================= */
+const CATS = {
+  'مستند/درس':   { badge:'text-blue-700 bg-blue-50 border-blue-200', icon:'doc' },
+  'جدول/تمارين': { badge:'text-green-700 bg-green-50 border-green-200', icon:'table' },
+  'صورة/رسم':    { badge:'text-purple-700 bg-purple-50 border-purple-200', icon:'image' },
+  'فيديو':       { badge:'text-red-700 bg-red-50 border-red-200', icon:'video' },
+  'صوت':         { badge:'text-orange-700 bg-orange-50 border-orange-200', icon:'audio' },
+  'أرشيف':       { badge:'text-gray-600 bg-gray-100 border-gray-200', icon:'archive' },
+  'صفحة ويب':    { badge:'text-blue-700 bg-sky-50 border-sky-200', icon:'web' },
+  'برنامج':      { badge:'text-teal-700 bg-teal-50 border-teal-200', icon:'code' },
+  'أخرى':        { badge:'text-gray-500 bg-gray-100 border-gray-200', icon:'file' }
+};
+const GROUP_LABELS = {
+  '1': 'السنة الأولى متوسط',
+  '2': 'السنة الثانية متوسط',
+  '3': 'السنة الثالثة متوسط',
+  '4': 'السنة الرابعة متوسط',
+  'INFORMATIQUE': 'إعلام آلي',
+  'ملفات وكتب': 'ملفات وكتب',
+  '': 'الجذر'
+};
+const TOPICS = ['اختبارات','مذكرات','ملخصات','تمارين ودعم','عروض','حلول','تقويم تشخيصي','تدرجات سنوية','وثائق وكتب','أخرى'];
+const SORT_OPTIONS = [
+  ['name-asc','الاسم — أ → ي'],
+  ['name-desc','الاسم — ي → أ'],
+  ['size-desc','الحجم — من الأكبر'],
+  ['size-asc','الحجم — من الأصغر'],
+  ['date-desc','الأحدث تعديلاً'],
+  ['date-asc','الأقدم تعديلاً']
+];
+
+/* ================= أيقونات Google Drive (مجلد أصفر + ملفات ملونة حسب النوع) ================= */
+const FOLDER_ICON =
+  '<svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8A2 2 0 0 1 21 9.5v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" fill="#FDD835"/><path d="M3 9.5h18" stroke="#F9A825" stroke-width=".5" opacity=".5"/></svg>';
+
+const TYPE_ICONS = {
+  doc:    { bg:'#4285F4', g:'<path d="M8 7.5h8M8 11h8M8 14.5h5" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>' },
+  table:  { bg:'#34A853', g:'<path d="M7.5 7.5h9M7.5 12h9M7.5 16.5h9M12 7.5v9" stroke="#fff" stroke-width="1.5"/>' },
+  image:  { bg:'#A142F4', g:'<circle cx="9" cy="9" r="1.6" fill="#fff"/><path d="M6.5 16.5l3.5-3.5 2.5 2.5 3-3 2.5 3" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' },
+  video:  { bg:'#EA4335', g:'<path d="M9.5 8l6 4-6 4V8z" fill="#fff"/>' },
+  audio:  { bg:'#F29900', g:'<path d="M10 16.5V6.5l7-1.5v9.5" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.2" cy="16.5" r="1.9" fill="#fff"/><circle cx="15.2" cy="15" r="1.9" fill="#fff"/>' },
+  archive:{ bg:'#5F6368', g:'<path d="M7 6.5h10M7 6.5A1.5 1.5 0 0 0 5.5 8v8A1.5 1.5 0 0 0 7 17.5h10a1.5 1.5 0 0 0 1.5-1.5V8A1.5 1.5 0 0 0 17 6.5" stroke="#fff" stroke-width="1.6" fill="none"/><path d="M10 11.5h4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>' },
+  web:    { bg:'#1A73E8', g:'<circle cx="12" cy="12" r="4.5" stroke="#fff" stroke-width="1.5" fill="none"/><path d="M7.5 12h9M12 7.5c1.6 1.3 1.6 7.7 0 9M12 7.5c-1.6 1.3-1.6 7.7 0 9" stroke="#fff" stroke-width="1.5" fill="none"/>' },
+  code:   { bg:'#00897B', g:'<path d="M9 8.5L6.5 11l2.5 2.5M15 8.5l2.5 2.5-2.5 2.5" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' },
+  file:   { bg:'#9AA0A6', g:'<path d="M8.5 7h7M8.5 11h7M8.5 15h4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>' }
+};
+
+function icon(name, cls){
+  return '<svg class="'+cls+'" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">'+
+    (name==='doc'?'<path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M9 7h6M9 11h6M9 15h4"/>'
+    :name==='table'?'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/>'
+    :name==='image'?'<rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9" r="1.5"/><path d="M21 15l-4.5-4.5L9 18l-3-3-3 3"/>'
+    :name==='video'?'<rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 10l4-2v8l-4-2"/>'
+    :name==='audio'?'<path d="M9 18V6l12-3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="15" r="3"/>'
+    :name==='archive'?'<path d="M3 6h18v4H3zM4 6l2-3h12l2 3v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6z"/><path d="M8 12h8M8 16h5"/>'
+    :name==='web'?'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>'
+    :name==='code'?'<path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13 5l-2 14"/>'
+    :'<path d="M6 3h8l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v4h4"/>')+
+  '</svg>';
+}
+const ICONS_UI = {
+  copy:'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+  check:'<path d="M20 6L9 17l-5-5"/>',
+  chevron:'<path d="M15 6l-6 6 6 6"/>',
+  up:'<path d="M4 15l8-8 8 8"/>',
+  external:'<path d="M14 3h7v7M21 3l-9 9M21 14v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
+};
+function uiIcon(name, cls){ return '<svg class="'+cls+'" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">'+ICONS_UI[name]+'</svg>'; }
+function folderSvg(cls){
+  return '<svg viewBox="0 0 24 24" class="'+cls+'" aria-hidden="true">'+
+    '<path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8A2 2 0 0 1 21 9.5v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" fill="#FDD835"/>'+
+    '<path d="M3 9.5h18" stroke="#F9A825" stroke-width=".5" opacity=".5"/>'+
+  '</svg>';
+}
+function fileSvg(cat, cls){
+  const t = TYPE_ICONS[cat] || TYPE_ICONS.file;
+  return '<svg viewBox="0 0 24 24" class="'+cls+'" aria-hidden="true">'+
+    '<rect x="1.5" y="1.5" width="21" height="21" rx="5" fill="'+t.bg+'"/>'+t.g+'</svg>';
+}
+
+const ICON_WRAP = {
+  'مستند/درس':'bg-blue-50 text-blue-700',
+  'جدول/تمارين':'bg-green-50 text-green-700',
+  'صورة/رسم':'bg-purple-50 text-purple-700',
+  'فيديو':'bg-red-50 text-red-700',
+  'صوت':'bg-orange-50 text-orange-700',
+  'أرشيف':'bg-gray-100 text-gray-600',
+  'صفحة ويب':'bg-sky-50 text-sky-700',
+  'برنامج':'bg-teal-50 text-teal-700',
+  'أخرى':'bg-gray-100 text-gray-500'
+};
+
+/* ================= الحالة ================= */
+let DATA = [];
+let TREE = null;
+const AGG = new Map();
+const state = {
+  q:'', cats:new Set(), groups:new Set(), topics:new Set(), ext:'',
+  sort:'size-desc', shown:PAGE_SIZE(), nav:[], view:'folders', layout:'grid'
+};
+function PAGE_SIZE(){ return 60; }
+const PAGE = 60;
+
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* ================= أدوات مساعدة ================= */
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const arCount = (n, sing, plur) => {
+  const m = n % 100;
+  return (m >= 3 && m <= 10) ? n.toLocaleString('en-US') + ' ' + plur : n.toLocaleString('en-US') + ' ' + sing;
+};
+const sizeLabel = s => s < 1024 ? s.toFixed(2) + ' MB' : (s/1024).toFixed(2) + ' GB';
+const groupLabel = g => GROUP_LABELS[g] || (g === '' ? 'الجذر' : g);
+const FILE_BASE = 'https://raw.githubusercontent.com/hbouzourdaz/DVD2027/main/files/';
+const encPath = p => p.replace(/\\/g,'/').split('/').map(encodeURIComponent).join('/');
+const fileUrl = p => FILE_BASE + encPath(p);
+const topicOf = f => {
+  const p = f.p;
+  if (/اختبار/.test(p)) return 'اختبارات';
+  if (/مذكرات/.test(p)) return 'مذكرات';
+  if (/ملخصات/.test(p)) return 'ملخصات';
+  if (/تمارين|دعم/.test(p)) return 'تمارين ودعم';
+  if (/عروض/.test(p)) return 'عروض';
+  if (/حلول/.test(p)) return 'حلول';
+  if (/تقويم|تشخيص/.test(p)) return 'تقويم تشخيصي';
+  if (/تدرجات/.test(p)) return 'تدرجات سنوية';
+  if (/وثائق|كتاب|مذكرة/.test(p)) return 'وثائق وكتب';
+  return 'أخرى';
+};
+function sortFiles(a,b){
+  const c = state.sort;
+  if(c==='size-desc') return b.s-a.s;
+  if(c==='size-asc')  return a.s-b.s;
+  if(c==='date-desc') return b.d.localeCompare(a.d) || b.s-a.s;
+  if(c==='date-asc')  return a.d.localeCompare(b.d) || b.s-a.s;
+  const x = a.n.localeCompare(b.n,'ar',{sensitivity:'base'});
+  return c==='name-asc' ? x : -x;
+}
+function highlight(text){
+  const q = state.q.trim();
+  if(!q) return esc(text);
+  const i = text.toLowerCase().indexOf(q.toLowerCase());
+  if(i === -1) return esc(text);
+  return esc(text.slice(0,i)) + '<mark>' + esc(text.slice(i, i+q.length)) + '</mark>' + esc(text.slice(i+q.length));
+}
+
+/* ================= شجرة المجلدات ================= */
+function buildTree(){
+  const tree = { name:'', path:'', dirs:{}, files:[] };
+  for(const f of DATA){
+    const segs = f.p.split('\\');
+    let node = tree;
+    for(let i=0;i<segs.length-1;i++){
+      const s = segs[i];
+      if(!node.dirs[s]) node.dirs[s] = { name:s, path:segs.slice(0,i+1).join('\\'), dirs:{}, files:[] };
+      node = node.dirs[s];
+    }
+    node.files.push(f);
+  }
+  return tree;
+}
+function agg(node){
+  if(AGG.has(node)) return AGG.get(node);
+  let c = node.files.length, s = 0;
+  for(const f of node.files) s += f.s;
+  for(const k in node.dirs){ const a = agg(node.dirs[k]); c += a.count; s += a.size; }
+  const r = { count:c, size:s };
+  AGG.set(node, r);
+  return r;
+}
+function currentNode(){
+  let node = TREE;
+  for(const s of state.nav) node = node.dirs[s];
+  return node;
+}
+const segLabel = (seg,i) => i===0 ? (GROUP_LABELS[seg] || seg) : seg;
+const isFiltering = () => state.q.trim() || state.cats.size || state.groups.size || state.topics.size || state.ext;
+
+/* ================= تحميل البيانات ================= */
+async function load(){
+  showSkeleton();
+  if (window.DVD2027_DATA && window.DVD2027_DATA.length) {
+    DATA = window.DVD2027_DATA;
+  } else {
+    try {
+      const res = await fetch('data.json');
+      DATA = await res.json();
+    } catch (e) {
+      $('#resultCount').textContent = 'تعذّر تحميل البيانات';
+      $('#grid').innerHTML = '<div class="col-span-full rounded-xl border border-dashed border-red-400/40 p-10 text-center f-body font-bold text-red-500">تعذّر تحميل البيانات — شغّل الموقع عبر خادم محلي (npx serve E:\\DVD2027) أو انشره على Vercel.</div>';
+      $('#empty').classList.add('hidden');
+      return;
+    }
+  }
+  DATA.forEach(f => { f.t = topicOf(f); });
+  TREE = buildTree();
+  restorePrefs();
+  buildGroupChips();
+  buildTopicChips();
+  buildCatList();
+  buildExtSelect();
+  buildQuickSort();
+  apply();
+}
+
+/* ================= الهيكل العظمي (تحميل) ================= */
+function showSkeleton(){
+  const sk = (i) => '<div class="aspect-square animate-pulse rounded-2xl bg-gray-100"></div>';
+  $('#grid').innerHTML = [1,2,3,4,5,6,7,8,9,10,11,12].map(sk).join('');
+}
+
+/* ================= الشرائح (filter chips بنمط Drive) ================= */
+function chip(label, active, count, key, cls){
+  return '<button data-k="'+esc(key)+'" class="chip '+cls+' flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-1.5 f-meta font-medium transition '+
+    (active ? 'border-transparent bg-[#e8f0fe] text-[#1a73e8]'
+            : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-100')+'">'+
+    (active ? '<span class="grid h-4 w-4 place-items-center text-[#1a73e8]">'+uiIcon('check','h-3.5 w-3.5')+'</span>' : '')+
+    label+' <span class="opacity-60">'+count.toLocaleString('en-US')+'</span></button>';
+}
+function buildGroupChips(){
+  const g = {}; DATA.forEach(f => g[f.g]=(g[f.g]||0)+1);
+  const keys = Object.keys(g).sort((a,b)=> (GROUP_LABELS[a]||a).localeCompare(GROUP_LABELS[b]||b,'ar'));
+  state._groupKeys = keys;
+  state._groupCounts = g;
+  $('#groupChips').innerHTML = keys.map(k => chip(groupLabel(k), state.groups.has(k), g[k], k, '')).join('');
+}
+function buildTopicChips(){
+  const g = {}; DATA.forEach(f => g[f.t]=(g[f.t]||0)+1);
+  state._topicCounts = g;
+  $('#topicChips').innerHTML = TOPICS.map(t => chip(t, state.topics.has(t), g[t]||0, t, '')).join('');
+}
+function rerenderChips(){
+  $('#groupChips').innerHTML = state._groupKeys.map(k => chip(groupLabel(k), state.groups.has(k), state._groupCounts[k], k, '')).join('');
+  $('#topicChips').innerHTML = TOPICS.map(t => chip(t, state.topics.has(t), state._topicCounts[t]||0, t, '')).join('');
+}
+
+/* ================= قائمة الفئات (نقاط تنقل Drive) ================= */
+function buildCatList(){
+  const g = {}; DATA.forEach(f => g[f.c]=(g[f.c]||0)+1);
+  $('#catList').innerHTML = Object.keys(CATS).map(c => {
+    const n = g[c]||0, on = state.cats.has(c);
+    return '<button type="button" data-c="'+esc(c)+'" class="cat-item flex w-full items-center gap-3 rounded-full px-3 py-2 text-right transition '+
+      (on ? 'bg-[#e8f0fe] text-[#1a73e8]' : 'hover:bg-gray-100')+'">'+
+      '<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full '+ICON_WRAP[c]+'">'+icon(CATS[c].icon,'h-4 w-4')+'</span>'+
+      '<span class="min-w-0 flex-1 truncate f-meta font-medium">'+c+'</span>'+
+      '<span class="f-xs font-medium text-gray-500">'+n.toLocaleString('en-US')+'</span>'+
+      (on ? '<span class="grid h-5 w-5 shrink-0 place-items-center">'+uiIcon('check','h-4 w-4')+'</span>' : '')+
+    '</button>';
+  }).join('');
+}
+function renderCatList(){ buildCatList(); }
+$('#catList').addEventListener('click', e => {
+  const b = e.target.closest('.cat-item'); if(!b) return;
+  const c = b.dataset.c;
+  state.cats.has(c) ? state.cats.delete(c) : state.cats.add(c);
+  buildCatList(); apply();
+});
+
+/* ================= قائمة الامتدادات ================= */
+function buildExtSelect(){
+  const g = {};
+  DATA.forEach(f => { if(f.e) g[f.e]=(g[f.e]||0)+1; });
+  const keys = Object.keys(g).sort((a,b)=>g[b]-g[a]).slice(0,25);
+  $('#extSelect').innerHTML = '<option value="">كل الامتدادات</option>' +
+    keys.map(k => '<option value="'+esc(k)+'">.'+esc(k)+' ('+g[k].toLocaleString('en-US')+')</option>').join('');
+}
+function buildQuickSort(){
+  $('#quickSort').innerHTML = SORT_OPTIONS.map(o => '<option value="'+o[0]+'">'+o[1]+'</option>').join('');
+  $('#quickSort').value = state.sort;
+}
+
+/* ================= الفلترة والفرز ================= */
+function apply(){
+  if(isFiltering()){
+    $('#viewToggle').classList.add('opacity-40','pointer-events-none');
+    renderFiltered();
+  } else {
+    $('#viewToggle').classList.remove('opacity-40','pointer-events-none');
+    if(state.view === 'flat') renderFlatAll();
+    else renderNav();
+  }
+  syncViewToggle();
+  syncLayoutToggle();
+  updateActiveFilters();
+}
+
+function filteredList(){
+  const q = state.q.trim().toLowerCase();
+  return DATA.filter(f => {
+    if(q && !(f.n.toLowerCase().includes(q) || f.p.toLowerCase().includes(q))) return false;
+    if(state.cats.size && !state.cats.has(f.c)) return false;
+    if(state.groups.size && !state.groups.has(f.g)) return false;
+    if(state.topics.size && !state.topics.has(f.t)) return false;
+    if(state.ext && f.e !== state.ext) return false;
+    return true;
+  });
+}
+
+function renderFiltered(){
+  const list = filteredList().sort(sortFiles);
+  state.shown = PAGE;
+  renderList(list, true);
+}
+
+function renderFlatAll(){
+  state.shown = PAGE;
+  renderList(DATA.slice().sort(sortFiles), false);
+}
+
+function renderList(list, filtered){
+  $('#crumbBar').classList.add('hidden');
+  $('#upBtn').classList.add('hidden');
+  $('#resultCount').textContent = arCount(list.length, 'ملفاً', 'ملفات');
+  $('#resultSub').textContent = filtered ? 'مطابقاً للفلاتر' : 'جميع الملفات في المكتبة';
+  const slice = list.slice(0, state.shown);
+  $('#grid').innerHTML = slice.map((f,i)=>fileItem(f,i)).join('');
+  $('#loadMore').classList.toggle('hidden', list.length <= state.shown);
+  $('#loadMore').onclick = () => { state.shown += PAGE; renderList(list, filtered); };
+  $('#empty').classList.toggle('hidden', list.length>0);
+  $('#empty').classList.toggle('flex', list.length===0);
+  $('#emptyTitle').textContent = 'لا توجد نتائج مطابقة';
+  $('#emptySub').textContent = 'جرّب تعديل البحث أو إزالة بعض الفلاتر.';
+}
+
+/* ================= عنصر ملف (شبكة / قائمة) ================= */
+function fileItem(f, idx){
+  return state.layout === 'list' ? fileRow(f, idx) : fileTile(f, idx);
+}
+function fileTile(f, idx){
+  const cat = f.c, C = CATS[cat];
+  const folder = f.p.includes('\\') ? f.p.slice(0, f.p.lastIndexOf('\\')) : 'المجلد الرئيسي';
+  return '<article class="file-card group relative flex cursor-pointer flex-col items-center gap-1.5 rounded-2xl p-3 text-center item-hover animate-fadeUp" tabindex="0" role="button" data-f="'+idx+'" data-full="'+esc(f.p)+'">'+
+    '<button class="copy-btn absolute left-1.5 top-1.5 hidden h-7 w-7 place-items-center rounded-full bg-white text-gray-600 shadow-sm ring-1 ring-gray-200 transition hover:bg-gray-100 group-hover:grid" data-path="'+esc(f.p)+'" title="نسخ المسار">'+uiIcon('copy','h-3.5 w-3.5')+'</button>'+
+    fileSvg(cat, 'h-14 w-14 shrink-0')+
+    '<span class="line-clamp-2 min-h-[2.6em] w-full break-words f-meta font-medium leading-tight text-gray-700">'+highlight(f.n)+'</span>'+
+    '<span class="f-xs font-medium text-gray-500">'+sizeLabel(f.s)+'</span>'+
+    '<span class="hidden f-xs font-medium text-gray-400" dir="ltr" title="'+esc(folder)+'">'+folder.slice(folder.length-18)+'</span>'+
+  '</article>';
+}
+function fileRow(f, idx){
+  const cat = f.c, C = CATS[cat];
+  const folder = f.p.includes('\\') ? f.p.slice(0, f.p.lastIndexOf('\\')) : 'المجلد الرئيسي';
+  return '<article class="file-card group relative flex w-full cursor-pointer items-center gap-3 rounded-xl px-3 py-2 text-right item-hover animate-fadeUp" tabindex="0" role="button" data-f="'+idx+'" data-full="'+esc(f.p)+'">'+
+    fileSvg(cat, 'h-9 w-9 shrink-0')+
+    '<span class="min-w-0 flex-1">'+
+      '<span class="block truncate f-body font-medium text-gray-800">'+highlight(f.n)+'</span>'+
+      '<span class="block truncate f-xs font-medium text-gray-500" dir="ltr" title="'+esc(folder)+'">'+esc(folder)+'</span>'+
+    '</span>'+
+    '<span class="hidden w-24 shrink-0 text-left f-xs font-medium text-gray-500 sm:block">'+sizeLabel(f.s)+'</span>'+
+    '<span class="hidden w-32 shrink-0 text-left f-xs font-medium text-gray-500 md:block" dir="ltr">'+f.d+'</span>'+
+    '<button class="copy-btn shrink-0 rounded-full p-2 text-gray-500 transition hover:bg-gray-200 hover:text-gray-700" data-path="'+esc(f.p)+'" title="نسخ المسار">'+uiIcon('copy','h-4 w-4')+'</button>'+
+  '</article>';
+}
+
+/* ================= عنصر مجلد (شبكة / قائمة) ================= */
+function folderItem(d){
+  return state.layout === 'list' ? folderRow(d) : folderTile(d);
+}
+function folderTile(d){
+  const a = agg(d);
+  const label = d.path.includes('\\') ? d.name : (GROUP_LABELS[d.name] || d.name);
+  const sub = Object.keys(d.dirs).length;
+  return '<button class="folder-btn group relative flex w-full cursor-pointer flex-col items-center gap-1.5 rounded-2xl p-3 text-center item-hover animate-fadeUp" data-nav="'+esc(d.name)+'">'+
+    folderSvg('h-16 w-16 shrink-0 drop-shadow-sm')+
+    '<span class="line-clamp-2 min-h-[2.6em] w-full break-words f-meta font-medium leading-tight text-gray-700">'+esc(label)+'</span>'+
+    '<span class="f-xs font-medium text-gray-500">'+(sub?sub+' مجلد • ':'')+arCount(a.count,'ملفاً','ملفات')+'</span>'+
+  '</button>';
+}
+function folderRow(d){
+  const a = agg(d);
+  const label = d.path.includes('\\') ? d.name : (GROUP_LABELS[d.name] || d.name);
+  const sub = Object.keys(d.dirs).length;
+  return '<button class="folder-btn group flex w-full items-center gap-3 rounded-xl px-3 py-2 text-right item-hover animate-fadeUp" data-nav="'+esc(d.name)+'">'+
+    folderSvg('h-9 w-9 shrink-0')+
+    '<span class="min-w-0 flex-1">'+
+      '<span class="block truncate f-body font-medium text-gray-800">'+esc(label)+'</span>'+
+      '<span class="block f-xs font-medium text-gray-500">'+(sub?sub+' مجلد • ':'')+arCount(a.count,'ملفاً','ملفات')+' • '+sizeLabel(a.size)+'</span>'+
+    '</span>'+
+    '<span class="hidden shrink-0 f-xs font-medium text-gray-500 sm:block">'+sizeLabel(a.size)+'</span>'+
+    '<span class="shrink-0 text-gray-400 transition group-hover:text-gray-600">'+uiIcon('chevron','h-4 w-4')+'</span>'+
+  '</button>';
+}
+
+/* ================= تصفح المجلدات ================= */
+function renderNav(){
+  const node = currentNode();
+  const a = agg(node);
+
+  let crumb = '<button class="crumb flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 f-body font-bold text-[#1a73e8] transition hover:bg-blue-50" data-i="0">'+uiIcon('up','h-4 w-4')+'الجذر</button>';
+  state.nav.forEach((s,i)=>{
+    crumb += '<span class="shrink-0 text-gray-400">'+uiIcon('chevron','h-4 w-4')+'</span>'+
+      '<button class="crumb max-w-[220px] shrink-0 truncate rounded-full px-3 py-1 f-body font-medium text-gray-600 transition hover:bg-blue-50 hover:text-[#1a73e8]" data-i="'+(i+1)+'" title="'+esc(segLabel(s,i))+'">'+esc(segLabel(s,i))+'</button>';
+  });
+  $('#crumbBar').innerHTML = crumb;
+  $('#crumbBar').classList.remove('hidden');
+
+  const dirNames = Object.keys(node.dirs).sort((x,y)=>x.localeCompare(y,'ar',{sensitivity:'base'}));
+  const dirs = dirNames.map(k=>folderItem(node.dirs[k])).join('');
+  const files = node.files.slice().sort(sortFiles);
+  const fileSlice = files.slice(0, state.shown);
+  const filesHtml = fileSlice.map((f,i)=>fileItem(f, DATA.indexOf(f))).join('');
+  const totalItems = dirNames.length + files.length;
+
+  $('#upBtn').classList.toggle('hidden', state.nav.length===0);
+  $('#resultCount').textContent = arCount(totalItems, 'عنصراً', 'عناصر');
+  $('#resultSub').textContent = state.nav.length
+    ? (dirNames.length ? dirNames.length+' مجلداً فرعياً • ' : '') + arCount(files.length,'ملفاً','ملفات') + ' • ' + sizeLabel(a.size) + ' إجمالاً'
+    : 'ابدأ بتصفح المجلدات الرئيسية أو استخدم البحث';
+  $('#grid').innerHTML = dirs + filesHtml;
+  $('#loadMore').classList.toggle('hidden', files.length <= state.shown);
+  $('#loadMore').onclick = () => { state.shown += PAGE; renderNav(); };
+  $('#empty').classList.toggle('hidden', totalItems>0);
+  $('#empty').classList.toggle('flex', totalItems===0);
+  $('#emptyTitle').textContent = 'هذا المجلد فارغ';
+  $('#emptySub').textContent = 'لا يوجد محتوى هنا حالياً.';
+  savePrefs();
+}
+
+/* ================= الفلاتر النشطة ================= */
+function updateActiveFilters(){
+  const total = state.cats.size + state.groups.size + state.topics.size + (state.ext?1:0) + (state.q.trim()?1:0);
+  $('#activeFilterBadge').classList.toggle('hidden', total===0);
+  $('#activeFilterBadge').textContent = total;
+  $('#mobileFilterBadge').classList.toggle('hidden', total===0);
+  $('#mobileFilterBadge').classList.toggle('flex', total>0);
+  $('#mobileFilterBadge').textContent = total;
+  const box = $('#activeChips');
+  box.classList.toggle('hidden', total===0);
+  box.classList.toggle('flex', total>0);
+  let html = '';
+  const pill = (label, rm) => '<span class="flex items-center gap-1.5 rounded-full bg-[#e8f0fe] px-3 py-1 f-xs font-medium text-[#1a73e8]">'+label+
+    '<button data-rm="'+esc(rm)+'" class="opacity-60 transition hover:opacity-100" title="إزالة">'+uiIcon('x','h-3 w-3')+'</button></span>';
+  state.cats.forEach(c => html += pill(c, JSON.stringify(['cats',c])));
+  state.groups.forEach(g => html += pill(groupLabel(g), JSON.stringify(['groups',g])));
+  state.topics.forEach(t => html += pill(t, JSON.stringify(['topics',t])));
+  if(state.ext) html += pill('.'+state.ext, JSON.stringify(['ext',state.ext]));
+  if(state.q.trim()) html += pill('بحث: '+esc(state.q.trim()), JSON.stringify(['q','']));
+  box.innerHTML = html;
+}
+function removeFilter(json){
+  let k,v; try { [k,v] = JSON.parse(json); } catch(e){ return; }
+  if(k==='cats') state.cats.delete(v);
+  else if(k==='groups') state.groups.delete(v);
+  else if(k==='topics') state.topics.delete(v);
+  else if(k==='ext'){ state.ext=''; $('#extSelect').value=''; }
+  else if(k==='q'){ state.q=''; $('#searchInput').value=''; }
+  renderCatList(); rerenderChips(); apply();
+}
+function clearAll(){
+  state.q=''; state.cats.clear(); state.groups.clear(); state.topics.clear(); state.ext='';
+  $('#searchInput').value=''; $('#extSelect').value=''; $('#searchClear').classList.add('hidden');
+  renderCatList(); rerenderChips(); apply();
+}
+
+/* ================= نافذة تفاصيل الملف ================= */
+function openModal(f){
+  const cat = f.c, C = CATS[cat];
+  const folder = f.p.includes('\\') ? f.p.slice(0, f.p.lastIndexOf('\\')) : 'المجلد الرئيسي';
+  $('#modalCard').innerHTML =
+    '<div class="flex items-start justify-between gap-3">'+
+      '<div class="flex min-w-0 items-center gap-3">'+
+        fileSvg(cat, 'h-12 w-12 shrink-0')+
+        '<div class="min-w-0">'+
+          '<h3 class="break-words f-lg font-extrabold leading-snug text-gray-800">'+esc(f.n)+'</h3>'+
+          '<span class="mt-1 inline-flex rounded-full border px-2.5 py-0.5 f-xs font-bold '+C.badge+'">'+cat+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<button data-close-modal class="grid h-9 w-9 shrink-0 place-items-center rounded-full text-gray-500 transition hover:bg-gray-100" aria-label="إغلاق">'+uiIcon('x','h-5 w-5')+'</button>'+
+    '</div>'+
+    '<dl class="mt-5 space-y-2.5 f-body">'+
+      row('الامتداد', f.e ? '.'+esc(f.e) : '—')+
+      row('الحجم', sizeLabel(f.s))+
+      row('آخر تعديل', '<span dir="ltr">'+f.d+'</span>')+
+      row('الموضوع', topicOf(f))+
+    '</dl>'+
+    '<div class="mt-4">'+
+      '<p class="mb-1.5 f-xs font-bold text-gray-500">المسار الكامل</p>'+
+      '<div class="flex items-center gap-2 rounded-xl bg-gray-50 p-2.5 px-4">'+
+        '<code class="min-w-0 flex-1 break-all f-xs font-medium leading-relaxed text-gray-600" dir="ltr">'+esc(folder)+'</code>'+
+      '</div>'+
+    '</div>'+
+    '<div class="mt-5 flex flex-wrap items-center gap-2">'+
+      '<a href="'+esc(fileUrl(f.p))+'" target="_blank" rel="noopener" class="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#1a73e8] px-4 py-3 f-body font-bold text-white shadow-sm transition hover:bg-[#1765cc]">'+uiIcon('external','h-4 w-4')+'فتح الملف</a>'+
+      '<button data-copy="'+esc(f.p)+'" class="flex items-center justify-center gap-2 rounded-full border border-gray-300 bg-white px-4 py-3 f-body font-bold text-gray-700 transition hover:bg-gray-50">'+uiIcon('copy','h-4 w-4')+'نسخ المسار</button>'+
+    '</div>';
+  $('#modal').classList.remove('hidden');
+  $('#modal').classList.add('flex');
+  document.body.classList.add('overflow-hidden');
+}
+function closeModal(){
+  $('#modal').classList.add('hidden');
+  $('#modal').classList.remove('flex');
+  document.body.classList.remove('overflow-hidden');
+}
+function row(k, v){
+  return '<div class="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-gray-50 px-4 py-2.5"><dt class="font-medium text-gray-500">'+k+'</dt><dd class="font-bold text-gray-800">'+v+'</dd></div>';
+}
+
+/* ================= Snackbar ================= */
+let toastTimer = null;
+function toast(msg, ok=true){
+  const t = $('#toast');
+  t.className = 'fixed bottom-6 left-1/2 z-[70] -translate-x-1/2 flex max-w-[90vw] items-center gap-2.5 rounded-lg bg-gray-800 px-4 py-3 f-body font-bold text-white shadow-2xl animate-slideUp';
+  t.innerHTML = '<span class="grid h-5 w-5 shrink-0 place-items-center '+(ok?'text-green-400':'text-red-400')+'">'+uiIcon(ok?'check':'x','h-4 w-4')+'</span><span>'+esc(msg)+'</span>';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.add('hidden'), 2200);
+}
+
+/* ================= النسخ ================= */
+async function copyText(t, msg){
+  try {
+    await navigator.clipboard.writeText(t);
+    toast(msg || 'تم نسخ المسار', true);
+    return true;
+  } catch(e){
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = t; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove();
+      toast(msg || 'تم نسخ المسار', true);
+      return true;
+    } catch(e2){
+      toast('تعذّر النسخ تلقائياً — المسار: '+t, false);
+      return false;
+    }
+  }
+}
+
+/* ================= أزرار التبديل والتفضيلات ================= */
+function syncViewToggle(){
+  $$('#viewToggle [data-view]').forEach(b => {
+    const on = b.dataset.view === state.view;
+    b.className = 'rounded-full px-4 py-1.5 f-meta font-bold transition ' +
+      (on ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700');
+  });
+}
+function syncLayoutToggle(){
+  $$('#layoutToggle [data-layout]').forEach(b => {
+    const on = b.dataset.layout === state.layout;
+    b.className = 'grid h-8 w-8 place-items-center rounded-full transition ' + (on ? 'bg-[#e8f0fe] text-[#1a73e8]' : 'text-gray-500 hover:bg-gray-100');
+  });
+}
+function savePrefs(){
+  try {
+    localStorage.setItem('dvd2027-view', state.view);
+    localStorage.setItem('dvd2027-layout', state.layout);
+    localStorage.setItem('dvd2027-nav', JSON.stringify(state.nav));
+  } catch(e){}
+}
+function restorePrefs(){
+  try {
+    const v = localStorage.getItem('dvd2027-view');
+    if(v === 'flat' || v === 'folders') state.view = v;
+    const l = localStorage.getItem('dvd2027-layout');
+    if(l === 'grid' || l === 'list') state.layout = l;
+    const saved = JSON.parse(localStorage.getItem('dvd2027-nav') || '[]');
+    if(Array.isArray(saved) && saved.length){
+      let node = TREE, ok = true;
+      for(const s of saved){ if(node.dirs[s]) node = node.dirs[s]; else { ok = false; break; } }
+      if(ok) state.nav = saved;
+    }
+  } catch(e){}
+}
+
+/* ================= الأحداث ================= */
+$('#homeBtn').onclick = () => { state.nav=[]; state.q=''; state.cats.clear(); state.groups.clear(); state.topics.clear(); state.ext=''; $('#searchInput').value=''; $('#extSelect').value=''; $('#searchClear').classList.add('hidden'); renderCatList(); rerenderChips(); apply(); savePrefs(); };
+
+let searchTimer = null;
+$('#searchInput').addEventListener('input', e => {
+  state.q = e.target.value;
+  $('#searchClear').classList.toggle('hidden', !state.q);
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(apply, 120);
+});
+$('#searchClear').onclick = () => { state.q=''; $('#searchInput').value=''; $('#searchClear').classList.add('hidden'); apply(); };
+
+$('#quickSort').onchange = e => { state.sort = e.target.value; apply(); };
+
+$('#viewToggle').addEventListener('click', e => {
+  const b = e.target.closest('[data-view]'); if(!b) return;
+  state.view = b.dataset.view; savePrefs(); apply();
+});
+$('#layoutToggle').addEventListener('click', e => {
+  const b = e.target.closest('[data-layout]'); if(!b) return;
+  state.layout = b.dataset.layout; savePrefs(); apply();
+});
+$('#upBtn').onclick = () => { state.nav.pop(); state.shown = PAGE; renderNav(); };
+$('#clearFilters').onclick = clearAll;
+$('#emptyReset').onclick = clearAll;
+$('#emptyHome').onclick = () => { clearAll(); state.nav = []; savePrefs(); apply(); };
+
+$('#activeChips').addEventListener('click', e => {
+  const rm = e.target.closest('[data-rm]'); if(rm){ removeFilter(rm.dataset.rm); }
+});
+
+$('#groupChips').onclick = e => {
+  const b = e.target.closest('.chip'); if(!b) return;
+  const k = b.dataset.k;
+  state.groups.has(k) ? state.groups.delete(k) : state.groups.add(k);
+  rerenderChips(); apply();
+};
+$('#topicChips').onclick = e => {
+  const b = e.target.closest('.chip'); if(!b) return;
+  const k = b.dataset.k;
+  state.topics.has(k) ? state.topics.delete(k) : state.topics.add(k);
+  rerenderChips(); apply();
+};
+
+document.addEventListener('click', e => {
+  const copyBtn = e.target.closest('.copy-btn');
+  if(copyBtn){ e.stopPropagation(); copyText(copyBtn.dataset.path); return; }
+
+  const copyData = e.target.closest('[data-copy]');
+  if(copyData){ copyText(copyData.dataset.copy); return; }
+
+  const folderBtn = e.target.closest('.folder-btn');
+  if(folderBtn){ state.nav.push(folderBtn.dataset.nav); state.shown = PAGE; renderNav(); return; }
+
+  const crumb = e.target.closest('.crumb');
+  if(crumb){ state.nav = state.nav.slice(0, Number(crumb.dataset.i)); state.shown = PAGE; renderNav(); return; }
+
+  const fileCard = e.target.closest('.file-card');
+  if(fileCard){
+    if(e.target.closest('a') || e.target.closest('button')) return;
+    const idx = Number(fileCard.dataset.f);
+    openModal(DATA[idx]);
+    return;
+  }
+
+  if(e.target.closest('[data-close-modal]')){ closeModal(); return; }
+  if(e.target.closest('[data-close-filters]')){ $('#sidebar').classList.add('hidden'); }
+});
+
+/* ================= لوحة المفاتيح ================= */
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){
+    if(!$('#modal').classList.contains('hidden')) closeModal();
+    else if(!$('#sidebar').classList.contains('hidden')) $('#sidebar').classList.add('hidden');
+    else if(document.activeElement === $('#searchInput')){ $('#searchInput').blur(); }
+    return;
+  }
+  if(e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA' && !$('#modal').classList.contains('flex')){
+    e.preventDefault();
+    $('#searchInput').focus();
+  }
+  const cardEl = e.target.closest('.file-card');
+  if(cardEl && (e.key === 'Enter' || e.key === ' ')){
+    e.preventDefault();
+    const idx = Number(cardEl.dataset.f);
+    openModal(DATA[idx]);
+  }
+});
+
+/* ================= القائمة الجانبية والأعلى ================= */
+$('#filterToggle').onclick = () => $('#sidebar').classList.toggle('hidden');
+
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  $('#toTop').classList.toggle('hidden', y < 600);
+}, { passive:true });
+$('#toTop').onclick = () => window.scrollTo({ top:0, behavior:'smooth' });
+
+load();
+</script>
+</body>
+</html>

@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>فيزياء سطيف | مكتبة المحتوى</title>
+<meta name="description" content="مكتبة فيزياء سطيف التفاعلية — دروس، امتحانات، مذكرات، ملخصات، كتب ومراجع بواجهة منظمة وسهلة التصفح.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%231a73e8'%3E%3Cpath d='M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5z'/%3E%3Cpath d='M9 5v14M15 5v14' stroke='%23fff' stroke-width='1.5'/%3E%3C/svg%3E">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: { extend: {
+      fontFamily: { sans: ['Cairo', 'Segoe UI', 'Tahoma', 'sans-serif'] },
+      keyframes: {
+        fadeUp: { '0%': { opacity: '0', transform: 'translateY(6px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        pop:    { '0%': { opacity: '0', transform: 'scale(.96) translateY(8px)' }, '100%': { opacity: '1', transform: 'scale(1) translateY(0)' } },
+        slideUp:{ '0%': { opacity: '0', transform: 'translate(-50%, 12px)' }, '100%': { opacity: '1', transform: 'translate(-50%, 0)' } }
+      },
+      animation: {
+        fadeUp:  'fadeUp .25s ease both',
+        pop:     'pop .2s cubic-bezier(.2,.8,.3,1.1) both',
+        slideUp: 'slideUp .22s ease both'
+      }
+    } }
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif; }
+
+  /* ===== مقياس خطوط سائل متجاوب ===== */
+  .f-lg   { font-size: clamp(1.125rem, 1.04rem + 0.45vw, 1.5rem); }
+  .f-title{ font-size: clamp(0.9375rem, 0.85rem + 0.4vw, 1.1875rem); }
+  .f-body { font-size: clamp(0.875rem, 0.82rem + 0.28vw, 1rem); }
+  .f-meta { font-size: clamp(0.78125rem, 0.73rem + 0.25vw, 0.875rem); }
+  .f-xs   { font-size: clamp(0.65625rem, 0.62rem + 0.18vw, 0.75rem); }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(95,99,104,.3); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(95,99,104,.5); }
+  :focus-visible { outline: 2px solid #1a73e8; outline-offset: 2px; border-radius: 8px; }
+  mark { background: #fef08a; color: inherit; border-radius: 3px; padding: 0 1px; }
+
+  .item-hover { transition: background-color .12s ease, box-shadow .12s ease; }
+  .item-hover:hover { background-color: #f1f3f4; }
+
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+  /* ===== واجهة فيزياء سطيف: أرشيف منظم مستلهم من تجربة مستعرض الملفات ===== */
+  :root { --archive-blue:#1a73e8; --archive-ink:#202124; --workspace:#f8fafd; --line:#e4e9f0; }
+  html { background: var(--workspace); }
+  body.drive-body { background:linear-gradient(180deg,#fbfcff 0,#f8fafd 280px); color:var(--archive-ink); }
+  .drive-header { border-color:var(--line); background:rgba(255,255,255,.93); backdrop-filter:blur(14px); }
+  .drive-header-inner { max-width:none; padding-inline:20px; }
+  .archive-mark { position:relative; display:inline-block; width:42px; height:42px; flex:0 0 auto; }
+  .archive-mark::before { content:""; position:absolute; left:7%; top:7%; width:78%; height:72%; border-radius:12px; background:#fdd663; }
+  .archive-mark::after { content:""; position:absolute; right:3%; bottom:5%; width:84%; height:72%; border-radius:12px; background:var(--archive-blue); box-shadow:0 2px 6px rgba(26,115,232,.26); }
+  .archive-mark svg { position:absolute; z-index:1; right:19%; bottom:19%; width:58%; height:58%; color:#fff; }
+  .drive-brand-copy { letter-spacing:-.035em; }
+  .drive-search { max-width:700px; box-shadow:inset 0 0 0 1px transparent; }
+  .drive-search:focus-within { box-shadow:0 2px 8px rgba(60,64,67,.18),0 8px 24px rgba(60,64,67,.08); }
+  .drive-main { max-width:none; padding:0 20px 80px; }
+  .drive-layout { margin-top:0; grid-template-columns:248px minmax(0,1fr); gap:24px; }
+  .drive-layout.filters-closed { grid-template-columns:minmax(0,1fr); }
+  #sidebar { display:none; }
+  #sidebar.is-open { display:block; }
+  .filter-launch { display:inline-flex; align-items:center; gap:8px; border:1px solid #d7e4f8; border-radius:12px; background:#fff; color:#174ea6; font-weight:800; transition:background-color .15s ease,border-color .15s ease,transform .15s ease; }
+  .filter-launch:hover { border-color:#a8c7fa; background:#f4f8ff; }
+  .filter-launch:active { transform:scale(.97); }
+  .filter-launch .filter-count { display:none; min-width:18px; height:18px; align-items:center; justify-content:center; border-radius:99px; background:#1a73e8; color:#fff; font-size:10px; }
+  .filter-launch.has-filters .filter-count { display:flex; }
+  .filter-close { display:grid; width:32px; height:32px; place-items:center; border-radius:99px; color:#5f6368; transition:background-color .15s ease; }
+  .filter-close:hover { background:#f1f3f4; }
+  .drive-sidebar-panel { border-left:1px solid var(--line); padding:20px 12px 24px 0; }
+  .drive-new { box-shadow:0 1px 2px rgba(60,64,67,.30),0 1px 3px 1px rgba(60,64,67,.15); }
+  .drive-sidebar-title { letter-spacing:.02em; }
+  .drive-storage { margin:24px 8px 0; border:1px solid #d8e5f8; border-radius:16px; overflow:hidden; background:#f8fbff; }
+  .drive-storage-top { display:flex; align-items:center; gap:10px; border-bottom:1px solid #e6eef9; padding:11px 12px; }
+  .drive-storage-dot { width:6px; height:6px; border-radius:999px; background:var(--archive-blue); }
+  .drive-content { padding-top:30px; }
+  .drive-heading { display:flex; flex-wrap:wrap; align-items:end; justify-content:space-between; gap:18px; margin-bottom:22px; }
+  .drive-heading h1 { font-size:clamp(1.5rem,1.35rem + .7vw,2rem); letter-spacing:-.055em; }
+  .drive-heading p { margin-top:3px; color:#64748b; }
+  .drive-heading-icon { display:flex; align-items:center; gap:11px; }
+  .drive-pulse { width:8px; height:8px; border-radius:99px; background:var(--archive-blue); box-shadow:0 0 0 4px #e8f0fe; }
+  .drive-heading-metrics { display:grid; grid-template-columns:repeat(3,minmax(84px,1fr)); overflow:hidden; border:1px solid #dce6f3; border-radius:14px; background:#fff; box-shadow:0 1px 2px rgba(60,64,67,.03); }
+  .drive-heading-metrics > span { min-width:84px; padding:8px 12px; text-align:center; border-inline-start:1px solid #edf1f6; }
+  .drive-heading-metrics > span:first-child { border-inline-start:0; }
+  .drive-heading-metrics b { display:block; color:#174ea6; font-size:14px; font-weight:800; line-height:1.1; }
+  .drive-heading-metrics small { display:block; margin-top:3px; color:#6b7280; font-size:10px; font-weight:700; }
+  .drive-toolbar { border:1px solid var(--line); border-radius:16px; background:#fff; padding:8px 12px; box-shadow:0 1px 2px rgba(60,64,67,.03); }
+  .drive-browse-label { display:flex; align-items:center; gap:8px; margin-top:18px; color:#3c4043; }
+  .drive-browse-label::before { content:""; width:4px; height:16px; border-radius:9px; background:var(--archive-blue); }
+  .drive-browse-label b { font-size:13px; }
+  .drive-browse-label span { color:#7a818b; font-size:11px; font-weight:600; }
+  .drive-chip-row { flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none; padding:3px 1px 6px; }
+  .drive-chip-row::-webkit-scrollbar { display:none; }
+  .drive-chip-row .chip { white-space:nowrap; box-shadow:0 1px 1px rgba(60,64,67,.03); }
+  .toolbar-chip-toggle { display:inline-flex; align-items:center; gap:7px; border:1px solid #d7e4f8; border-radius:999px; background:#fff; color:#174ea6; padding:7px 11px; font-size:11px; font-weight:800; white-space:nowrap; transition:background-color .16s ease,border-color .16s ease,transform .16s ease; }
+  .toolbar-chip-toggle:hover { border-color:#a8c7fa; background:#f4f8ff; }
+  .toolbar-chip-toggle:active { transform:scale(.97); }
+  .toolbar-chip-toggle svg:last-child { transition:transform .18s cubic-bezier(.23,1,.32,1); }
+  .toolbar-chip-toggle[aria-expanded="true"] svg:last-child { transform:rotate(180deg); }
+  .inline-chip-panel { display:none; margin-top:10px; overflow:hidden; border:1px solid #e4e9f0; border-radius:14px; background:#fff; box-shadow:0 1px 2px rgba(60,64,67,.03); }
+  .inline-chip-panel.is-open { display:block; }
+  .chip-section-body { padding:9px 12px 4px; }
+  .drive-results { display:flex; align-items:baseline; gap:8px; border:0; padding:18px 2px 10px; }
+  #resultCount { font-size:1.05rem; color:#30343a; }
+  #grid.file-grid { margin-top:14px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+  #grid.file-list { margin-top:14px; display:flex; flex-direction:column; gap:0; overflow:hidden; border:1px solid var(--line); border-radius:16px; background:#fff; }
+  .drive-folder-card { min-height:158px; border:1px solid var(--line); background:#fff; box-shadow:0 1px 2px rgba(60,64,67,.04); transition:transform .18s cubic-bezier(.23,1,.32,1), box-shadow .18s, border-color .18s; }
+  .drive-folder-card:hover { transform:translateY(-2px); border-color:#a8c7fa; box-shadow:0 8px 20px rgba(60,64,67,.09); background:#fff; }
+  .drive-file-card { min-height:174px; border:1px solid var(--line); background:#fff; transition:transform .18s cubic-bezier(.23,1,.32,1),box-shadow .18s,border-color .18s; }
+  .drive-file-card:hover { transform:translateY(-2px); border-color:#c9d7ea; box-shadow:0 7px 16px rgba(60,64,67,.08); background:#fff; }
+  .drive-file-row { border-top:1px solid #edf0f2; background:#fff; }
+  .drive-file-row:hover { background:#f8fafd; }
+  .ext-badge { display:inline-flex; align-items:center; justify-content:center; min-width:34px; border-radius:6px; background:var(--ext-soft); color:var(--ext); padding:3px 6px; font-size:9px; font-weight:800; letter-spacing:.04em; line-height:1; }
+  .file-card { outline:none; }
+  .file-card.is-selected { border-color:#a8c7fa; background:#f4f8ff; box-shadow:0 0 0 2px rgba(26,115,232,.10),0 8px 20px rgba(26,115,232,.08); }
+  .select-indicator { position:absolute; top:9px; right:9px; display:grid; width:22px; height:22px; place-items:center; border:1.5px solid #cbd5e1; border-radius:999px; background:#fff; color:#fff; opacity:0; transform:scale(.85); transition:opacity .14s ease,transform .14s ease,background-color .14s ease,border-color .14s ease; }
+  .file-card:hover .select-indicator, .file-card:focus-visible .select-indicator, .file-card.is-selected .select-indicator { opacity:1; transform:scale(1); }
+  .file-card.is-selected .select-indicator { border-color:#1a73e8; background:#1a73e8; }
+  .file-open-btn { position:absolute; bottom:9px; right:9px; display:grid; width:29px; height:29px; place-items:center; border-radius:9px; background:#fff; color:#1a73e8; box-shadow:0 1px 4px rgba(60,64,67,.20); opacity:0; transform:translateY(3px); transition:opacity .14s ease,transform .14s ease,background-color .14s ease; }
+  .file-card:hover .file-open-btn, .file-card:focus-visible .file-open-btn, .file-card.is-selected .file-open-btn { opacity:1; transform:translateY(0); }
+  .file-open-btn:hover { background:#e8f0fe; }
+  .drive-file-row .select-indicator { position:relative; top:auto; right:auto; flex:0 0 auto; opacity:1; transform:none; }
+  .drive-file-row .file-open-btn { position:relative; right:auto; bottom:auto; flex:0 0 auto; opacity:1; transform:none; box-shadow:none; background:transparent; }
+  @media (hover:none){ .file-open-btn { opacity:1; transform:none; } .select-indicator { opacity:1; transform:none; } }
+  .drive-folder-row { border-top:1px solid #edf0f2; background:#fff; }
+  .drive-folder-row:hover { background:#f8fafd; }
+  .drive-footer { border-color:var(--line); background:#fff; }
+  .theme-toggle { display:inline-flex; align-items:center; gap:7px; border:1px solid #d7e4f8; border-radius:12px; background:#fff; color:#174ea6; padding:8px 10px; font-size:11px; font-weight:800; transition:background-color .15s ease,border-color .15s ease,transform .15s ease; }
+  .theme-toggle:hover { border-color:#a8c7fa; background:#f4f8ff; }
+  .theme-toggle:active { transform:scale(.97); }
+  .footer-brand { color:#174ea6; font-weight:800; }
+  .footer-credit { display:inline-flex; align-items:center; gap:5px; margin-inline-start:8px; padding-inline-start:8px; border-inline-start:1px solid #d9e2ef; }
+  .dark { color-scheme:dark; }
+  html.dark { background:#0d1520; }
+  body.drive-body.dark { background:linear-gradient(180deg,#101b29 0,#0d1520 310px); color:#e8eef9; }
+  .dark .drive-header { border-color:#2b394e; background:rgba(15,24,37,.92); }
+  .dark .drive-footer { border-color:#2b394e; background:#101a28; color:#aab8cb; }
+  .dark .footer-brand { color:#8ab4f8; }
+  .dark .footer-credit { border-color:#34445b; }
+  .dark .drive-search input { background:#1b2737; color:#eef3fb; }
+  .dark .drive-search input:hover, .dark .drive-search input:focus { background:#202e40; }
+  .dark .drive-search input::placeholder { color:#9ba9bb; }
+  .dark .drive-search > span, .dark #searchClear { color:#9ba9bb; }
+  .dark .filter-launch, .dark .theme-toggle { border-color:#344762; background:#172337; color:#9ec5ff; }
+  .dark .filter-launch:hover, .dark .theme-toggle:hover { border-color:#5d83b9; background:#20324b; }
+  .dark .drive-heading p, .dark .drive-heading-metrics small { color:#9eafc5; }
+  .dark .drive-heading-metrics, .dark .drive-toolbar, .dark .inline-chip-panel, .dark #grid.file-list, .dark .drive-storage { border-color:#2b394e; background:#152033; box-shadow:none; }
+  .dark .drive-heading-metrics > span, .dark .chip-section-body, .dark .drive-storage-top { border-color:#2b394e; }
+  .dark .drive-heading-metrics b { color:#9ec5ff; }
+  .dark .toolbar-chip-toggle { border-color:#344762; background:#172337; color:#9ec5ff; }
+  .dark .toolbar-chip-toggle:hover, .dark .drive-file-row:hover { border-color:#5d83b9; background:#1a293d; }
+  .dark .drive-folder-card, .dark .drive-file-card, .dark .drive-file-row, .dark .drive-folder-row { border-color:#2b394e; background:#152033; box-shadow:none; }
+  .dark .drive-folder-card:hover, .dark .drive-file-card:hover { border-color:#5478a8; background:#1a293d; box-shadow:0 8px 20px rgba(0,0,0,.24); }
+  .dark .file-card.is-selected { border-color:#78a8e7; background:#1c3150; box-shadow:0 0 0 2px rgba(138,180,248,.16); }
+  .dark .select-indicator, .dark .file-open-btn { border-color:#3a4a60; background:#1f2e43; }
+  .dark .file-open-btn { color:#9ec5ff; }
+  .dark .file-open-btn:hover { background:#2a4164; }
+  .dark .drive-sidebar-panel, .dark #modalCard { background:#152033 !important; border-color:#2b394e !important; }
+  .dark .drive-new { background:#1c2a3e !important; color:#e8eef9 !important; }
+  .dark .bg-white { background-color:#152033 !important; }
+  .dark .bg-gray-50, .dark .bg-gray-100 { background-color:#1b2839 !important; }
+  .dark .border-gray-200, .dark .border-gray-300 { border-color:#2f4057 !important; }
+  .dark .text-gray-900, .dark .text-gray-800, .dark .text-gray-700 { color:#e8eef9 !important; }
+  .dark .text-gray-600, .dark .text-gray-500, .dark .text-gray-400 { color:#a8b6c9 !important; }
+  .dark .bg-\[\#f1f3f4\], .dark .bg-\[\#e8eaed\] { background-color:#1b2839 !important; }
+  .dark .bg-\[\#e8f0fe\] { background-color:#1c365a !important; }
+  .dark .text-\[\#174ea6\], .dark .text-\[\#1a73e8\] { color:#9ec5ff !important; }
+  .dark select { color:#e8eef9; }
+  .dark mark { background:#5a4a10; color:#fff3a3; }
+  /* وضع Google Drive الداكن: فحمي محايد، مساحة ملفات سوداء، وإبراز أزرق هادئ */
+  html.dark { background:#202124; }
+  body.drive-body.dark { background:#202124; color:#e8eaed; }
+  .dark .drive-header { border-color:#303134; background:#202124; box-shadow:0 1px 0 rgba(255,255,255,.02); }
+  .dark .drive-main { background:#202124; }
+  .dark .drive-content { margin-top:16px; border:1px solid #1f2021; border-radius:18px; background:#121212; padding:26px; }
+  .dark .drive-footer { border-color:#303134; background:#202124; color:#9aa0a6; }
+  .dark .footer-brand { color:#e8eaed; }
+  .dark .footer-credit { border-color:#3c4043; }
+  .dark .drive-search { box-shadow:none; }
+  .dark .drive-search:focus-within { box-shadow:0 0 0 1px #8ab4f8; }
+  .dark .drive-search input, .dark .drive-search input:hover, .dark .drive-search input:focus { background:#303134; color:#e8eaed; }
+  .dark .drive-search input:focus { box-shadow:none; }
+  .dark .filter-launch, .dark .theme-toggle { border-color:#5f6368; background:#202124; color:#e8eaed; }
+  .dark .filter-launch:hover, .dark .theme-toggle:hover { border-color:#8ab4f8; background:#303134; }
+  .dark .filter-launch .filter-count { background:#0b57d0; }
+  .dark .drive-sidebar-panel { background:#202124 !important; border-color:#303134 !important; }
+  .dark .drive-heading-metrics { border-color:#3c4043; background:#202124; }
+  .dark .drive-heading-metrics > span, .dark .chip-section-body, .dark .drive-storage-top { border-color:#3c4043; }
+  .dark .drive-heading-metrics b, .dark .footer-brand { color:#e8eaed; }
+  .dark .drive-toolbar { border-color:#3c4043; background:#121212; box-shadow:none; }
+  .dark .chip-section { border-color:#3c4043; background:#121212; box-shadow:none; }
+  .dark .chip-section-trigger:hover, .dark .drive-file-row:hover, .dark .drive-folder-row:hover { background:#1e1f20; }
+  .dark .chip-section-title::before { background:#0b57d0; }
+  .dark .chip-section-action, .dark .text-\[\#174ea6\], .dark .text-\[\#1a73e8\] { color:#8ab4f8 !important; }
+  .dark .drive-chip-row .chip { border-color:#5f6368; background:#202124; color:#e8eaed; box-shadow:none; }
+  .dark .drive-chip-row .chip:hover { background:#303134; }
+  .dark .drive-chip-row .chip.bg-\[\#e8f0fe\] { border-color:#0b57d0; background:#0b57d0 !important; color:#fff !important; }
+  .dark .drive-folder-card, .dark .drive-file-card { border-color:#303134; background:#181818; box-shadow:none; }
+  .dark .drive-folder-card:hover, .dark .drive-file-card:hover { border-color:#5f6368; background:#202124; box-shadow:none; }
+  .dark #grid.file-list { border-color:#3c4043; background:#121212; }
+  .dark .drive-file-row, .dark .drive-folder-row { border-color:#3c4043; background:#121212; }
+  .dark .file-card.is-selected { border-color:#0b57d0; background:#0b57d0; box-shadow:none; }
+  .dark .file-card.is-selected .text-gray-800, .dark .file-card.is-selected .text-gray-700, .dark .file-card.is-selected .text-gray-500 { color:#fff !important; }
+  .dark .select-indicator { border-color:#8ab4f8; background:#202124; }
+  .dark .file-card.is-selected .select-indicator { border-color:#fff; background:#fff; color:#0b57d0; }
+  .dark .file-open-btn { border:1px solid #5f6368; background:#202124; color:#8ab4f8; box-shadow:none; }
+  .dark .file-open-btn:hover { background:#303134; }
+  .dark .drive-storage { border-color:#3c4043; background:#202124; }
+  .dark .bg-\[\#f1f3f4\], .dark .bg-\[\#e8eaed\], .dark .bg-gray-50, .dark .bg-gray-100 { background-color:#303134 !important; }
+  .dark .bg-\[\#e8f0fe\] { background-color:#0b57d0 !important; }
+  .dark .border-gray-200, .dark .border-gray-300 { border-color:#3c4043 !important; }
+  .dark .text-gray-900, .dark .text-gray-800, .dark .text-gray-700 { color:#e8eaed !important; }
+  .dark .text-gray-600, .dark .text-gray-500, .dark .text-gray-400 { color:#9aa0a6 !important; }
+  .dark #modalCard { border-color:#3c4043 !important; background:#202124 !important; }
+  .dark .drive-new { background:#303134 !important; color:#e8eaed !important; box-shadow:none; }
+  .dark .drive-new > span { background:#0b57d0 !important; }
+  /* طبقة الاستخدام السريع: اقتراحات، إجراءات الملف، معاينة، ومساعدة */
+  .search-suggestions { position:absolute; inset-inline:0; top:calc(100% + 8px); z-index:55; display:none; overflow:hidden; border:1px solid #dfe5ee; border-radius:14px; background:#fff; box-shadow:0 14px 36px rgba(60,64,67,.18); }
+  .search-suggestions.is-open { display:block; }
+  .search-suggestion { display:flex; width:100%; align-items:center; gap:10px; padding:10px 13px; text-align:right; transition:background-color .15s ease; }
+  .search-suggestion:hover, .search-suggestion:focus-visible { background:#f4f8ff; }
+  .utility-strip { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; margin-top:12px; }
+  .utility-group { display:flex; min-width:0; flex-wrap:wrap; align-items:center; gap:7px; }
+  .utility-label { color:#738094; font-size:10px; font-weight:800; }
+  .shortcut-chip, .collection-tab, .help-button { display:inline-flex; align-items:center; gap:6px; border:1px solid #dce4ee; border-radius:999px; background:#fff; color:#4b5563; padding:6px 10px; font-size:11px; font-weight:800; transition:background-color .15s ease,border-color .15s ease,color .15s ease,transform .15s ease; }
+  .shortcut-chip:hover, .collection-tab:hover, .help-button:hover { border-color:#a8c7fa; background:#f4f8ff; color:#174ea6; }
+  .collection-tab.is-active { border-color:#1a73e8; background:#e8f0fe; color:#174ea6; }
+  .selection-bar { position:sticky; bottom:12px; z-index:25; display:none; align-items:center; justify-content:space-between; gap:14px; margin-top:14px; border:1px solid #b8d1f6; border-radius:15px; background:#f6faff; padding:10px 12px; box-shadow:0 10px 24px rgba(26,115,232,.12); }
+  .selection-bar.is-open { display:flex; }
+  .selection-file { display:flex; min-width:0; align-items:center; gap:9px; }
+  .selection-actions { display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:6px; }
+  .action-btn { display:inline-flex; align-items:center; gap:6px; border:1px solid #d4dfef; border-radius:10px; background:#fff; color:#374151; padding:7px 9px; font-size:11px; font-weight:800; transition:background-color .15s ease,border-color .15s ease,transform .15s ease; }
+  .action-btn:hover { border-color:#8ab4f8; background:#e8f0fe; color:#174ea6; }
+  .action-btn.primary { border-color:#1a73e8; background:#1a73e8; color:#fff; }
+  .action-btn.primary:hover { background:#1765cc; }
+  .action-btn.is-active { border-color:#e5a824; background:#fff6d6; color:#8a5a00; }
+  .loading-state { display:none; align-items:center; gap:9px; margin-top:14px; color:#64748b; font-size:11px; font-weight:700; }
+  .loading-state.is-open { display:flex; }
+  .loading-dot { width:8px; height:8px; border-radius:50%; background:#1a73e8; box-shadow:0 0 0 4px #e8f0fe; animation:pulseDot 1s ease-in-out infinite; }
+  @keyframes pulseDot { 50% { opacity:.45; transform:scale(.72); } }
+  .preview-shell { position:fixed; inset:0; z-index:80; display:none; align-items:stretch; justify-content:flex-start; background:rgba(20,25,32,.46); backdrop-filter:blur(3px); }
+  .preview-shell.is-open { display:flex; }
+  .preview-panel { width:min(760px,100%); height:100%; overflow:auto; border-inline-start:1px solid #d9e1ec; background:#fff; box-shadow:-18px 0 50px rgba(0,0,0,.22); animation:slidePreview .22s cubic-bezier(.23,1,.32,1) both; }
+  @keyframes slidePreview { from { opacity:0; transform:translateX(-24px); } to { opacity:1; transform:translateX(0); } }
+  .preview-stage { display:grid; min-height:360px; place-items:center; overflow:hidden; border:1px solid #e2e8f0; border-radius:14px; background:#f8fafc; }
+  .preview-stage iframe, .preview-stage video, .preview-stage audio, .preview-stage img { width:100%; min-height:360px; max-height:68vh; border:0; object-fit:contain; }
+  .preview-stage audio { min-height:auto; padding:32px; }
+  .help-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:16px; }
+  .key-help { display:flex; align-items:center; justify-content:space-between; gap:8px; border:1px solid #e2e8f0; border-radius:10px; background:#f8fafc; padding:9px 10px; font-size:11px; font-weight:700; }
+  kbd { border:1px solid #cbd5e1; border-bottom-width:2px; border-radius:6px; background:#fff; padding:2px 6px; color:#475569; font-family:inherit; font-size:10px; }
+  .mobile-action-bar { display:none; }
+  .dark .search-suggestions, .dark .preview-panel { border-color:#3c4043; background:#202124; box-shadow:none; }
+  .dark .search-suggestion:hover, .dark .search-suggestion:focus-visible { background:#303134; }
+  .dark .shortcut-chip, .dark .collection-tab, .dark .help-button, .dark .action-btn { border-color:#5f6368; background:#202124; color:#e8eaed; }
+  .dark .shortcut-chip:hover, .dark .collection-tab:hover, .dark .help-button:hover, .dark .action-btn:hover { border-color:#8ab4f8; background:#303134; color:#8ab4f8; }
+  .dark .collection-tab.is-active { border-color:#0b57d0; background:#0b57d0; color:#fff; }
+  .dark .selection-bar { border-color:#3c4043; background:#202124; box-shadow:none; }
+  .dark .action-btn.primary { border-color:#0b57d0; background:#0b57d0; color:#fff; }
+  .dark .action-btn.is-active { border-color:#a07818; background:#403719; color:#fdd663; }
+  .dark .preview-stage, .dark .key-help { border-color:#3c4043; background:#121212; }
+  .dark kbd { border-color:#5f6368; background:#303134; color:#e8eaed; }
+  .dark .loading-dot { background:#8ab4f8; box-shadow:0 0 0 4px rgba(138,180,248,.16); }
+  @media (min-width:640px){ #grid.file-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+  @media (min-width:1024px){ #grid.file-grid { grid-template-columns:repeat(4,minmax(0,1fr)); } }
+  @media (min-width:1280px){ #grid.file-grid { grid-template-columns:repeat(5,minmax(0,1fr)); } }
+  @media (max-width:1023px){
+    .drive-header-inner { padding-inline:12px; }
+    .drive-main { padding-inline:14px; }
+    .drive-content { padding-top:20px; }
+    .drive-sidebar-panel { border:0; padding:20px; }
+    #sidebar .drive-storage { display:none; }
+    .drive-heading-metrics { width:100%; }
+    #sidebar { display:none; }
+    #sidebar.is-open { display:block; }
+    .dark .drive-content { margin-top:12px; padding:18px; }
+  }
+  @media (max-width:520px){
+    .drive-header-inner { height:auto; min-height:72px; flex-wrap:wrap; gap:8px; padding-top:9px; padding-bottom:9px; }
+    #homeBtn { gap:6px; min-width:0; }
+    #homeBtn .archive-mark { width:34px; height:34px; }
+    .drive-brand-copy { display:block; max-width:112px; overflow:hidden; white-space:nowrap; }
+    .drive-brand-copy > span:first-child { overflow:hidden; font-size:13px; text-overflow:ellipsis; }
+    .drive-brand-copy > span:last-child { display:none; }
+    .drive-search { order:4; width:100%; flex-basis:100%; }
+    .drive-search input { min-height:40px; }
+    .filter-launch, .theme-toggle { padding:8px; }
+    .filter-launch > span:not(.filter-count), .theme-toggle > span { display:none; }
+    .drive-heading { align-items:flex-start; }
+    .drive-heading-metrics > span { min-width:0; padding-inline:7px; }
+    .drive-heading-metrics b { font-size:12px; }
+    .drive-heading-metrics small { font-size:9px; }
+    .drive-toolbar { padding:8px; }
+    #grid.file-grid { gap:10px; }
+    .drive-folder-card { min-height:134px; }
+    .drive-file-card { min-height:154px; }
+    .utility-strip { align-items:stretch; }
+    .utility-group { overflow-x:auto; flex-wrap:nowrap; padding-bottom:2px; scrollbar-width:none; }
+    .utility-group::-webkit-scrollbar { display:none; }
+    .utility-label { display:none; }
+    .shortcut-chip, .collection-tab { flex:0 0 auto; }
+    .help-button { display:none; }
+    .selection-bar { display:none !important; }
+    .mobile-action-bar { position:fixed; inset-inline:10px; bottom:10px; z-index:65; display:none; align-items:center; justify-content:space-between; gap:8px; border:1px solid #b8d1f6; border-radius:16px; background:#fff; padding:8px 10px; box-shadow:0 12px 30px rgba(26,115,232,.22); }
+    .mobile-action-bar.is-open { display:flex; }
+    .mobile-action-bar .action-btn { padding:8px; }
+    .mobile-action-bar .action-btn span { display:none; }
+    .preview-panel { width:100%; border:0; }
+    .preview-stage { min-height:280px; }
+    .preview-stage iframe, .preview-stage video, .preview-stage img { min-height:280px; }
+    .help-grid { grid-template-columns:1fr; }
+    .dark .mobile-action-bar { border-color:#3c4043; background:#202124; box-shadow:none; }
+  }
+
+  /* ===== الهوية الرسمية: فيزياء سطيف — تباين مؤسسي ومظهر أكاديمي ===== */
+  :root { --official-navy:#062e45; --official-teal:#007b7f; --official-gold:#c99228; --official-ink:#142b3b; --official-muted:#597080; --official-canvas:#eef3f5; --official-line:#cbd9df; --official-soft:#e6f0f1; }
+  html { background:var(--official-canvas); }
+  body.drive-body { background:linear-gradient(180deg,#dfe9ec 0,#f5f8f8 250px,#eef3f5 100%); color:var(--official-ink); }
+  :focus-visible { outline-color:var(--official-gold); outline-offset:3px; }
+  mark { background:#ffe8ad; color:#4b3100; }
+  .drive-header { position:sticky; border-bottom:4px solid var(--official-gold); background:var(--official-navy); box-shadow:0 5px 18px rgba(6,46,69,.20); }
+  .drive-header::before { content:""; position:absolute; inset-inline:0; top:0; height:3px; background:linear-gradient(90deg,var(--official-gold),#f0cf70 40%,var(--official-gold)); }
+  .drive-header .text-gray-900, .drive-header .text-gray-800 { color:#fff !important; }
+  .drive-header .text-\[\#1a73e8\] { color:#f6d77f !important; }
+  .drive-header .hover\:bg-\[\#f1f3f4\]:hover { background:rgba(255,255,255,.10) !important; }
+  .archive-mark::before { background:var(--official-gold); border-radius:8px; }
+  .archive-mark::after { background:var(--official-teal); border-radius:8px; box-shadow:0 4px 9px rgba(0,0,0,.22); }
+  .drive-search { max-width:760px; }
+  .drive-search input, .drive-search input:hover { border:1px solid rgba(255,255,255,.2); background:#fff; color:var(--official-ink); box-shadow:0 2px 0 rgba(0,0,0,.08); }
+  .drive-search input:focus { border-color:var(--official-gold); background:#fff; box-shadow:0 0 0 3px rgba(201,146,40,.22); }
+  .drive-header .filter-launch, .drive-header .theme-toggle { border-color:rgba(255,255,255,.32); background:transparent; color:#fff; }
+  .drive-header .filter-launch:hover, .drive-header .theme-toggle:hover { border-color:#f5d77f; background:rgba(255,255,255,.10); }
+  .drive-header .filter-launch .filter-count { background:var(--official-gold); color:var(--official-navy); }
+  /* مساحة قراءة مركّزة على الشاشات الواسعة؛ تعود إلى العرض الكامل على الأجهزة الأصغر. */
+  .drive-main { width:80%; max-width:80%; margin-inline:auto; padding-top:22px; }
+  .drive-content { border:1px solid var(--official-line); border-radius:14px; background:rgba(255,255,255,.92); padding:26px; box-shadow:0 10px 30px rgba(11,47,64,.07); }
+  .drive-heading { padding-bottom:20px; border-bottom:1px solid var(--official-line); }
+  .drive-heading h1 { color:var(--official-navy); letter-spacing:-.045em; }
+  .drive-heading p { color:var(--official-muted); }
+  .drive-heading-icon { position:relative; }
+  .drive-heading-icon::after { content:""; position:absolute; right:-8px; top:8px; width:3px; height:28px; border-radius:99px; background:var(--official-gold); }
+  .drive-heading-metrics { border-color:var(--official-line); border-radius:8px; background:#f8fbfb; box-shadow:none; }
+  .drive-heading-metrics > span { border-color:var(--official-line); }
+  .drive-heading-metrics b { color:var(--official-navy); }
+  .drive-heading-metrics small { color:var(--official-muted); }
+  .drive-toolbar { border-color:var(--official-line); border-radius:10px; background:#f8fbfb; box-shadow:none; }
+  #viewToggle { border:1px solid var(--official-line); border-radius:8px; background:#fff; padding:3px; }
+  #viewToggle button { border-radius:6px; }
+  #viewToggle button.bg-\[\#e8f0fe\] { background:var(--official-navy) !important; color:#fff !important; }
+  .toolbar-chip-toggle, .filter-launch, .theme-toggle { border-color:var(--official-line); border-radius:7px; background:#fff; color:var(--official-navy); }
+  .toolbar-chip-toggle:hover, .filter-launch:hover, .theme-toggle:hover { border-color:var(--official-teal); background:var(--official-soft); color:var(--official-navy); }
+  .inline-chip-panel { border-color:var(--official-line); border-radius:10px; background:#f8fbfb; box-shadow:none; }
+  .utility-strip { border-bottom:1px solid var(--official-line); padding-bottom:13px; }
+  .utility-label { color:var(--official-navy); }
+  .shortcut-chip, .collection-tab, .help-button { border-color:var(--official-line); border-radius:7px; background:#fff; color:var(--official-ink); }
+  .shortcut-chip:hover, .collection-tab:hover, .help-button:hover { border-color:var(--official-teal); background:var(--official-soft); color:var(--official-navy); }
+  .collection-tab.is-active { border-color:var(--official-navy); background:var(--official-navy); color:#fff; }
+  .drive-chip-row .chip { border-color:var(--official-line); border-radius:7px; background:#fff; color:var(--official-ink); }
+  .drive-chip-row .chip:hover { border-color:var(--official-teal); background:var(--official-soft); }
+  .drive-chip-row .chip.bg-\[\#e8f0fe\] { border-color:var(--official-teal); background:var(--official-teal) !important; color:#fff !important; }
+  .drive-results { border-bottom:2px solid var(--official-gold); }
+  #resultCount { color:var(--official-navy); }
+  .drive-folder-card, .drive-file-card { border-color:var(--official-line); border-radius:10px; background:#fff; box-shadow:0 2px 5px rgba(11,47,64,.04); }
+  .drive-folder-card { border-top:4px solid var(--official-gold); }
+  .drive-file-card { border-top:3px solid var(--official-teal); }
+  .drive-folder-card:hover, .drive-file-card:hover { border-color:var(--official-teal); box-shadow:0 12px 23px rgba(6,46,69,.12); }
+  #grid.file-list { border-color:var(--official-line); border-radius:10px; background:#fff; }
+  .drive-file-row, .drive-folder-row { border-color:var(--official-line); }
+  .drive-file-row:hover, .drive-folder-row:hover { background:#f0f7f7; }
+  .ext-badge { border-radius:4px; }
+  .file-card.is-selected { border-color:var(--official-gold); background:#fff9eb; box-shadow:0 0 0 2px rgba(201,146,40,.18); }
+  .file-card.is-selected .select-indicator { border-color:var(--official-navy); background:var(--official-navy); }
+  .file-open-btn { border:1px solid var(--official-line); border-radius:7px; color:var(--official-navy); box-shadow:0 2px 6px rgba(11,47,64,.13); }
+  .file-open-btn:hover { background:var(--official-soft); }
+  .selection-bar { border-color:var(--official-teal); border-radius:10px; background:#edf8f7; box-shadow:0 10px 24px rgba(0,123,127,.12); }
+  .action-btn { border-color:var(--official-line); border-radius:7px; color:var(--official-ink); }
+  .action-btn:hover { border-color:var(--official-teal); background:var(--official-soft); color:var(--official-navy); }
+  .action-btn.primary, .bg-\[\#1a73e8\] { border-color:var(--official-navy) !important; background:var(--official-navy) !important; color:#fff !important; }
+  .action-btn.primary:hover { background:#114c68 !important; }
+  .action-btn.is-active { border-color:var(--official-gold); background:#fff4d8; color:#754b00; }
+  .drive-sidebar-panel { border-left-color:var(--official-line); }
+  .drive-sidebar-title, .drive-sidebar-panel h2 { color:var(--official-navy) !important; }
+  .drive-storage { border-color:var(--official-line); border-radius:10px; background:#f8fbfb; }
+  .drive-storage-top { border-color:var(--official-line); }
+  .drive-storage-dot { background:var(--official-gold); }
+  .drive-new { border:1px solid var(--official-navy); border-radius:8px; background:var(--official-navy) !important; color:#fff !important; box-shadow:0 5px 10px rgba(6,46,69,.18); }
+  .drive-new > span { background:var(--official-gold) !important; color:var(--official-navy) !important; }
+  .drive-footer { border-top:3px solid var(--official-gold); background:var(--official-navy); color:#d4e0e5; }
+  .footer-brand { color:#fff; }
+  .footer-credit { border-color:rgba(255,255,255,.25); }
+  .search-suggestions, .preview-panel { border-color:var(--official-line); border-radius:10px; box-shadow:0 15px 36px rgba(6,46,69,.20); }
+  .search-suggestion:hover, .search-suggestion:focus-visible { background:var(--official-soft); }
+  .preview-header { border-color:var(--official-line) !important; background:#f8fbfb !important; }
+  .preview-header h2 { color:var(--official-navy) !important; }
+  .preview-header .preview-meta { color:var(--official-muted) !important; }
+  .preview-header .action-btn { border-color:var(--official-line); background:#fff; color:var(--official-navy); }
+  .preview-header .action-btn:hover { border-color:var(--official-teal); background:var(--official-soft); }
+
+  /* الوضع الداكن الهادئ: فحمي دافئ مع طبقات رمادية مريحة وإبرازات تركوازية/ذهبية منخفضة السطوع. */
+  html.dark { background:#1d1f22; }
+  body.drive-body.dark { background:linear-gradient(180deg,#26282d 0,#202226 260px,#1d1f22 100%); color:#f0f2f3; }
+  .dark .drive-header { border-color:#d1a34d; background:#24262b; box-shadow:0 5px 18px rgba(0,0,0,.24); }
+  .dark .drive-main { background:transparent; }
+  .dark .drive-content { border-color:#44484f; background:#292c31; box-shadow:0 12px 35px rgba(0,0,0,.20); }
+  .dark .drive-heading { border-color:#44484f; }
+  .dark .drive-heading h1, .dark .drive-heading-metrics b { color:#fff; }
+  .dark .drive-heading p, .dark .drive-heading-metrics small { color:#b8bec5; }
+  .dark .drive-heading-metrics, .dark .drive-toolbar, .dark .inline-chip-panel, .dark .drive-storage { border-color:#44484f; background:#303339; }
+  .dark .drive-heading-metrics > span, .dark .chip-section-body, .dark .drive-storage-top { border-color:#44484f; }
+  .dark #viewToggle, .dark .toolbar-chip-toggle, .dark .shortcut-chip, .dark .collection-tab, .dark .help-button, .dark .action-btn, .dark .filter-launch, .dark .theme-toggle { border-color:#4d5259; background:#34373d; color:#e9ecee; }
+  .dark #viewToggle button.bg-\[\#e8f0fe\], .dark .collection-tab.is-active { background:#3f7775 !important; color:#fff !important; }
+  .dark .toolbar-chip-toggle:hover, .dark .shortcut-chip:hover, .dark .collection-tab:hover, .dark .help-button:hover, .dark .action-btn:hover { border-color:#82c4c0; background:#3c4047; color:#fff; }
+  .dark .drive-chip-row .chip { border-color:#4d5259; background:#34373d; color:#e9ecee; }
+  .dark .drive-chip-row .chip.bg-\[\#e8f0fe\] { border-color:#639c9a; background:#3f7775 !important; color:#fff !important; }
+  .dark .drive-results { border-color:#d1a34d; }
+  .dark #resultCount { color:#fff; }
+  .dark .drive-folder-card, .dark .drive-file-card, .dark .drive-file-row, .dark .drive-folder-row, .dark #grid.file-list { border-color:#44484f; background:#2b2e34; }
+  .dark .drive-folder-card { border-top-color:#d1a34d; }
+  .dark .drive-file-card { border-top-color:#77b8b4; }
+  .dark .drive-folder-card:hover, .dark .drive-file-card:hover, .dark .drive-file-row:hover, .dark .drive-folder-row:hover { border-color:#82c4c0; background:#373b42; }
+  .dark .file-card.is-selected { border-color:#d1a34d; background:#394147; box-shadow:0 0 0 2px rgba(209,163,77,.16); }
+  .dark .file-open-btn { border-color:#4d5259; background:#34373d; color:#9bd3cf; }
+  .dark .selection-bar { border-color:#639c9a; background:#313b40; }
+  .dark .drive-footer { border-color:#d1a34d; background:#24262b; color:#b8bec5; }
+  .dark .footer-brand { color:#fff; }
+  .dark .search-suggestions, .dark .preview-panel { border-color:#44484f; background:#292c31; }
+  .dark .search-suggestion:hover, .dark .search-suggestion:focus-visible { background:#3c4047; }
+  .dark .preview-header { border-color:#44484f !important; background:#303339 !important; }
+  .dark .preview-header h2 { color:#fff !important; }
+  .dark .preview-header .preview-meta { color:#b8bec5 !important; }
+  .dark .preview-header .action-btn { border-color:#4d5259; background:#34373d; color:#fff; }
+  .dark .preview-header .action-btn:hover { border-color:#82c4c0; background:#3c4047; }
+  /* مساحة عمل مختصرة بعد إزالة ملخص المكتبة */
+  .drive-content { padding-top:18px; }
+  .dark body.drive-body { background:linear-gradient(180deg,#26282d 0,#202226 220px,#1d1f22 100%); }
+  .dark .drive-content { margin-top:0; border-color:#44484f; background:linear-gradient(180deg,#2d3036 0,#272a30 100%); box-shadow:0 18px 42px rgba(0,0,0,.22); }
+  .dark .drive-toolbar { border-color:#4a4f56; background:#303339; }
+  .dark .utility-strip { border-color:#4a4f56; }
+  .dark #viewToggle { border-color:#4d5259; background:#2b2e34; }
+  .dark #viewToggle button:not(.bg-\[\#e8f0fe\]) { color:#d6dbe0; }
+  .dark .toolbar-chip-toggle, .dark .shortcut-chip, .dark .collection-tab, .dark .help-button { border-color:#4d5259; background:#34373d; color:#e9ecee; }
+  .dark .toolbar-chip-toggle:hover, .dark .shortcut-chip:hover, .dark .collection-tab:hover, .dark .help-button:hover { background:#3c4047; }
+  .dark #grid.file-list, .dark .drive-file-row, .dark .drive-folder-row { background:#2b2e34; border-color:#44484f; }
+  .dark .drive-file-row:hover, .dark .drive-folder-row:hover { background:#373b42; }
+  .dark .drive-folder-card, .dark .drive-file-card { background:#2d3036; border-color:#44484f; }
+  .dark .drive-folder-card:hover, .dark .drive-file-card:hover { background:#373b42; border-color:#82c4c0; }
+  @media (max-width:1023px){ .drive-main { width:100%; max-width:100%; } .drive-content { padding:19px; } }
+  @media (max-width:520px){ .drive-content { border-radius:10px; padding:15px; } .drive-heading { padding-bottom:15px; } .toolbar-chip-toggle { padding:7px 9px; } .toolbar-chip-toggle span { max-width:116px; overflow:hidden; text-overflow:ellipsis; } .dark .mobile-action-bar { border-color:#639c9a; background:#313b40; } }
+
+  /* حماية تباين البحث في الوضع المضيء: نص ومؤشر داكنان على خلفية بيضاء مستقرة. */
+  html:not(.dark) body.drive-body:not(.dark) { color-scheme:light; }
+  html:not(.dark) body.drive-body:not(.dark) .drive-search input,
+  html:not(.dark) body.drive-body:not(.dark) .drive-search input:hover,
+  html:not(.dark) body.drive-body:not(.dark) .drive-search input:focus {
+    border-color:#b8cbd1 !important;
+    background:#fff !important;
+    color:#142b3b !important;
+    -webkit-text-fill-color:#142b3b !important;
+    caret-color:#007b7f;
+  }
+  html:not(.dark) body.drive-body:not(.dark) .drive-search input::placeholder {
+    color:#597080 !important;
+    -webkit-text-fill-color:#597080 !important;
+    opacity:1;
+  }
+
+  /* عقد التباين النهائي: لا نص باهت ولا حالة تفاعل غير مقروءة في أي من السمتين. */
+  html:not(.dark) body.drive-body:not(.dark) { color:#142b3b; }
+  html:not(.dark) body.drive-body:not(.dark) .text-gray-900,
+  html:not(.dark) body.drive-body:not(.dark) .text-gray-800,
+  html:not(.dark) body.drive-body:not(.dark) .text-gray-700 { color:#142b3b !important; }
+  html:not(.dark) body.drive-body:not(.dark) .text-gray-600,
+  html:not(.dark) body.drive-body:not(.dark) .text-gray-500,
+  html:not(.dark) body.drive-body:not(.dark) .text-gray-400 { color:#435b67 !important; }
+  html:not(.dark) body.drive-body:not(.dark) .text-\[\#174ea6\],
+  html:not(.dark) body.drive-body:not(.dark) .text-\[\#1a73e8\] { color:#075e68 !important; }
+  html:not(.dark) body.drive-body:not(.dark) select { border-color:#b8cbd1; background-color:#fff; color:#142b3b; }
+  html:not(.dark) body.drive-body:not(.dark) .file-card.is-selected { color:#142b3b; }
+  html:not(.dark) body.drive-body:not(.dark) .file-card.is-selected .text-gray-900,
+  html:not(.dark) body.drive-body:not(.dark) .file-card.is-selected .text-gray-800,
+  html:not(.dark) body.drive-body:not(.dark) .file-card.is-selected .text-gray-700 { color:#142b3b !important; }
+  html:not(.dark) body.drive-body:not(.dark) .drive-header .text-gray-900,
+  html:not(.dark) body.drive-body:not(.dark) .drive-header .text-gray-800 { color:#fff !important; }
+  html:not(.dark) body.drive-body:not(.dark) .drive-header .text-\[\#1a73e8\] { color:#f6d77f !important; }
+  html:not(.dark) body.drive-body:not(.dark) .drive-header .filter-launch,
+  html:not(.dark) body.drive-body:not(.dark) .drive-header .theme-toggle { color:#fff; }
+  html:not(.dark) body.drive-body:not(.dark) :focus-visible { outline-color:#062e45; }
+
+  html.dark body.drive-body { color-scheme:dark; color:#f0f2f3; }
+  html.dark body.drive-body .text-gray-900,
+  html.dark body.drive-body .text-gray-800,
+  html.dark body.drive-body .text-gray-700 { color:#f3f5f6 !important; }
+  html.dark body.drive-body .text-gray-600,
+  html.dark body.drive-body .text-gray-500,
+  html.dark body.drive-body .text-gray-400 { color:#c9ced3 !important; }
+  html.dark body.drive-body .text-\[\#174ea6\],
+  html.dark body.drive-body .text-\[\#1a73e8\] { color:#a8dfdb !important; }
+  html.dark body.drive-body .text-red-500,
+  html.dark body.drive-body .text-red-600,
+  html.dark body.drive-body .text-red-700 { color:#ffb4ab !important; }
+  html.dark body.drive-body .text-amber-500,
+  html.dark body.drive-body .text-amber-600,
+  html.dark body.drive-body .text-yellow-600 { color:#f4d38f !important; }
+  html.dark body.drive-body select { border-color:#555b63; background-color:#34373d; color:#f3f5f6; color-scheme:dark; }
+  html.dark body.drive-body .drive-search input,
+  html.dark body.drive-body .drive-search input:hover,
+  html.dark body.drive-body .drive-search input:focus { border-color:#5a6068 !important; background:#34373d !important; color:#f3f5f6 !important; -webkit-text-fill-color:#f3f5f6 !important; caret-color:#9bd3cf; }
+  html.dark body.drive-body .drive-search input::placeholder { color:#c9ced3 !important; -webkit-text-fill-color:#c9ced3 !important; opacity:1; }
+  html.dark body.drive-body .drive-header .filter-launch,
+  html.dark body.drive-body .drive-header .theme-toggle { border-color:#69717b; background:#303339; color:#fff; }
+  html.dark body.drive-body .drive-header .filter-launch:hover,
+  html.dark body.drive-body .drive-header .theme-toggle:hover { border-color:#a8dfdb; background:#3c4047; color:#fff; }
+  html.dark body.drive-body .collection-tab.is-active,
+  html.dark body.drive-body #viewToggle button.bg-\[\#e8f0fe\],
+  html.dark body.drive-body .drive-chip-row .chip.bg-\[\#e8f0fe\] { background:#3f7775 !important; color:#fff !important; }
+  html.dark body.drive-body .file-card.is-selected { background:#394147; color:#f3f5f6; }
+  html.dark body.drive-body .file-card.is-selected .text-gray-900,
+  html.dark body.drive-body .file-card.is-selected .text-gray-800,
+  html.dark body.drive-body .file-card.is-selected .text-gray-700,
+  html.dark body.drive-body .file-card.is-selected .text-gray-600,
+  html.dark body.drive-body .file-card.is-selected .text-gray-500 { color:#fff !important; }
+  html.dark body.drive-body :focus-visible { outline-color:#f4d38f; }
+
+  /* الحالة النشطة المخصصة: تمنع فئات Tailwind الداخلية من إخفاء أي نص فوق التركواز. */
+  body.drive-body .drive-chip-row .chip.is-active-chip,
+  body.drive-body .drive-chip-row .chip.is-active-chip:hover {
+    border-color:#006b70 !important;
+    background:#006b70 !important;
+    color:#fff !important;
+  }
+  body.drive-body .drive-chip-row .chip.is-active-chip .chip-label,
+  body.drive-body .drive-chip-row .chip.is-active-chip .chip-count,
+  body.drive-body .drive-chip-row .chip.is-active-chip .chip-check,
+  body.drive-body .drive-chip-row .chip.is-active-chip .chip-check * {
+    color:#fff !important;
+    opacity:1 !important;
+  }
+
+  /* قائمة التصنيف الجانبية: حالات مستقلة للنص والعدد وعلامة الاختيار في السمتين. */
+  body.drive-body .cat-item { color:var(--official-ink); }
+  body.drive-body .cat-item .cat-count { color:#597080; }
+  body.drive-body .cat-item.is-active-cat,
+  body.drive-body .cat-item.is-active-cat:hover {
+    background:#006b70 !important;
+    color:#fff !important;
+  }
+  body.drive-body .cat-item.is-active-cat .cat-label,
+  body.drive-body .cat-item.is-active-cat .cat-count,
+  body.drive-body .cat-item.is-active-cat .cat-check,
+  body.drive-body .cat-item.is-active-cat .cat-check * {
+    color:#fff !important;
+    opacity:1 !important;
+  }
+  html.dark body.drive-body .cat-item { color:#edf0f2; }
+  html.dark body.drive-body .cat-item:hover { background:#373b42; color:#fff; }
+  html.dark body.drive-body .cat-item .cat-count { color:#c9ced3; }
+  html.dark body.drive-body .cat-item.is-active-cat,
+  html.dark body.drive-body .cat-item.is-active-cat:hover { background:#006b70 !important; color:#fff !important; }
+
+  /* الفوتر ومسار التنقل وأدوات اللوحة: ألوان صريحة تمنع الوراثة منخفضة التباين. */
+  body.drive-body .drive-footer { color:#e7ecef !important; }
+  body.drive-body .drive-footer .footer-brand,
+  body.drive-body .drive-footer .footer-credit,
+  body.drive-body .drive-footer .footer-credit strong { color:#fff !important; }
+  body.drive-body #clearFilters { border:1px solid transparent; color:#075e68 !important; }
+  body.drive-body #localHomeBtn { background:#006b70 !important; color:#fff !important; }
+  body.drive-body #localHomeBtn .archive-mark { background:#e3fbf8 !important; color:#006b70 !important; }
+  body.drive-body #crumbBar .crumb { color:#075e68 !important; }
+  body.drive-body #crumbBar .crumb:hover,
+  body.drive-body #crumbBar .crumb:focus-visible { background:#e6f0f1 !important; color:#062e45 !important; }
+  html.dark body.drive-body .drive-footer { border-color:#d1a34d; background:#24262b; color:#e7ecef !important; }
+  html.dark body.drive-body #clearFilters { border-color:#639c9a; background:#30383d; color:#d9fffb !important; }
+  html.dark body.drive-body #clearFilters:hover,
+  html.dark body.drive-body #clearFilters:focus-visible { border-color:#a8dfdb; background:#3c494d; color:#fff !important; }
+  html.dark body.drive-body #activeFilterBadge { background:#006b70 !important; color:#fff !important; }
+  html.dark body.drive-body #localHomeBtn,
+  html.dark body.drive-body #localHomeBtn:hover,
+  html.dark body.drive-body #localHomeBtn:focus-visible { border-color:#639c9a; background:#006b70 !important; color:#fff !important; }
+  html.dark body.drive-body #crumbBar .crumb { color:#edf0f2 !important; }
+  html.dark body.drive-body #crumbBar .crumb:hover,
+  html.dark body.drive-body #crumbBar .crumb:focus,
+  html.dark body.drive-body #crumbBar .crumb:focus-visible { background:#3c494d !important; color:#fff !important; outline-color:#f4d38f; }
+  html.dark body.drive-body #crumbBar > span { color:#c9ced3 !important; }
+  html.dark body.drive-body #sidebar .filter-close { color:#fff; }
+
+  /* فوتر الهوية: تسلسل واضح بين اسم المنصة والوصف والاعتماد. */
+  .drive-footer.footer-v2 {
+    border-top:3px solid var(--official-gold);
+    background:linear-gradient(105deg,#062e45 0%,#073c52 54%,#062e45 100%);
+    color:#e5f0f1 !important;
+    padding:18px 0;
+  }
+  .footer-inner {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:22px;
+    width:80%;
+    margin:0 auto;
+  }
+  .footer-identity { display:flex; align-items:center; gap:11px; min-width:0; text-align:right; }
+  .footer-mark {
+    display:grid;
+    flex:0 0 auto;
+    width:34px;
+    height:34px;
+    place-items:center;
+    border:1px solid rgba(255,255,255,.26);
+    border-radius:10px;
+    background:#007b7f;
+    color:#fff;
+    box-shadow:inset 0 0 0 3px rgba(255,255,255,.08);
+  }
+  .footer-brand { display:block; color:#fff !important; font-size:14px; font-weight:900; letter-spacing:.01em; line-height:1.25; }
+  .footer-tag { display:block; margin-top:2px; color:#d4e8e9; font-size:11px; font-weight:600; line-height:1.45; }
+  .footer-divider { width:1px; height:30px; flex:0 0 auto; background:rgba(255,255,255,.24); }
+  .footer-credit { display:flex; align-items:baseline; gap:5px; margin:0; padding:0; border:0; color:#d4e8e9 !important; font-size:11px; font-weight:600; white-space:nowrap; }
+  .footer-credit strong { color:#f6d77f !important; font-weight:900; }
+  html.dark body.drive-body .drive-footer.footer-v2 { border-color:#d1a34d; background:linear-gradient(105deg,#202226 0%,#293035 54%,#202226 100%); color:#e7ecef !important; }
+  html.dark body.drive-body .footer-tag,
+  html.dark body.drive-body .footer-credit { color:#d6dee1 !important; }
+  html.dark body.drive-body .footer-credit strong { color:#f4d38f !important; }
+  html.dark body.drive-body .footer-mark { background:#006b70; border-color:#639c9a; }
+  @media (max-width:767px){
+    .drive-footer.footer-v2 { padding:16px 0; }
+    .footer-inner { width:100%; flex-direction:column; gap:11px; padding:0 18px; text-align:center; }
+    .footer-identity { justify-content:center; text-align:center; }
+    .footer-divider { width:62px; height:1px; }
+    .footer-credit { justify-content:center; flex-wrap:wrap; white-space:normal; text-align:center; }
+  }
+</style>
+</head>
+<body class="drive-body min-h-screen text-gray-800">
+
+  <!-- ===== Top Bar ===== -->
+  <header class="drive-header sticky top-0 z-40">
+    <div class="drive-header-inner mx-auto flex h-[72px] items-center gap-3 sm:gap-4">
+      <button id="homeBtn" class="flex shrink-0 items-center gap-2.5 rounded-xl px-1 py-1 transition hover:bg-[#f1f3f4]" title="العودة إلى فيزياء سطيف">
+        <span class="archive-mark"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h4l2 2.5h6a2 2 0 0 1 2 2v6.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z"/><path d="M8 14h7"/></svg></span>
+        <span class="drive-brand-copy text-right leading-tight">
+          <span class="block f-title font-extrabold text-gray-900">فيزياء سطيف</span>
+          <span class="block f-xs font-bold text-[#1a73e8]">المنصة التعليمية الرسمية</span>
+        </span>
+      </button>
+
+      <!-- Search (نوع Google Drive) -->
+      <div class="drive-search relative mx-auto w-full flex-1">
+        <span class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-gray-500">
+          <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5"/></svg>
+        </span>
+        <input id="searchInput" type="text" autocomplete="off" placeholder="ابحث باسم الملف أو المجلد ( / )"
+               class="w-full rounded-full bg-[#f1f3f4] py-2.5 pr-11 pl-10 f-body font-medium text-gray-800 outline-none transition placeholder:text-gray-500 hover:bg-[#e8eaed] focus:bg-white focus:ring-2 focus:ring-[#1a73e8]">
+        <button id="searchClear" class="absolute left-3 top-1/2 hidden -translate-y-1/2 rounded-full p-1 text-gray-500 transition hover:bg-gray-200 hover:text-gray-700" title="مسح البحث">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <div id="searchSuggest" class="search-suggestions" role="listbox" aria-label="اقتراحات البحث"></div>
+      </div>
+
+      <button id="filterToggle" class="filter-launch shrink-0 px-3 py-2 f-meta" aria-controls="sidebar" aria-expanded="false" title="فتح الفلاتر">
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+        <span class="hidden sm:inline">الفلاتر</span>
+        <span id="mobileFilterBadge" class="filter-count">0</span>
+      </button>
+      <button id="themeToggle" class="theme-toggle shrink-0" type="button" aria-pressed="false" title="تفعيل الوضع الداكن">
+        <svg id="themeSun" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.5"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg id="themeMoon" class="hidden h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M20.5 14.3A8.5 8.5 0 0 1 9.7 3.5 8.5 8.5 0 1 0 20.5 14.3z"/></svg>
+        <span id="themeToggleLabel" class="hidden lg:inline">الوضع الداكن</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="drive-main">
+
+    <div id="workspaceLayout" class="drive-layout filters-closed lg:grid lg:items-start">
+
+      <!-- ===== الشريط الجانبي (نوع Drive nav) ===== -->
+      <aside id="sidebar" class="fixed inset-0 z-50 lg:sticky lg:top-[72px] lg:z-auto lg:max-h-[calc(100vh-92px)] lg:overflow-y-auto">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm lg:hidden" data-close-filters></div>
+        <div class="drive-sidebar-panel absolute left-0 top-0 h-full w-80 max-w-[88vw] overflow-y-auto rounded-l-3xl border border-gray-200 bg-white p-5 shadow-2xl transition lg:relative lg:w-auto lg:max-w-none lg:translate-x-0 lg:overflow-visible lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+          <div class="mb-5 flex items-center justify-between">
+            <h2 class="f-title font-extrabold text-gray-800">الفلاتر</h2>
+            <div class="flex items-center gap-2">
+              <span id="activeFilterBadge" class="hidden rounded-full bg-[#e8f0fe] px-2 py-0.5 f-xs font-bold text-[#1a73e8]">0</span>
+              <button id="clearFilters" class="rounded-full px-3 py-1.5 f-meta font-bold text-[#1a73e8] transition hover:bg-blue-50">مسح الكل</button>
+              <button data-close-filters class="filter-close" aria-label="إغلاق الفلاتر">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <button id="localHomeBtn" class="mb-3 flex w-full items-center gap-3 rounded-r-full bg-[#e8f0fe] px-4 py-2.5 text-right f-meta font-extrabold text-[#174ea6]">
+            <span class="archive-mark !h-7 !w-7 scale-75 origin-right"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h4l2 2.5h6a2 2 0 0 1 2 2v6.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z"/></svg></span>
+            ملفاتي
+          </button>
+
+          <!-- الفئة -->
+          <div class="mb-5">
+            <h3 class="drive-sidebar-title mb-1.5 px-3 f-xs font-bold text-gray-500">تصنيف الملفات</h3>
+            <div id="catList" class="space-y-0.5"></div>
+          </div>
+
+          <!-- الامتداد -->
+          <div class="mb-5">
+            <h3 class="drive-sidebar-title mb-1.5 px-3 f-xs font-bold text-gray-500">نوع الملف</h3>
+            <select id="extSelect" class="w-full rounded-full border border-gray-200 bg-white px-4 py-2 f-body font-medium outline-none transition focus:ring-2 focus:ring-[#1a73e8]"></select>
+          </div>
+          <div class="drive-storage">
+            <div class="drive-storage-top"><span class="archive-mark !h-8 !w-8 scale-75 origin-right"><svg fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h4l2 2.5h6a2 2 0 0 1 2 2v6.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z"/></svg></span><span><b class="block f-xs text-[#1f4f8c]">فهرس فيزياء سطيف</b><small class="f-xs text-gray-500">تم تحديثه اليوم</small></span></div>
+            <div class="space-y-2 p-3 f-xs text-gray-600"><div class="flex items-center justify-between"><span>مواد مفهرسة</span><b id="sidebarMetricFiles" class="text-[#174ea6]">—</b></div><div class="flex items-center justify-between"><span>التغطية التعليمية</span><b>4 سنوات + مراجع</b></div><div class="flex items-center gap-2 rounded-lg bg-[#e8f0fe] px-2 py-1.5 font-bold text-[#174ea6]"><i class="drive-storage-dot"></i>جاهز للتصفح والبحث</div></div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ===== المحتوى ===== -->
+      <section class="drive-content mt-4 min-w-0 lg:mt-0">
+
+        <!-- شريط الأدوات -->
+        <div class="drive-toolbar flex flex-wrap items-center justify-between gap-2">
+          <div class="flex flex-wrap items-center gap-2">
+            <div id="viewToggle" class="flex rounded-full bg-[#f1f3f4] p-0.5">
+              <button data-view="folders" class="rounded-full px-4 py-1.5 f-meta font-bold transition">المجلدات</button>
+              <button data-view="flat" class="rounded-full px-4 py-1.5 f-meta font-bold text-gray-500 transition hover:text-gray-700">كل الملفات</button>
+            </div>
+            <button class="toolbar-chip-toggle" type="button" data-chip-toggle="groups" aria-controls="groupChipsWrap" aria-expanded="false">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h4l2 2.5h6a2 2 0 0 1 2 2v6.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z"/></svg><span data-chip-label>استعرض حسب القسم</span><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <button class="toolbar-chip-toggle" type="button" data-chip-toggle="topics" aria-controls="topicChipsWrap" aria-expanded="false">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 5h14M8 12h8M10 19h4"/></svg><span data-chip-label>تصفية سريعة</span><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <button id="upBtn" class="hidden items-center gap-1.5 rounded-full px-3 py-1.5 f-meta font-bold text-[#1a73e8] transition hover:bg-blue-50">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 15l8-8 8 8"/></svg>
+              مستوى أعلى
+            </button>
+            <select id="searchScope" class="rounded-full border border-gray-200 bg-white px-3 py-1.5 f-meta font-medium outline-none transition focus:ring-2 focus:ring-[#1a73e8]" aria-label="نطاق البحث">
+              <option value="all">البحث في الاسم والمسار</option><option value="name">اسم الملف فقط</option><option value="path">المسار فقط</option>
+            </select>
+          </div>
+          <div class="flex items-center gap-2">
+            <div id="layoutToggle" class="flex items-center rounded-full border border-gray-200 bg-white p-0.5">
+              <button data-layout="grid" title="عرض الشبكة" class="grid h-8 w-8 place-items-center rounded-full text-gray-500 transition hover:bg-gray-100">
+                <svg class="h-4.5 w-4.5 h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+              </button>
+              <button data-layout="list" title="عرض القائمة" class="grid h-8 w-8 place-items-center rounded-full text-gray-500 transition hover:bg-gray-100">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1.3"/><circle cx="4" cy="12" r="1.3"/><circle cx="4" cy="18" r="1.3"/></svg>
+              </button>
+            </div>
+            <select id="quickSort" class="rounded-full border border-gray-200 bg-white px-3 py-1.5 f-meta font-medium outline-none transition focus:ring-2 focus:ring-[#1a73e8]"></select>
+            <button id="helpToggle" class="help-button" type="button" title="اختصارات لوحة المفاتيح"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.6 2.6 0 1 1 4.6 1.7c-.9 1.1-2.1 1.5-2.1 3.1M12 17h.01"/></svg><span>اختصارات</span></button>
+          </div>
+        </div>
+
+        <div class="utility-strip">
+          <div class="utility-group"><span class="utility-label">وصول سريع</span><button class="shortcut-chip" data-shortcut="اختبارات">اختبارات</button><button class="shortcut-chip" data-shortcut="مذكرات">مذكرات الأستاذ</button><button class="shortcut-chip" data-shortcut="وثائق وكتب">الكتب المدرسية</button><button class="shortcut-chip" data-shortcut="عروض">عروض</button><button class="shortcut-chip" data-shortcut="حلول">تمارين محلولة</button></div>
+          <div id="collectionTabs" class="utility-group"><button class="collection-tab" data-collection="recent"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>الأخيرة</button><button class="collection-tab" data-collection="favorites"><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3z"/></svg>المفضلة</button></div>
+        </div>
+
+        <div id="groupChipsWrap" class="inline-chip-panel" data-chip-section="groups"><div class="chip-section-body"><div id="groupChips" class="drive-chip-row flex gap-2"></div></div></div>
+        <div id="topicChipsWrap" class="inline-chip-panel" data-chip-section="topics"><div class="chip-section-body"><div id="topicChips" class="drive-chip-row flex gap-2"></div></div></div>
+
+        <!-- شريط النتائج -->
+        <div class="drive-results mt-5 flex flex-wrap items-center gap-2">
+          <p class="f-title font-extrabold text-gray-800" id="resultCount">—</p>
+          <p class="f-xs font-medium text-gray-500" id="resultSub">—</p>
+        </div>
+        <div id="crumbBar" class="mt-2 hidden flex flex-wrap items-center gap-1"></div>
+        <div id="activeChips" class="mt-2 hidden flex flex-wrap items-center gap-1.5"></div>
+        <div id="selectionBar" class="selection-bar" aria-live="polite"></div>
+        <div id="loadingState" class="loading-state"><i class="loading-dot"></i><span>يتم تجهيز نتائج المكتبة…</span></div>
+
+        <!-- الشبكة / القائمة -->
+        <div id="grid" class="file-grid"></div>
+
+        <!-- حالة فارغة -->
+        <div id="empty" class="mt-10 hidden flex-col items-center gap-3 rounded-2xl border border-dashed border-gray-300 py-16 text-center">
+          <span class="grid h-14 w-14 place-items-center rounded-full bg-gray-100 text-gray-400">
+            <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.5-4.5M8 11h6"/></svg>
+          </span>
+          <p class="f-lg font-extrabold text-gray-800" id="emptyTitle">لا توجد نتائج مطابقة</p>
+          <p class="f-meta font-medium text-gray-500" id="emptySub">جرّب تعديل البحث أو إزالة بعض الفلاتر.</p>
+          <div class="flex flex-wrap items-center justify-center gap-2">
+            <button id="emptyReset" class="rounded-full bg-[#1a73e8] px-6 py-2.5 f-body font-bold text-white shadow-sm transition hover:bg-[#1765cc]">مسح الفلاتر</button>
+            <button id="emptyHome" class="rounded-full border border-gray-300 bg-white px-6 py-2.5 f-body font-bold text-gray-700 transition hover:bg-gray-50">الرجوع إلى الجذر</button>
+          </div>
+        </div>
+
+        <!-- تحميل المزيد -->
+        <div class="mt-8 text-center">
+          <button id="loadMore" class="hidden rounded-full px-8 py-3 f-body font-bold text-[#1a73e8] transition hover:bg-blue-50">
+            عرض المزيد من النتائج
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="drive-footer footer-v2" aria-label="معلومات المنصة">
+    <div class="footer-inner">
+      <div class="footer-identity">
+        <span class="footer-mark" aria-hidden="true"><svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h4l2 2.5h6a2 2 0 0 1 2 2v6.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z"/></svg></span>
+        <div><span class="footer-brand">فيزياء سطيف</span><span class="footer-tag">المنصة الرسمية للمحتوى العلمي والدعم التعليمي</span></div>
+      </div>
+      <span class="footer-divider" aria-hidden="true"></span>
+      <p class="footer-credit"><span>إعداد وتطوير:</span><strong>الأستاذ حكيم بوزورداز</strong></p>
+    </div>
+  </footer>
+
+  <!-- ===== نافذة تفاصيل الملف ===== -->
+  <div id="modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" data-close-modal></div>
+    <div id="modalCard" class="relative w-full max-w-lg rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl animate-pop sm:max-w-xl"></div>
+  </div>
+
+  <div id="previewDrawer" class="preview-shell" role="dialog" aria-modal="true" aria-labelledby="previewTitle"><div class="absolute inset-0" data-close-preview></div><div id="previewPanel" class="preview-panel relative"></div></div>
+
+  <div id="helpModal" class="fixed inset-0 z-[75] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="helpTitle"><div class="absolute inset-0 bg-black/40 backdrop-blur-sm" data-close-help></div><div class="relative w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-2xl" id="helpCard"></div></div>
+
+  <!-- ===== Snackbar ===== -->
+  <div id="toast" class="fixed bottom-6 left-1/2 z-[70] -translate-x-1/2 hidden max-w-[90vw] items-center gap-2.5 rounded-lg bg-gray-800 px-4 py-3 f-body font-bold text-white shadow-2xl"></div>
+
+  <!-- ===== زر العودة للأعلى ===== -->
+  <button id="toTop" class="fixed bottom-6 left-6 z-40 hidden h-12 w-12 place-items-center rounded-full bg-white text-gray-600 shadow-md transition hover:bg-gray-50" title="العودة إلى الأعلى">
+    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 15l7-7 7 7"/></svg>
+  </button>
+  <div id="mobileActionBar" class="mobile-action-bar" aria-live="polite"></div>
+
+<script src="data.js"></script>
+<script>
+/* ================= الإعدادات ================= */
+const CATS = {
+  'مستند/درس':   { badge:'text-blue-700 bg-blue-50 border-blue-200', icon:'doc' },
+  'جدول/تمارين': { badge:'text-green-700 bg-green-50 border-green-200', icon:'table' },
+  'صورة/رسم':    { badge:'text-purple-700 bg-purple-50 border-purple-200', icon:'image' },
+  'فيديو':       { badge:'text-red-700 bg-red-50 border-red-200', icon:'video' },
+  'صوت':         { badge:'text-orange-700 bg-orange-50 border-orange-200', icon:'audio' },
+  'أرشيف':       { badge:'text-gray-600 bg-gray-100 border-gray-200', icon:'archive' },
+  'صفحة ويب':    { badge:'text-blue-700 bg-sky-50 border-sky-200', icon:'web' },
+  'برنامج':      { badge:'text-teal-700 bg-teal-50 border-teal-200', icon:'code' },
+  'أخرى':        { badge:'text-gray-500 bg-gray-100 border-gray-200', icon:'file' }
+};
+const GROUP_LABELS = {
+  '1': 'السنة الأولى متوسط',
+  '2': 'السنة الثانية متوسط',
+  '3': 'السنة الثالثة متوسط',
+  '4': 'السنة الرابعة متوسط',
+  'INFORMATIQUE': 'إعلام آلي',
+  'ملفات وكتب': 'ملفات وكتب',
+  '': 'الجذر'
+};
+const TOPICS = ['اختبارات','مذكرات','ملخصات','تمارين ودعم','عروض','حلول','تقويم تشخيصي','تدرجات سنوية','وثائق وكتب','أخرى'];
+const SORT_OPTIONS = [
+  ['name-asc','الاسم — أ → ي'],
+  ['name-desc','الاسم — ي → أ'],
+  ['size-desc','الحجم — من الأكبر'],
+  ['size-asc','الحجم — من الأصغر'],
+  ['date-desc','الأحدث تعديلاً'],
+  ['date-asc','الأقدم تعديلاً']
+];
+
+/* ================= أيقونات Google Drive (مجلد أصفر + ملفات ملونة حسب النوع) ================= */
+const FOLDER_ICON =
+  '<svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2.5h8A2 2 0 0 1 21 9.5v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z" fill="#FDD835"/><path d="M3 9.5h18" stroke="#F9A825" stroke-width=".5" opacity=".5"/></svg>';
+
+const TYPE_ICONS = {
+  doc:    { bg:'#4285F4', g:'<path d="M8 7.5h8M8 11h8M8 14.5h5" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>' },
+  table:  { bg:'#34A853', g:'<path d="M7.5 7.5h9M7.5 12h9M7.5 16.5h9M12 7.5v9" stroke="#fff" stroke-width="1.5"/>' },
+  image:  { bg:'#A142F4', g:'<circle cx="9" cy="9" r="1.6" fill="#fff"/><path d="M6.5 16.5l3.5-3.5 2.5 2.5 3-3 2.5 3" stroke="#fff" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' },
+  video:  { bg:'#EA4335', g:'<path d="M9.5 8l6 4-6 4V8z" fill="#fff"/>' },
+  audio:  { bg:'#F29900', g:'<path d="M10 16.5V6.5l7-1.5v9.5" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="8.2" cy="16.5" r="1.9" fill="#fff"/><circle cx="15.2" cy="15" r="1.9" fill="#fff"/>' },
+  archive:{ bg:'#5F6368', g:'<path d="M7 6.5h10M7 6.5A1.5 1.5 0 0 0 5.5 8v8A1.5 1.5 0 0 0 7 17.5h10a1.5 1.5 0 0 0 1.5-1.5V8A1.5 1.5 0 0 0 17 6.5" stroke="#fff" stroke-width="1.6" fill="none"/><path d="M10 11.5h4" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/>' },
+  web:    { bg:'#1A73E8', g:'<circle cx="12" cy="12" r="4.5" stroke="#fff" stroke-width="1.5" fill="none"/><path d="M7.5 12h9M12 7.5c1.6 1.3 1.6 7.7 0 9M12 7.5c-1.6 1.3-1.6 7.7 0 9" stroke="#fff" stroke-width="1.5" fill="none"/>' },
+  code:   { bg:'#00897B', g:'<path d="M9 8.5L6.5 11l2.5 2.5M15 8.5l2.5 2.5-2.5 2.5" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' },
+  file:   { bg:'#9AA0A6', g:'<path d="M8.5 7h7M8.5 11h7M8.5 15h4" stroke="#fff" stroke-width="1.7" stroke-linecap="round"/>' }
+};
+
+/* ================= بصمة مرئية حسب الامتداد ================= */
+const EXTENSION_TYPES = {
+  pdf:{label:'PDF',bg:'#e05245',soft:'#fdeceb'}, doc:{label:'DOC',bg:'#2b72c4',soft:'#e9f1fe'}, docx:{label:'DOC',bg:'#2b72c4',soft:'#e9f1fe'}, dotx:{label:'DOC',bg:'#2b72c4',soft:'#e9f1fe'}, rtf:{label:'DOC',bg:'#2b72c4',soft:'#e9f1fe'}, odt:{label:'DOC',bg:'#2b72c4',soft:'#e9f1fe'},
+  xls:{label:'XLS',bg:'#1f8a4c',soft:'#e8f5ec'}, xlsx:{label:'XLS',bg:'#1f8a4c',soft:'#e8f5ec'},
+  ppt:{label:'PPT',bg:'#db7b2f',soft:'#fff1e7'}, pptx:{label:'PPT',bg:'#db7b2f',soft:'#fff1e7'}, pps:{label:'PPT',bg:'#db7b2f',soft:'#fff1e7'}, ppsx:{label:'PPT',bg:'#db7b2f',soft:'#fff1e7'}, pot:{label:'PPT',bg:'#db7b2f',soft:'#fff1e7'},
+  jpg:{label:'IMG',bg:'#8b5bc7',soft:'#f1eafd'}, jpeg:{label:'IMG',bg:'#8b5bc7',soft:'#f1eafd'}, png:{label:'IMG',bg:'#8b5bc7',soft:'#f1eafd'}, gif:{label:'IMG',bg:'#8b5bc7',soft:'#f1eafd'}, webp:{label:'IMG',bg:'#8b5bc7',soft:'#f1eafd'},
+  mp4:{label:'VID',bg:'#d0473a',soft:'#fdebea'}, wmv:{label:'VID',bg:'#d0473a',soft:'#fdebea'}, mov:{label:'VID',bg:'#d0473a',soft:'#fdebea'}, avi:{label:'VID',bg:'#d0473a',soft:'#fdebea'},
+  mp3:{label:'AUD',bg:'#c48619',soft:'#fff6dc'}, wav:{label:'AUD',bg:'#c48619',soft:'#fff6dc'},
+  zip:{label:'ZIP',bg:'#5f6873',soft:'#eef0f2'}, rar:{label:'ZIP',bg:'#5f6873',soft:'#eef0f2'}, '7z':{label:'ZIP',bg:'#5f6873',soft:'#eef0f2'},
+  html:{label:'WEB',bg:'#1678b8',soft:'#e7f4fb'}, htm:{label:'WEB',bg:'#1678b8',soft:'#e7f4fb'}, url:{label:'WEB',bg:'#1678b8',soft:'#e7f4fb'},
+  exe:{label:'APP',bg:'#168477',soft:'#e6f7f4'}, jar:{label:'APP',bg:'#168477',soft:'#e6f7f4'}, swf:{label:'APP',bg:'#168477',soft:'#e6f7f4'}, sb:{label:'APP',bg:'#168477',soft:'#e6f7f4'}, sb2:{label:'APP',bg:'#168477',soft:'#e6f7f4'}
+};
+
+function icon(name, cls){
+  return '<svg class="'+cls+'" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">'+
+    (name==='doc'?'<path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M9 7h6M9 11h6M9 15h4"/>'
+    :name==='table'?'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 9v11"/>'
+    :name==='image'?'<rect x="4" y="4" width="16" height="16" rx="2"/><circle cx="9" cy="9" r="1.5"/><path d="M21 15l-4.5-4.5L9 18l-3-3-3 3"/>'
+    :name==='video'?'<rect x="3" y="5" width="14" height="14" rx="2"/><path d="M17 10l4-2v8l-4-2"/>'
+    :name==='audio'?'<path d="M9 18V6l12-3v12"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="15" r="3"/>'
+    :name==='archive'?'<path d="M3 6h18v4H3zM4 6l2-3h12l2 3v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6z"/><path d="M8 12h8M8 16h5"/>'
+    :name==='web'?'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3z"/>'
+    :name==='code'?'<path d="M8 9l-3 3 3 3M16 9l3 3-3 3M13 5l-2 14"/>'
+    :'<path d="M6 3h8l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v4h4"/>')+
+  '</svg>';
+}
+const ICONS_UI = {
+  copy:'<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/>',
+  check:'<path d="M20 6L9 17l-5-5"/>',
+  chevron:'<path d="M15 6l-6 6 6 6"/>',
+  up:'<path d="M4 15l8-8 8 8"/>',
+  external:'<path d="M14 3h7v7M21 3l-9 9M21 14v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h6"/>',
+  x:'<path d="M6 6l12 12M18 6L6 18"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  star:'<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9L12 3z"/>',
+  download:'<path d="M12 3v11M8 11l4 4 4-4M5 21h14"/>',
+  share:'<circle cx="18" cy="5" r="2.4"/><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="19" r="2.4"/><path d="m8.1 10.8 7.8-4.5M8.1 13.2l7.8 4.5"/>',
+  eye:'<path d="M2.5 12s3.5-6 9.5-6 9.5 6 9.5 6-3.5 6-9.5 6-9.5-6-9.5-6z"/><circle cx="12" cy="12" r="2.5"/>'
+};
+function uiIcon(name, cls){ return '<svg class="'+cls+'" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">'+ICONS_UI[name]+'</svg>'; }
+function folderSvg(cls){
+  return '<svg viewBox="0 0 24 24" class="'+cls+'" aria-hidden="true">'+
+    '<path d="M2.7 7.1a2 2 0 0 1 2-2h4l2 2.35h7.6a2 2 0 0 1 2 2v6.6a2 2 0 0 1-2 2H4.7a2 2 0 0 1-2-2V7.1z" fill="#FDD663"/>'+
+    '<path d="M4.5 9.3a2 2 0 0 1 2-2h4l2 2.35h6.2a2 2 0 0 1 2 2v5.4a2 2 0 0 1-2 2H6.5a2 2 0 0 1-2-2V9.3z" fill="#1A73E8"/>'+
+    '<path d="M8.2 14.5h6.8" stroke="#fff" stroke-width="1.35" stroke-linecap="round"/>'+
+  '</svg>';
+}
+function extensionInfo(f){
+  const ext = String(f.e || '').toLowerCase();
+  if(EXTENSION_TYPES[ext]) return { ext, ...EXTENSION_TYPES[ext] };
+  const fallback = TYPE_ICONS[f.c] || TYPE_ICONS.file;
+  return { ext, label:ext ? ext.slice(0,4).toUpperCase() : 'FILE', bg:fallback.bg, soft:'#eef0f2' };
+}
+function extensionPill(f){
+  const t = extensionInfo(f);
+  return '<span class="ext-badge" style="--ext:'+t.bg+';--ext-soft:'+t.soft+'">'+esc(t.label)+'</span>';
+}
+function fileSvg(f, cls){
+  const t = extensionInfo(f);
+  return '<svg viewBox="0 0 24 24" class="'+cls+'" aria-hidden="true">'+
+    '<path d="M5.5 2.7h8.1l4.9 4.9v11.8a2 2 0 0 1-2 2H5.5a2 2 0 0 1-2-2V4.7a2 2 0 0 1 2-2" fill="'+t.soft+'" stroke="'+t.bg+'" stroke-width="1.35"/>'+
+    '<path d="M13.5 2.8v4.8h4.8" fill="none" stroke="'+t.bg+'" stroke-width="1.35" stroke-linejoin="round"/>'+
+    '<rect x="5.1" y="11" width="13.8" height="5.7" rx="1.4" fill="'+t.bg+'"/>'+
+    '<text x="12" y="14.95" text-anchor="middle" fill="#fff" font-size="4" font-family="Arial,sans-serif" font-weight="700">'+esc(t.label)+'</text></svg>';
+}
+
+const ICON_WRAP = {
+  'مستند/درس':'bg-blue-50 text-blue-700',
+  'جدول/تمارين':'bg-green-50 text-green-700',
+  'صورة/رسم':'bg-purple-50 text-purple-700',
+  'فيديو':'bg-red-50 text-red-700',
+  'صوت':'bg-orange-50 text-orange-700',
+  'أرشيف':'bg-gray-100 text-gray-600',
+  'صفحة ويب':'bg-sky-50 text-sky-700',
+  'برنامج':'bg-teal-50 text-teal-700',
+  'أخرى':'bg-gray-100 text-gray-500'
+};
+
+/* ================= الحالة ================= */
+let DATA = [];
+let TREE = null;
+const AGG = new Map();
+const state = {
+  q:'', cats:new Set(), groups:new Set(), topics:new Set(), ext:'',
+  sort:'size-desc', shown:PAGE_SIZE(), nav:[], view:'folders', layout:'grid', selectedFile:null, lastFocused:null,
+  searchScope:'all', collection:'', favorites:new Set(), recent:[]
+};
+function PAGE_SIZE(){ return 60; }
+const PAGE = 60;
+
+const $  = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+
+/* ================= أدوات مساعدة ================= */
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const arCount = (n, sing, plur) => {
+  const m = n % 100;
+  return (m >= 3 && m <= 10) ? n.toLocaleString('en-US') + ' ' + plur : n.toLocaleString('en-US') + ' ' + sing;
+};
+const sizeLabel = s => s < 1024 ? s.toFixed(2) + ' MB' : (s/1024).toFixed(2) + ' GB';
+const groupLabel = g => GROUP_LABELS[g] || (g === '' ? 'الجذر' : g);
+const FILE_BASE = 'https://raw.githubusercontent.com/hbouzourdaz/DVD2027/main/files/';
+const encPath = p => p.replace(/\\/g,'/').split('/').map(encodeURIComponent).join('/');
+const fileUrl = p => FILE_BASE + encPath(p);
+const fileKey = f => f ? f.p : '';
+const getFileByKey = k => DATA.find(f => f.p === k);
+const isFavorite = f => state.favorites.has(fileKey(f));
+const topicOf = f => {
+  const p = f.p;
+  if (/اختبار/.test(p)) return 'اختبارات';
+  if (/مذكرات/.test(p)) return 'مذكرات';
+  if (/ملخصات/.test(p)) return 'ملخصات';
+  if (/تمارين|دعم/.test(p)) return 'تمارين ودعم';
+  if (/عروض/.test(p)) return 'عروض';
+  if (/حلول/.test(p)) return 'حلول';
+  if (/تقويم|تشخيص/.test(p)) return 'تقويم تشخيصي';
+  if (/تدرجات/.test(p)) return 'تدرجات سنوية';
+  if (/وثائق|كتاب|مذكرة/.test(p)) return 'وثائق وكتب';
+  return 'أخرى';
+};
+function sortFiles(a,b){
+  const c = state.sort;
+  if(c==='size-desc') return b.s-a.s;
+  if(c==='size-asc')  return a.s-b.s;
+  if(c==='date-desc') return b.d.localeCompare(a.d) || b.s-a.s;
+  if(c==='date-asc')  return a.d.localeCompare(b.d) || b.s-a.s;
+  const x = a.n.localeCompare(b.n,'ar',{sensitivity:'base'});
+  return c==='name-asc' ? x : -x;
+}
+function highlight(text){
+  const q = state.q.trim();
+  if(!q) return esc(text);
+  const i = text.toLowerCase().indexOf(q.toLowerCase());
+  if(i === -1) return esc(text);
+  return esc(text.slice(0,i)) + '<mark>' + esc(text.slice(i, i+q.length)) + '</mark>' + esc(text.slice(i+q.length));
+}
+
+/* ================= شجرة المجلدات ================= */
+function buildTree(){
+  const tree = { name:'', path:'', dirs:{}, files:[] };
+  for(const f of DATA){
+    const segs = f.p.split('\\');
+    let node = tree;
+    for(let i=0;i<segs.length-1;i++){
+      const s = segs[i];
+      if(!node.dirs[s]) node.dirs[s] = { name:s, path:segs.slice(0,i+1).join('\\'), dirs:{}, files:[] };
+      node = node.dirs[s];
+    }
+    node.files.push(f);
+  }
+  return tree;
+}
+function updateArchiveMetrics(){
+  const count = DATA.length.toLocaleString('en-US');
+  const metricFiles = $('#metricFiles'), sidebarMetricFiles = $('#sidebarMetricFiles');
+  const metricFolders = $('#metricFolders'), metricStatus = $('#metricStatus');
+  if(metricFiles) metricFiles.textContent = count;
+  if(sidebarMetricFiles) sidebarMetricFiles.textContent = count;
+  if(metricFolders) metricFolders.textContent = Object.keys(TREE.dirs).length.toLocaleString('en-US');
+  if(metricStatus) metricStatus.textContent = 'جاهز';
+  $('#searchInput').placeholder = 'ابحث داخل '+count+' ملفًا تعليميًا ( / )';
+}
+function agg(node){
+  if(AGG.has(node)) return AGG.get(node);
+  let c = node.files.length, s = 0;
+  for(const f of node.files) s += f.s;
+  for(const k in node.dirs){ const a = agg(node.dirs[k]); c += a.count; s += a.size; }
+  const r = { count:c, size:s };
+  AGG.set(node, r);
+  return r;
+}
+function currentNode(){
+  let node = TREE;
+  for(const s of state.nav) node = node.dirs[s];
+  return node;
+}
+const segLabel = (seg,i) => i===0 ? (GROUP_LABELS[seg] || seg) : seg;
+const isFiltering = () => state.q.trim() || state.cats.size || state.groups.size || state.topics.size || state.ext;
+
+/* ================= تحميل البيانات ================= */
+async function load(){
+  showSkeleton();
+  if (window.DVD2027_DATA && window.DVD2027_DATA.length) {
+    DATA = window.DVD2027_DATA;
+  } else {
+    try {
+      const res = await fetch('data.json');
+      DATA = await res.json();
+    } catch (e) {
+      $('#resultCount').textContent = 'تعذّر تحميل البيانات';
+      $('#grid').innerHTML = '<div class="col-span-full rounded-xl border border-dashed border-red-400/40 p-10 text-center f-body font-bold text-red-500">تعذّر تحميل البيانات — شغّل الموقع عبر خادم محلي (npx serve E:\\DVD2027) أو انشره على Vercel.</div>';
+      $('#empty').classList.add('hidden');
+      return;
+    }
+  }
+  DATA.forEach(f => { f.t = topicOf(f); });
+  TREE = buildTree();
+  updateArchiveMetrics();
+  restoreCollections();
+  restorePrefs();
+  buildGroupChips();
+  buildTopicChips();
+  buildCatList();
+  buildExtSelect();
+  buildQuickSort();
+  apply();
+  $('#loadingState').classList.remove('is-open');
+}
+
+/* ================= الهيكل العظمي (تحميل) ================= */
+function showSkeleton(){
+  const sk = (i) => '<div class="aspect-square animate-pulse rounded-2xl bg-gray-100"></div>';
+  $('#grid').innerHTML = [1,2,3,4,5,6,7,8,9,10,11,12].map(sk).join('');
+  $('#loadingState').classList.add('is-open');
+}
+
+/* ================= الشرائح (filter chips بنمط Drive) ================= */
+function chip(label, active, count, key, cls){
+  return '<button data-k="'+esc(key)+'" class="chip '+cls+' flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-1.5 f-meta font-medium transition '+
+    (active ? 'is-active-chip border-transparent'
+             : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-100')+'">'+
+    (active ? '<span class="chip-check grid h-4 w-4 place-items-center">'+uiIcon('check','h-3.5 w-3.5')+'</span>' : '')+
+    '<span class="chip-label">'+label+'</span><span class="chip-count opacity-60">'+count.toLocaleString('en-US')+'</span></button>';
+}
+function buildGroupChips(){
+  const g = {}; DATA.forEach(f => g[f.g]=(g[f.g]||0)+1);
+  const keys = Object.keys(g).sort((a,b)=> (GROUP_LABELS[a]||a).localeCompare(GROUP_LABELS[b]||b,'ar'));
+  state._groupKeys = keys;
+  state._groupCounts = g;
+  $('#groupChips').innerHTML = keys.map(k => chip(groupLabel(k), state.groups.has(k), g[k], k, '')).join('');
+}
+function buildTopicChips(){
+  const g = {}; DATA.forEach(f => g[f.t]=(g[f.t]||0)+1);
+  state._topicCounts = g;
+  $('#topicChips').innerHTML = TOPICS.map(t => chip(t, state.topics.has(t), g[t]||0, t, '')).join('');
+}
+function rerenderChips(){
+  $('#groupChips').innerHTML = state._groupKeys.map(k => chip(groupLabel(k), state.groups.has(k), state._groupCounts[k], k, '')).join('');
+  $('#topicChips').innerHTML = TOPICS.map(t => chip(t, state.topics.has(t), state._topicCounts[t]||0, t, '')).join('');
+}
+function setChipSectionOpen(section, open){
+  const el = document.querySelector('[data-chip-section="'+section+'"]');
+  if(!el) return;
+  el.classList.toggle('is-open', open);
+  const trigger = el.querySelector('[data-chip-toggle]');
+  const sourceTrigger = document.querySelector('[data-chip-toggle="'+section+'"]');
+  if(sourceTrigger) sourceTrigger.setAttribute('aria-expanded', String(open));
+}
+
+/* ================= قائمة الفئات (نقاط تنقل Drive) ================= */
+function buildCatList(){
+  const g = {}; DATA.forEach(f => g[f.c]=(g[f.c]||0)+1);
+  $('#catList').innerHTML = Object.keys(CATS).map(c => {
+    const n = g[c]||0, on = state.cats.has(c);
+    return '<button type="button" data-c="'+esc(c)+'" class="cat-item flex w-full items-center gap-3 rounded-full px-3 py-2 text-right transition '+
+      (on ? 'is-active-cat' : 'hover:bg-gray-100')+'">'+
+      '<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full '+ICON_WRAP[c]+'">'+icon(CATS[c].icon,'h-4 w-4')+'</span>'+
+      '<span class="cat-label min-w-0 flex-1 truncate f-meta font-medium">'+c+'</span>'+
+      '<span class="cat-count f-xs font-medium">'+n.toLocaleString('en-US')+'</span>'+
+      (on ? '<span class="cat-check grid h-5 w-5 shrink-0 place-items-center">'+uiIcon('check','h-4 w-4')+'</span>' : '')+
+    '</button>';
+  }).join('');
+}
+function renderCatList(){ buildCatList(); }
+$('#catList').addEventListener('click', e => {
+  const b = e.target.closest('.cat-item'); if(!b) return;
+  const c = b.dataset.c;
+  state.collection='';
+  state.cats.has(c) ? state.cats.delete(c) : state.cats.add(c);
+  buildCatList(); apply();
+});
+
+/* ================= قائمة الامتدادات ================= */
+function buildExtSelect(){
+  const g = {};
+  DATA.forEach(f => { if(f.e) g[f.e]=(g[f.e]||0)+1; });
+  const keys = Object.keys(g).sort((a,b)=>g[b]-g[a]).slice(0,25);
+  $('#extSelect').innerHTML = '<option value="">كل الامتدادات</option>' +
+    keys.map(k => '<option value="'+esc(k)+'">.'+esc(k)+' ('+g[k].toLocaleString('en-US')+')</option>').join('');
+}
+function buildQuickSort(){
+  $('#quickSort').innerHTML = SORT_OPTIONS.map(o => '<option value="'+o[0]+'">'+o[1]+'</option>').join('');
+  $('#quickSort').value = state.sort;
+}
+
+/* ================= الفلترة والفرز ================= */
+function apply(){
+  if(state.collection){
+    $('#viewToggle').classList.add('opacity-40','pointer-events-none');
+    renderCollection();
+  } else if(isFiltering()){
+    $('#viewToggle').classList.add('opacity-40','pointer-events-none');
+    renderFiltered();
+  } else {
+    $('#viewToggle').classList.remove('opacity-40','pointer-events-none');
+    if(state.view === 'flat') renderFlatAll();
+    else renderNav();
+  }
+  syncViewToggle();
+  syncLayoutToggle();
+  updateActiveFilters();
+  renderCollectionTabs();
+  renderSelectionBar();
+  savePrefs();
+}
+
+function filteredList(){
+  const q = state.q.trim().toLowerCase();
+  return DATA.filter(f => {
+    const text = state.searchScope === 'name' ? f.n : state.searchScope === 'path' ? f.p : f.n+' '+f.p;
+    if(q && !text.toLowerCase().includes(q)) return false;
+    if(state.cats.size && !state.cats.has(f.c)) return false;
+    if(state.groups.size && !state.groups.has(f.g)) return false;
+    if(state.topics.size && !state.topics.has(f.t)) return false;
+    if(state.ext && f.e !== state.ext) return false;
+    return true;
+  });
+}
+
+function renderFiltered(){
+  const list = filteredList().sort(sortFiles);
+  state.shown = PAGE;
+  renderList(list, true);
+}
+
+function renderFlatAll(){
+  state.shown = PAGE;
+  renderList(DATA.slice().sort(sortFiles), false);
+}
+
+function renderCollection(){
+  const label = state.collection === 'favorites' ? 'الملفات المفضلة' : 'الملفات المفتوحة مؤخرًا';
+  const keys = state.collection === 'favorites' ? [...state.favorites] : state.recent;
+  const list = keys.map(getFileByKey).filter(Boolean);
+  renderList(list, false, label);
+  if(!list.length){
+    $('#emptyTitle').textContent = state.collection === 'favorites' ? 'لا توجد ملفات مفضلة بعد' : 'لا توجد ملفات حديثة بعد';
+    $('#emptySub').textContent = state.collection === 'favorites' ? 'حدد ملفًا ثم اختر «إضافة للمفضلة» للوصول إليه بسرعة.' : 'افتح ملفًا أو عاينه، وسيظهر هنا لتستطيع العودة إليه سريعًا.';
+  }
+}
+
+function renderList(list, filtered, subtitle){
+  $('#crumbBar').classList.add('hidden');
+  $('#upBtn').classList.add('hidden');
+  $('#resultCount').textContent = arCount(list.length, 'ملفاً', 'ملفات');
+  $('#resultSub').textContent = subtitle || (filtered ? 'مطابقاً للفلاتر' : 'جميع الملفات في المكتبة');
+  const slice = list.slice(0, state.shown);
+  $('#grid').innerHTML = slice.map(f=>fileItem(f,DATA.indexOf(f))).join('');
+  $('#loadMore').classList.toggle('hidden', list.length <= state.shown);
+  $('#loadMore').onclick = () => { state.shown += PAGE; renderList(list, filtered); };
+  $('#empty').classList.toggle('hidden', list.length>0);
+  $('#empty').classList.toggle('flex', list.length===0);
+  $('#emptyTitle').textContent = 'لا توجد نتائج مطابقة';
+  $('#emptySub').textContent = 'جرّب تعديل البحث أو إزالة بعض الفلاتر.';
+}
+
+/* ================= عنصر ملف (شبكة / قائمة) ================= */
+function fileItem(f, idx){
+  return state.layout === 'list' ? fileRow(f, idx) : fileTile(f, idx);
+}
+function fileTile(f, idx){
+  const selected = state.selectedFile === idx ? ' is-selected' : '';
+  const folder = f.p.includes('\\') ? f.p.slice(0, f.p.lastIndexOf('\\')) : 'المجلد الرئيسي';
+  return '<article class="drive-file-card file-card'+selected+' group relative flex cursor-pointer flex-col items-center gap-2 rounded-2xl p-3 text-center animate-fadeUp" tabindex="0" role="button" aria-pressed="'+(state.selectedFile===idx)+'" aria-label="'+esc(f.n)+'، '+extensionInfo(f).label+'" data-f="'+idx+'" data-full="'+esc(f.p)+'">'+
+    '<span class="select-indicator" aria-hidden="true">'+uiIcon('check','h-3.5 w-3.5')+'</span>'+
+    '<button class="copy-btn absolute left-1.5 top-1.5 hidden h-7 w-7 place-items-center rounded-full bg-white text-gray-600 shadow-sm ring-1 ring-gray-200 transition hover:bg-gray-100 group-hover:grid" data-copy-file="'+idx+'" title="نسخ الرابط">'+uiIcon('copy','h-3.5 w-3.5')+'</button>'+
+    '<button class="file-open-btn" data-open="'+idx+'" title="عرض تفاصيل الملف">'+uiIcon('external','h-4 w-4')+'</button>'+
+    fileSvg(f, 'h-14 w-14 shrink-0')+
+    '<span class="line-clamp-2 min-h-[2.6em] w-full break-words f-meta font-medium leading-tight text-gray-700">'+highlight(f.n)+'</span>'+
+    '<span class="flex items-center gap-1.5 f-xs font-medium text-gray-500">'+extensionPill(f)+'<span>'+sizeLabel(f.s)+'</span></span>'+
+    '<span class="hidden f-xs font-medium text-gray-400" dir="ltr" title="'+esc(folder)+'">'+folder.slice(folder.length-18)+'</span>'+
+  '</article>';
+}
+function fileRow(f, idx){
+  const selected = state.selectedFile === idx ? ' is-selected' : '';
+  const folder = f.p.includes('\\') ? f.p.slice(0, f.p.lastIndexOf('\\')) : 'المجلد الرئيسي';
+  return '<article class="drive-file-row file-card'+selected+' group relative flex w-full cursor-pointer items-center gap-3 px-4 py-3 text-right animate-fadeUp" tabindex="0" role="button" aria-pressed="'+(state.selectedFile===idx)+'" aria-label="'+esc(f.n)+'، '+extensionInfo(f).label+'" data-f="'+idx+'" data-full="'+esc(f.p)+'">'+
+    '<span class="select-indicator" aria-hidden="true">'+uiIcon('check','h-3.5 w-3.5')+'</span>'+
+    fileSvg(f, 'h-10 w-10 shrink-0')+
+    '<span class="min-w-0 flex-1">'+
+      '<span class="block truncate f-body font-medium text-gray-800">'+highlight(f.n)+'</span>'+
+      '<span class="flex min-w-0 items-center gap-2"><span class="shrink-0">'+extensionPill(f)+'</span><span class="block truncate f-xs font-medium text-gray-500" dir="ltr" title="'+esc(folder)+'">'+esc(folder)+'</span></span>'+
+    '</span>'+
+    '<span class="hidden w-24 shrink-0 text-left f-xs font-medium text-gray-500 sm:block">'+sizeLabel(f.s)+'</span>'+
+    '<span class="hidden w-32 shrink-0 text-left f-xs font-medium text-gray-500 md:block" dir="ltr">'+f.d+'</span>'+
+    '<button class="file-open-btn" data-open="'+idx+'" title="عرض تفاصيل الملف">'+uiIcon('external','h-4 w-4')+'</button>'+
+    '<button class="copy-btn shrink-0 rounded-full p-2 text-gray-500 transition hover:bg-gray-200 hover:text-gray-700" data-copy-file="'+idx+'" title="نسخ الرابط">'+uiIcon('copy','h-4 w-4')+'</button>'+
+  '</article>';
+}
+
+/* ================= عنصر مجلد (شبكة / قائمة) ================= */
+function folderItem(d){
+  return state.layout === 'list' ? folderRow(d) : folderTile(d);
+}
+function folderTile(d){
+  const a = agg(d);
+  const label = d.path.includes('\\') ? d.name : (GROUP_LABELS[d.name] || d.name);
+  const sub = Object.keys(d.dirs).length;
+  return '<button class="drive-folder-card folder-btn group relative flex w-full cursor-pointer flex-col items-center gap-2 rounded-2xl p-4 text-center animate-fadeUp" data-nav="'+esc(d.name)+'">'+
+    folderSvg('h-14 w-14 shrink-0')+
+    '<span class="line-clamp-2 min-h-[2.6em] w-full break-words f-meta font-bold leading-tight text-gray-700">'+esc(label)+'</span>'+
+    '<span class="f-xs font-medium text-gray-500">'+(sub?sub+' مجلد • ':'')+arCount(a.count,'ملفاً','ملفات')+'</span>'+
+  '</button>';
+}
+function folderRow(d){
+  const a = agg(d);
+  const label = d.path.includes('\\') ? d.name : (GROUP_LABELS[d.name] || d.name);
+  const sub = Object.keys(d.dirs).length;
+  return '<button class="drive-folder-row folder-btn group flex w-full items-center gap-3 px-4 py-3 text-right animate-fadeUp" data-nav="'+esc(d.name)+'">'+
+    folderSvg('h-9 w-9 shrink-0')+
+    '<span class="min-w-0 flex-1">'+
+      '<span class="block truncate f-body font-medium text-gray-800">'+esc(label)+'</span>'+
+      '<span class="block f-xs font-medium text-gray-500">'+(sub?sub+' مجلد • ':'')+arCount(a.count,'ملفاً','ملفات')+' • '+sizeLabel(a.size)+'</span>'+
+    '</span>'+
+    '<span class="hidden shrink-0 f-xs font-medium text-gray-500 sm:block">'+sizeLabel(a.size)+'</span>'+
+    '<span class="shrink-0 text-gray-400 transition group-hover:text-gray-600">'+uiIcon('chevron','h-4 w-4')+'</span>'+
+  '</button>';
+}
+
+/* ================= تصفح المجلدات ================= */
+function renderNav(){
+  const node = currentNode();
+  const a = agg(node);
+
+  let crumb = '<button class="crumb flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1 f-body font-bold text-[#1a73e8] transition hover:bg-blue-50" data-i="0">'+uiIcon('up','h-4 w-4')+'الجذر</button>';
+  state.nav.forEach((s,i)=>{
+    crumb += '<span class="shrink-0 text-gray-400">'+uiIcon('chevron','h-4 w-4')+'</span>'+
+      '<button class="crumb max-w-[220px] shrink-0 truncate rounded-full px-3 py-1 f-body font-medium text-gray-600 transition hover:bg-blue-50 hover:text-[#1a73e8]" data-i="'+(i+1)+'" title="'+esc(segLabel(s,i))+'">'+esc(segLabel(s,i))+'</button>';
+  });
+  $('#crumbBar').innerHTML = crumb;
+  $('#crumbBar').classList.remove('hidden');
+
+  const dirNames = Object.keys(node.dirs).sort((x,y)=>x.localeCompare(y,'ar',{sensitivity:'base'}));
+  const dirs = dirNames.map(k=>folderItem(node.dirs[k])).join('');
+  const files = node.files.slice().sort(sortFiles);
+  const fileSlice = files.slice(0, state.shown);
+  const filesHtml = fileSlice.map((f,i)=>fileItem(f, DATA.indexOf(f))).join('');
+  const totalItems = dirNames.length + files.length;
+
+  $('#upBtn').classList.toggle('hidden', state.nav.length===0);
+  $('#resultCount').textContent = state.nav.length ? arCount(totalItems, 'عنصراً', 'عناصر') : 'مجلدات الأرشيف';
+  $('#resultSub').textContent = state.nav.length
+    ? (dirNames.length ? dirNames.length+' مجلداً فرعياً • ' : '') + arCount(files.length,'ملفاً','ملفات') + ' • ' + sizeLabel(a.size) + ' إجمالاً'
+    : dirNames.length+' أقسام رئيسية • '+DATA.length.toLocaleString('en-US')+' ملف تعليمي جاهز للاستعراض';
+  $('#grid').innerHTML = dirs + filesHtml;
+  $('#loadMore').classList.toggle('hidden', files.length <= state.shown);
+  $('#loadMore').onclick = () => { state.shown += PAGE; renderNav(); };
+  $('#empty').classList.toggle('hidden', totalItems>0);
+  $('#empty').classList.toggle('flex', totalItems===0);
+  $('#emptyTitle').textContent = 'هذا المجلد فارغ';
+  $('#emptySub').textContent = 'لا يوجد محتوى هنا حالياً.';
+  savePrefs();
+}
+
+/* ================= الفلاتر النشطة ================= */
+function updateActiveFilters(){
+  const total = state.cats.size + state.groups.size + state.topics.size + (state.ext?1:0) + (state.q.trim()?1:0);
+  $('#activeFilterBadge').classList.toggle('hidden', total===0);
+  $('#activeFilterBadge').textContent = total;
+  $('#mobileFilterBadge').classList.toggle('hidden', total===0);
+  $('#mobileFilterBadge').classList.toggle('flex', total>0);
+  $('#mobileFilterBadge').textContent = total;
+  $('#filterToggle').classList.toggle('has-filters', total>0);
+  const box = $('#activeChips');
+  box.classList.toggle('hidden', total===0);
+  box.classList.toggle('flex', total>0);
+  let html = '';
+  const pill = (label, rm) => '<span class="flex items-center gap-1.5 rounded-full bg-[#e8f0fe] px-3 py-1 f-xs font-medium text-[#1a73e8]">'+label+
+    '<button data-rm="'+esc(rm)+'" class="opacity-60 transition hover:opacity-100" title="إزالة">'+uiIcon('x','h-3 w-3')+'</button></span>';
+  state.cats.forEach(c => html += pill(c, JSON.stringify(['cats',c])));
+  state.groups.forEach(g => html += pill(groupLabel(g), JSON.stringify(['groups',g])));
+  state.topics.forEach(t => html += pill(t, JSON.stringify(['topics',t])));
+  if(state.ext) html += pill('.'+state.ext, JSON.stringify(['ext',state.ext]));
+  if(state.q.trim()) html += pill('بحث: '+esc(state.q.trim()), JSON.stringify(['q','']));
+  box.innerHTML = html;
+}
+
+function renderCollectionTabs(){
+  $$('#collectionTabs [data-collection]').forEach(b => b.classList.toggle('is-active', b.dataset.collection === state.collection));
+}
+function saveCollections(){
+  try { localStorage.setItem('dvd2027-favorites', JSON.stringify([...state.favorites])); localStorage.setItem('dvd2027-recent', JSON.stringify(state.recent)); } catch(e){}
+}
+function restoreCollections(){
+  try {
+    const fav = JSON.parse(localStorage.getItem('dvd2027-favorites') || '[]');
+    const recent = JSON.parse(localStorage.getItem('dvd2027-recent') || '[]');
+    state.favorites = new Set(Array.isArray(fav) ? fav : []);
+    state.recent = Array.isArray(recent) ? recent.slice(0,18) : [];
+  } catch(e){}
+}
+function toggleFavorite(f){
+  const key = fileKey(f);
+  state.favorites.has(key) ? state.favorites.delete(key) : state.favorites.add(key);
+  if(state.collection==='favorites' && !state.favorites.has(key)) state.selectedFile=null;
+  saveCollections(); apply();
+  toast(state.favorites.has(key) ? 'تمت إضافة الملف إلى المفضلة' : 'تمت إزالة الملف من المفضلة');
+}
+function pushRecent(f){
+  const key = fileKey(f);
+  state.recent = [key, ...state.recent.filter(k => k !== key)].slice(0,18);
+  saveCollections();
+}
+function selectFile(idx){
+  state.selectedFile = idx;
+  $$('.file-card').forEach(card => { card.classList.toggle('is-selected', Number(card.dataset.f) === idx); card.setAttribute('aria-pressed', String(Number(card.dataset.f) === idx)); });
+  renderSelectionBar();
+}
+function clearSelected(){ state.selectedFile = null; $$('.file-card').forEach(card => { card.classList.remove('is-selected'); card.setAttribute('aria-pressed','false'); }); renderSelectionBar(); }
+function actionButton(action, idx, label, iconName, primary='', extra=''){
+  return '<button class="action-btn '+primary+'" data-action="'+action+'" data-idx="'+idx+'" '+extra+'>'+uiIcon(iconName,'h-4 w-4')+'<span>'+label+'</span></button>';
+}
+function renderSelectionBar(){
+  const f = state.selectedFile === null ? null : DATA[state.selectedFile];
+  const bar = $('#selectionBar'), mobile = $('#mobileActionBar');
+  if(!f){ bar.classList.remove('is-open'); mobile.classList.remove('is-open'); bar.innerHTML=''; mobile.innerHTML=''; return; }
+  const idx = state.selectedFile, fav = isFavorite(f);
+  const actions = actionButton('preview',idx,'معاينة','eye','primary')+actionButton('open',idx,'فتح','external')+actionButton('download',idx,'تنزيل','download')+actionButton('favorite',idx,fav?'إزالة المفضلة':'إضافة للمفضلة','star',fav?'is-active':'')+actionButton('copy',idx,'نسخ الرابط','copy')+actionButton('share',idx,'مشاركة','share')+actionButton('clear',idx,'إلغاء','x');
+  bar.innerHTML = '<div class="selection-file">'+fileSvg(f,'h-9 w-9 shrink-0')+'<span class="min-w-0"><b class="block truncate f-meta text-gray-800">'+esc(f.n)+'</b><small class="block f-xs text-gray-500">'+extensionInfo(f).label+' • '+sizeLabel(f.s)+'</small></span></div><div class="selection-actions">'+actions+'</div>';
+  mobile.innerHTML = '<span class="min-w-0 truncate f-xs font-bold text-gray-700">'+esc(f.n)+'</span><div class="flex items-center gap-1">'+actionButton('preview',idx,'معاينة','eye','primary')+actionButton('favorite',idx,'مفضلة','star',fav?'is-active':'')+actionButton('clear',idx,'إلغاء','x')+'</div>';
+  bar.classList.add('is-open'); mobile.classList.add('is-open');
+}
+function openFile(f){ pushRecent(f); window.open(fileUrl(f.p), '_blank', 'noopener'); }
+function directFileUrl(f){ return new URL(fileUrl(f.p), window.location.href).href; }
+function copyFileLink(f, msg='تم نسخ رابط الملف'){ return copyText(directFileUrl(f), msg); }
+function downloadFile(f){
+  pushRecent(f);
+  const a = document.createElement('a'); a.href = fileUrl(f.p); a.download = f.n; document.body.appendChild(a); a.click(); a.remove();
+}
+async function shareFile(f){
+  const url = directFileUrl(f);
+  try {
+    if(navigator.share){ await navigator.share({ title:f.n, text:'ملف من مكتبة فيزياء سطيف', url }); toast('تم فتح نافذة المشاركة'); }
+    else await copyFileLink(f, 'تم نسخ رابط الملف للمشاركة');
+  } catch(e){ if(e && e.name !== 'AbortError') await copyFileLink(f, 'تم نسخ رابط الملف للمشاركة'); }
+}
+function previewKind(f){
+  const e = String(f.e||'').toLowerCase();
+  if(e === 'pdf') return 'pdf';
+  if(['jpg','jpeg','png','gif','webp'].includes(e)) return 'image';
+  if(['mp4','webm','mov','avi','wmv'].includes(e)) return 'video';
+  if(['mp3','wav','ogg'].includes(e)) return 'audio';
+  return 'unsupported';
+}
+function openPreview(f){
+  pushRecent(f);
+  const kind = previewKind(f), url = esc(fileUrl(f.p));
+  let media = '';
+  if(kind === 'pdf') media = '<iframe src="'+url+'#view=FitH" title="معاينة '+esc(f.n)+'"></iframe>';
+  else if(kind === 'image') media = '<img src="'+url+'" alt="'+esc(f.n)+'">';
+  else if(kind === 'video') media = '<video controls preload="metadata" src="'+url+'"></video>';
+  else if(kind === 'audio') media = '<audio controls preload="metadata" src="'+url+'"></audio>';
+  else media = '<div class="max-w-md p-8 text-center"><span class="mx-auto grid h-14 w-14 place-items-center rounded-full bg-gray-100 text-gray-500">'+fileSvg(f,'h-9 w-9')+'</span><h3 class="mt-4 f-title font-extrabold text-gray-800">المعاينة غير متاحة لهذا الامتداد</h3><p class="mt-2 f-meta text-gray-500">يمكن فتح الملف أو تنزيله باستخدام البرنامج المناسب على جهازك.</p></div>';
+  $('#previewPanel').innerHTML = '<div class="preview-header sticky top-0 z-10 flex items-start justify-between gap-3 border-b p-4 backdrop-blur"><div class="flex min-w-0 items-center gap-3">'+fileSvg(f,'h-10 w-10 shrink-0')+'<div class="min-w-0"><h2 id="previewTitle" class="truncate f-title font-extrabold">'+esc(f.n)+'</h2><p class="preview-meta f-xs">'+extensionPill(f)+' <span class="mr-1">'+sizeLabel(f.s)+'</span></p></div></div><button class="action-btn" data-close-preview aria-label="إغلاق المعاينة">'+uiIcon('x','h-4 w-4')+'</button></div><div class="space-y-4 p-4"><div class="preview-stage">'+media+'</div><div class="flex flex-wrap gap-2">'+actionButton('open',DATA.indexOf(f),'فتح الملف','external','primary')+actionButton('download',DATA.indexOf(f),'تنزيل','download')+actionButton('share',DATA.indexOf(f),'مشاركة','share')+'</div></div>';
+  $('#previewDrawer').classList.add('is-open'); document.body.classList.add('overflow-hidden');
+}
+function closePreview(){
+  const panel = $('#previewPanel');
+  if(panel){
+    panel.querySelectorAll('video, audio').forEach(media => {
+      try {
+        media.pause();
+        media.currentTime = 0;
+        media.removeAttribute('src');
+        media.querySelectorAll('source').forEach(source => source.removeAttribute('src'));
+        media.load();
+      } catch(_) {}
+    });
+    panel.querySelectorAll('iframe').forEach(frame => { frame.src = 'about:blank'; });
+    panel.replaceChildren();
+  }
+  $('#previewDrawer').classList.remove('is-open');
+  document.body.classList.remove('overflow-hidden');
+}
+function openHelp(){
+  $('#helpCard').innerHTML = '<div class="flex items-start justify-between gap-4"><div><h2 id="helpTitle" class="f-lg font-extrabold text-gray-800">اختصارات لوحة المفاتيح</h2><p class="mt-1 f-meta text-gray-500">تنقل في المكتبة بسرعة من لوحة المفاتيح.</p></div><button data-close-help class="action-btn" aria-label="إغلاق">'+uiIcon('x','h-4 w-4')+'</button></div><div class="help-grid"><div class="key-help"><span>تركيز البحث</span><kbd>/</kbd></div><div class="key-help"><span>فتح الملف</span><kbd>Enter</kbd></div><div class="key-help"><span>اختيار الملف</span><kbd>Space</kbd></div><div class="key-help"><span>التنقل بين الملفات</span><kbd>الأسهم</kbd></div><div class="key-help"><span>نسخ مسار المحدد</span><kbd>Ctrl + C</kbd></div><div class="key-help"><span>إغلاق النوافذ</span><kbd>Esc</kbd></div><div class="key-help"><span>هذه المساعدة</span><kbd>?</kbd></div></div>';
+  $('#helpModal').classList.remove('hidden'); $('#helpModal').classList.add('flex'); document.body.classList.add('overflow-hidden'); requestAnimationFrame(()=>$('#helpCard').querySelector('[data-close-help]').focus());
+}
+function closeHelp(){ $('#helpModal').classList.add('hidden'); $('#helpModal').classList.remove('flex'); document.body.classList.remove('overflow-hidden'); }
+function removeFilter(json){
+  let k,v; try { [k,v] = JSON.parse(json); } catch(e){ return; }
+  if(k==='cats') state.cats.delete(v);
+  else if(k==='groups') state.groups.delete(v);
+  else if(k==='topics') state.topics.delete(v);
+  else if(k==='ext'){ state.ext=''; $('#extSelect').value=''; }
+  else if(k==='q'){ state.q=''; $('#searchInput').value=''; }
+  renderCatList(); rerenderChips(); apply();
+}
+function clearAll(){
+  state.q=''; state.cats.clear(); state.groups.clear(); state.topics.clear(); state.ext=''; state.collection='';
+  $('#searchInput').value=''; $('#extSelect').value=''; $('#searchClear').classList.add('hidden');
+  closeSearchSuggestions();
+  renderCatList(); rerenderChips(); apply();
+}
+
+function renderSearchSuggestions(){
+  const q = state.q.trim().toLowerCase(), box = $('#searchSuggest');
+  if(!q || !DATA.length){ closeSearchSuggestions(); return; }
+  const matches = DATA.filter(f => {
+    const text = state.searchScope === 'name' ? f.n : state.searchScope === 'path' ? f.p : f.n+' '+f.p;
+    return text.toLowerCase().includes(q);
+  }).slice(0,6);
+  if(!matches.length){ box.innerHTML = '<div class="px-4 py-3 f-meta font-bold text-gray-500">لا توجد اقتراحات مطابقة.</div>'; box.classList.add('is-open'); return; }
+  box.innerHTML = '<div class="border-b border-gray-100 px-4 py-2 f-xs font-bold text-gray-500">اقتراحات مباشرة</div>'+matches.map(f => {
+    const idx = DATA.indexOf(f), folder = f.p.includes('\\') ? f.p.slice(0,f.p.lastIndexOf('\\')) : 'الجذر';
+    return '<button class="search-suggestion" role="option" data-suggest="'+idx+'">'+fileSvg(f,'h-8 w-8 shrink-0')+'<span class="min-w-0 flex-1"><b class="block truncate f-meta text-gray-800">'+highlight(f.n)+'</b><small class="block truncate f-xs text-gray-500" dir="ltr">'+esc(folder)+'</small></span><span class="f-xs text-gray-400">'+extensionInfo(f).label+'</span></button>';
+  }).join('');
+  box.classList.add('is-open');
+}
+function closeSearchSuggestions(){ $('#searchSuggest').classList.remove('is-open'); }
+function chooseSuggestion(idx){
+  const f = DATA[idx]; if(!f) return;
+  state.collection=''; state.q=f.n; state.searchScope='name'; $('#searchInput').value=f.n; $('#searchScope').value='name'; $('#searchClear').classList.remove('hidden'); closeSearchSuggestions(); apply();
+  requestAnimationFrame(()=>{ const card = document.querySelector('.file-card[data-f="'+idx+'"]'); if(card){ selectFile(idx); card.focus(); } });
+}
+function applyShortcut(topic){
+  state.collection=''; state.q=''; state.cats.clear(); state.groups.clear(); state.topics = new Set([topic]); state.ext=''; state.view='flat'; $('#searchInput').value=''; $('#searchClear').classList.add('hidden'); $('#extSelect').value=''; rerenderChips(); renderCatList(); apply();
+}
+
+/* ================= نافذة تفاصيل الملف ================= */
+function openModal(f){
+  const cat = f.c, C = CATS[cat];
+  const folder = f.p.includes('\\') ? f.p.slice(0, f.p.lastIndexOf('\\')) : 'المجلد الرئيسي';
+  const idx = DATA.indexOf(f), fav = isFavorite(f);
+  pushRecent(f);
+  $('#modalCard').innerHTML =
+    '<div class="flex items-start justify-between gap-3">'+
+      '<div class="flex min-w-0 items-center gap-3">'+
+        fileSvg(f, 'h-12 w-12 shrink-0')+
+        '<div class="min-w-0">'+
+          '<h3 id="modalTitle" class="break-words f-lg font-extrabold leading-snug text-gray-800">'+esc(f.n)+'</h3>'+
+          '<span class="mt-1 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 f-xs font-bold '+C.badge+'">'+extensionPill(f)+cat+'</span>'+
+        '</div>'+
+      '</div>'+
+      '<button data-close-modal class="grid h-9 w-9 shrink-0 place-items-center rounded-full text-gray-500 transition hover:bg-gray-100" aria-label="إغلاق">'+uiIcon('x','h-5 w-5')+'</button>'+
+    '</div>'+
+    '<dl class="mt-5 space-y-2.5 f-body">'+
+      row('الامتداد', f.e ? '.'+esc(f.e) : '—')+
+      row('الحجم', sizeLabel(f.s))+
+      row('آخر تعديل', '<span dir="ltr">'+f.d+'</span>')+
+      row('الموضوع', topicOf(f))+
+    '</dl>'+
+    '<div class="mt-4">'+
+      '<p class="mb-1.5 f-xs font-bold text-gray-500">المسار الكامل</p>'+
+      '<div class="flex items-center gap-2 rounded-xl bg-gray-50 p-2.5 px-4">'+
+        '<code class="min-w-0 flex-1 break-all f-xs font-medium leading-relaxed text-gray-600" dir="ltr">'+esc(folder)+'</code>'+
+      '</div>'+
+    '</div>'+
+    '<div class="mt-5 flex flex-wrap items-center gap-2">'+
+      actionButton('preview',idx,'معاينة','eye','primary')+actionButton('open',idx,'فتح الملف','external')+actionButton('download',idx,'تنزيل','download')+actionButton('favorite',idx,fav?'إزالة المفضلة':'إضافة للمفضلة','star',fav?'is-active':'')+actionButton('copy',idx,'نسخ الرابط','copy')+actionButton('share',idx,'مشاركة','share')+
+    '</div>';
+  $('#modal').classList.remove('hidden');
+  $('#modal').classList.add('flex');
+  document.body.classList.add('overflow-hidden');
+  requestAnimationFrame(() => $('#modalCard').querySelector('[data-close-modal]').focus());
+}
+function closeModal(){
+  $('#modal').classList.add('hidden');
+  $('#modal').classList.remove('flex');
+  document.body.classList.remove('overflow-hidden');
+  if(state.lastFocused){ state.lastFocused.focus(); state.lastFocused = null; }
+}
+function row(k, v){
+  return '<div class="flex flex-wrap items-center justify-between gap-2 rounded-xl bg-gray-50 px-4 py-2.5"><dt class="font-medium text-gray-500">'+k+'</dt><dd class="font-bold text-gray-800">'+v+'</dd></div>';
+}
+
+/* ================= Snackbar ================= */
+let toastTimer = null;
+function toast(msg, ok=true){
+  const t = $('#toast');
+  t.className = 'fixed bottom-6 left-1/2 z-[70] -translate-x-1/2 flex max-w-[90vw] items-center gap-2.5 rounded-lg bg-gray-800 px-4 py-3 f-body font-bold text-white shadow-2xl animate-slideUp';
+  t.innerHTML = '<span class="grid h-5 w-5 shrink-0 place-items-center '+(ok?'text-green-400':'text-red-400')+'">'+uiIcon(ok?'check':'x','h-4 w-4')+'</span><span>'+esc(msg)+'</span>';
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> t.classList.add('hidden'), 2200);
+}
+
+/* ================= النسخ ================= */
+async function copyText(t, msg){
+  try {
+    await navigator.clipboard.writeText(t);
+    toast(msg || 'تم النسخ', true);
+    return true;
+  } catch(e){
+    try {
+      const ta = document.createElement('textarea');
+      ta.value = t; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove();
+      toast(msg || 'تم النسخ', true);
+      return true;
+    } catch(e2){
+      toast('تعذّر النسخ تلقائياً — المسار: '+t, false);
+      return false;
+    }
+  }
+}
+
+/* ================= أزرار التبديل والتفضيلات ================= */
+function syncViewToggle(){
+  $$('#viewToggle [data-view]').forEach(b => {
+    const on = b.dataset.view === state.view;
+    b.className = 'rounded-full px-4 py-1.5 f-meta font-bold transition ' +
+      (on ? 'bg-white text-gray-800 shadow-sm' : 'text-gray-500 hover:text-gray-700');
+  });
+}
+function syncLayoutToggle(){
+  $$('#layoutToggle [data-layout]').forEach(b => {
+    const on = b.dataset.layout === state.layout;
+    b.className = 'grid h-8 w-8 place-items-center rounded-full transition ' + (on ? 'bg-[#e8f0fe] text-[#1a73e8]' : 'text-gray-500 hover:bg-gray-100');
+  });
+  $('#grid').className = state.layout === 'list' ? 'file-list' : 'file-grid';
+}
+function savePrefs(){
+  try {
+    localStorage.setItem('dvd2027-prefs', JSON.stringify({
+      view:state.view, layout:state.layout, nav:state.nav, sort:state.sort, searchScope:state.searchScope,
+      filters:{ q:state.q, cats:[...state.cats], groups:[...state.groups], topics:[...state.topics], ext:state.ext }, collection:state.collection
+    }));
+  } catch(e){}
+}
+function setTheme(theme, persist=true){
+  const dark = theme === 'dark';
+  document.documentElement.classList.toggle('dark', dark);
+  document.body.classList.toggle('dark', dark);
+  $('#themeToggle').setAttribute('aria-pressed', String(dark));
+  $('#themeToggle').title = dark ? 'تفعيل الوضع الفاتح' : 'تفعيل الوضع الداكن';
+  $('#themeSun').classList.toggle('hidden', dark);
+  $('#themeMoon').classList.toggle('hidden', !dark);
+  $('#themeToggleLabel').textContent = dark ? 'الوضع الفاتح' : 'الوضع الداكن';
+  if(persist){ try { localStorage.setItem('dvd2027-theme', theme); } catch(e){} }
+}
+function initTheme(){
+  let theme = '';
+  try { theme = localStorage.getItem('dvd2027-theme') || ''; } catch(e){}
+  if(theme !== 'light' && theme !== 'dark') theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  setTheme(theme, false);
+}
+function restorePrefs(){
+  try {
+    const pref = JSON.parse(localStorage.getItem('dvd2027-prefs') || '{}');
+    const v = pref.view || localStorage.getItem('dvd2027-view');
+    if(v === 'flat' || v === 'folders') state.view = v;
+    const l = pref.layout || localStorage.getItem('dvd2027-layout');
+    if(l === 'grid' || l === 'list') state.layout = l;
+    if(SORT_OPTIONS.some(o => o[0] === pref.sort)) state.sort = pref.sort;
+    if(['all','name','path'].includes(pref.searchScope)) state.searchScope = pref.searchScope;
+    const filters = pref.filters || {};
+    state.q = typeof filters.q === 'string' ? filters.q : '';
+    state.cats = new Set(Array.isArray(filters.cats) ? filters.cats : []);
+    state.groups = new Set(Array.isArray(filters.groups) ? filters.groups : []);
+    state.topics = new Set(Array.isArray(filters.topics) ? filters.topics : []);
+    state.ext = typeof filters.ext === 'string' ? filters.ext : '';
+    if(['recent','favorites'].includes(pref.collection)) state.collection = pref.collection;
+    const saved = pref.nav || JSON.parse(localStorage.getItem('dvd2027-nav') || '[]');
+    if(Array.isArray(saved) && saved.length){
+      let node = TREE, ok = true;
+      for(const s of saved){ if(node.dirs[s]) node = node.dirs[s]; else { ok = false; break; } }
+      if(ok) state.nav = saved;
+    }
+    $('#searchInput').value = state.q;
+    $('#searchClear').classList.toggle('hidden', !state.q);
+    $('#searchScope').value = state.searchScope;
+  } catch(e){}
+}
+
+/* ================= الأحداث ================= */
+$('#homeBtn').onclick = () => { state.nav=[]; state.q=''; state.cats.clear(); state.groups.clear(); state.topics.clear(); state.ext=''; state.collection=''; clearSelected(); $('#searchInput').value=''; $('#extSelect').value=''; $('#searchClear').classList.add('hidden'); closeSearchSuggestions(); renderCatList(); rerenderChips(); apply(); savePrefs(); };
+$('#localHomeBtn').onclick = () => $('#homeBtn').click();
+$('#themeToggle').onclick = () => setTheme(document.body.classList.contains('dark') ? 'light' : 'dark');
+
+let searchTimer = null;
+$('#searchInput').addEventListener('input', e => {
+  state.collection=''; state.q = e.target.value;
+  $('#searchClear').classList.toggle('hidden', !state.q);
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(()=>{ renderSearchSuggestions(); apply(); }, 120);
+});
+$('#searchInput').addEventListener('focus', renderSearchSuggestions);
+$('#searchClear').onclick = () => { state.q=''; $('#searchInput').value=''; $('#searchClear').classList.add('hidden'); closeSearchSuggestions(); apply(); };
+$('#searchScope').onchange = e => { state.searchScope=e.target.value; renderSearchSuggestions(); apply(); };
+$('#extSelect').onchange = e => { state.collection=''; state.ext=e.target.value; apply(); };
+
+$('#quickSort').onchange = e => { state.sort = e.target.value; apply(); };
+$('#collectionTabs').addEventListener('click', e => {
+  const b=e.target.closest('[data-collection]'); if(!b) return;
+  state.collection = state.collection === b.dataset.collection ? '' : b.dataset.collection;
+  if(state.collection){ state.q=''; state.cats.clear(); state.groups.clear(); state.topics.clear(); state.ext=''; $('#searchInput').value=''; $('#searchClear').classList.add('hidden'); $('#extSelect').value=''; closeSearchSuggestions(); renderCatList(); rerenderChips(); }
+  clearSelected(); apply();
+});
+$$('.shortcut-chip').forEach(b => b.addEventListener('click', () => applyShortcut(b.dataset.shortcut)));
+$('#helpToggle').onclick = openHelp;
+
+$('#viewToggle').addEventListener('click', e => {
+  const b = e.target.closest('[data-view]'); if(!b) return;
+  state.view = b.dataset.view; savePrefs(); apply();
+});
+$('#layoutToggle').addEventListener('click', e => {
+  const b = e.target.closest('[data-layout]'); if(!b) return;
+  state.layout = b.dataset.layout; savePrefs(); apply();
+});
+$('#upBtn').onclick = () => { state.nav.pop(); state.shown = PAGE; renderNav(); };
+$('#clearFilters').onclick = clearAll;
+$('#emptyReset').onclick = clearAll;
+$('#emptyHome').onclick = () => { clearAll(); state.nav = []; savePrefs(); apply(); };
+
+$('#activeChips').addEventListener('click', e => {
+  const rm = e.target.closest('[data-rm]'); if(rm){ removeFilter(rm.dataset.rm); }
+});
+
+$('#groupChips').onclick = e => {
+  const b = e.target.closest('.chip'); if(!b) return;
+  const k = b.dataset.k;
+  state.collection='';
+  state.groups.has(k) ? state.groups.delete(k) : state.groups.add(k);
+  rerenderChips(); apply();
+};
+$('#topicChips').onclick = e => {
+  const b = e.target.closest('.chip'); if(!b) return;
+  const k = b.dataset.k;
+  state.collection='';
+  state.topics.has(k) ? state.topics.delete(k) : state.topics.add(k);
+  rerenderChips(); apply();
+};
+$$('[data-chip-toggle]').forEach(btn => btn.addEventListener('click', () => {
+  const section = btn.dataset.chipToggle;
+  const isOpen = document.querySelector('[data-chip-section="'+section+'"]').classList.contains('is-open');
+  setChipSectionOpen(section, !isOpen);
+}));
+
+function setFiltersOpen(open){
+  $('#sidebar').classList.toggle('is-open', open);
+  $('#workspaceLayout').classList.toggle('filters-closed', !open);
+  $('#filterToggle').setAttribute('aria-expanded', String(open));
+  if(open){ requestAnimationFrame(() => $('#sidebar').querySelector('#clearFilters').focus()); }
+}
+
+document.addEventListener('click', e => {
+  const action = e.target.closest('[data-action]');
+  if(action){
+    const f = DATA[Number(action.dataset.idx)]; if(!f) return;
+    const type = action.dataset.action;
+    if(type==='preview') openPreview(f);
+    else if(type==='open') openFile(f);
+    else if(type==='download') downloadFile(f);
+    else if(type==='favorite') toggleFavorite(f);
+    else if(type==='copy') copyFileLink(f);
+    else if(type==='share') shareFile(f);
+    else if(type==='clear') clearSelected();
+    return;
+  }
+  const suggestion = e.target.closest('[data-suggest]');
+  if(suggestion){ chooseSuggestion(Number(suggestion.dataset.suggest)); return; }
+  if(e.target.closest('[data-close-preview]')){ closePreview(); return; }
+  if(e.target.closest('[data-close-help]')){ closeHelp(); return; }
+  const copyBtn = e.target.closest('.copy-btn');
+  if(copyBtn){ e.stopPropagation(); copyFileLink(DATA[Number(copyBtn.dataset.copyFile)]); return; }
+
+  const copyData = e.target.closest('[data-copy]');
+  if(copyData){ copyText(copyData.dataset.copy); return; }
+
+  const openBtn = e.target.closest('[data-open]');
+  if(openBtn){
+    const idx = Number(openBtn.dataset.open);
+    selectFile(idx);
+    state.lastFocused = openBtn.closest('.file-card');
+    openModal(DATA[idx]);
+    return;
+  }
+
+  const folderBtn = e.target.closest('.folder-btn');
+  if(folderBtn){ state.collection=''; state.nav.push(folderBtn.dataset.nav); state.shown = PAGE; renderNav(); return; }
+
+  const crumb = e.target.closest('.crumb');
+  if(crumb){ state.nav = state.nav.slice(0, Number(crumb.dataset.i)); state.shown = PAGE; renderNav(); return; }
+
+  const fileCard = e.target.closest('.file-card');
+  if(fileCard){
+    if(e.target.closest('a') || e.target.closest('button')) return;
+    const idx = Number(fileCard.dataset.f);
+    selectFile(idx);
+    return;
+  }
+
+  if(e.target.closest('[data-close-modal]')){ closeModal(); return; }
+  if(e.target.closest('[data-close-filters]')){ setFiltersOpen(false); }
+});
+
+document.addEventListener('dblclick', e => {
+  const fileCard = e.target.closest('.file-card');
+  if(!fileCard || e.target.closest('button')) return;
+  const idx = Number(fileCard.dataset.f);
+  selectFile(idx);
+  state.lastFocused = fileCard;
+  openModal(DATA[idx]);
+});
+
+/* ================= لوحة المفاتيح ================= */
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){
+    if(!$('#modal').classList.contains('hidden')) closeModal();
+    else if($('#previewDrawer').classList.contains('is-open')) closePreview();
+    else if(!$('#helpModal').classList.contains('hidden')) closeHelp();
+    else if($('#sidebar').classList.contains('is-open')) setFiltersOpen(false);
+    else if($('#searchSuggest').classList.contains('is-open')) closeSearchSuggestions();
+    else if(document.activeElement === $('#searchInput')){ $('#searchInput').blur(); }
+    return;
+  }
+  if(e.key === '/' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA' && !$('#modal').classList.contains('flex')){
+    e.preventDefault();
+    $('#searchInput').focus();
+  }
+  if(e.key === '?' && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA'){ e.preventDefault(); openHelp(); return; }
+  const cardEl = e.target.closest('.file-card');
+  if(cardEl && e.key === 'Enter'){
+    e.preventDefault();
+    const idx = Number(cardEl.dataset.f);
+    selectFile(idx);
+    state.lastFocused = cardEl;
+    openModal(DATA[idx]);
+  }
+  if(cardEl && e.key === ' '){ e.preventDefault(); selectFile(Number(cardEl.dataset.f)); }
+  if(cardEl && ['ArrowRight','ArrowLeft','ArrowUp','ArrowDown'].includes(e.key)){
+    const cards = $$('.file-card');
+    const current = cards.indexOf(cardEl);
+    const columns = state.layout === 'list' ? 1 : (window.innerWidth >= 1280 ? 5 : window.innerWidth >= 1024 ? 4 : window.innerWidth >= 640 ? 3 : 2);
+    let next = current;
+    if(e.key === 'ArrowRight') next += 1;
+    if(e.key === 'ArrowLeft') next -= 1;
+    if(e.key === 'ArrowDown') next += columns;
+    if(e.key === 'ArrowUp') next -= columns;
+    if(cards[next]){ e.preventDefault(); cards[next].focus(); }
+  }
+  if((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'c' && state.selectedFile !== null && document.activeElement.tagName !== 'INPUT'){
+    e.preventDefault();
+    copyFileLink(DATA[state.selectedFile], 'تم نسخ رابط الملف المحدد');
+  }
+});
+
+/* ================= القائمة الجانبية والأعلى ================= */
+$('#filterToggle').onclick = () => setFiltersOpen(!$('#sidebar').classList.contains('is-open'));
+
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  $('#toTop').classList.toggle('hidden', y < 600);
+}, { passive:true });
+$('#toTop').onclick = () => window.scrollTo({ top:0, behavior:'smooth' });
+
+initTheme();
+load();
+</script>
+</body>
+</html>
