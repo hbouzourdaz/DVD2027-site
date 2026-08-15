@@ -1478,10 +1478,11 @@ function removeFilter(json){
   else if(k==='topics') state.topics.delete(v);
   else if(k==='ext'){ state.ext=''; $('#extSelect').value=''; }
   else if(k==='q'){ state.q=''; $('#searchInput').value=''; }
+  if(!isFiltering()){ state.nav=[]; }
   renderCatList(); rerenderChips(); apply();
 }
 function clearAll(){
-  state.q=''; state.cats.clear(); state.groups.clear(); state.topics.clear(); state.ext=''; state.collection='';
+  state.q=''; state.cats.clear(); state.groups.clear(); state.topics.clear(); state.ext=''; state.collection=''; state.nav=[];
   $('#searchInput').value=''; $('#extSelect').value=''; $('#searchClear').classList.add('hidden');
   closeSearchSuggestions();
   renderCatList(); rerenderChips(); apply();
@@ -1626,7 +1627,7 @@ function setTheme(theme, persist=true){
 function initTheme(){
   let theme = '';
   try { theme = localStorage.getItem('dvd2027-theme') || ''; } catch(e){}
-  if(theme !== 'light' && theme !== 'dark') theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  if(theme !== 'light' && theme !== 'dark') theme = 'light';
   setTheme(theme, false);
 }
 function restorePrefs(){

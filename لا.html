@@ -661,7 +661,7 @@ function removeFilter(json){
   renderCatList(); rerenderChips(); apply();
 }
 function clearAll(){
-  state.q=''; state.cats.clear(); state.groups.clear(); state.topics.clear(); state.ext='';
+  state.q=''; state.cats.clear(); state.groups.clear(); state.topics.clear(); state.ext=''; state.nav=[];
   $('#searchInput').value=''; $('#extSelect').value=''; $('#searchClear').classList.add('hidden');
   renderCatList(); rerenderChips(); apply();
 }
