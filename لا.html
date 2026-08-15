@@ -125,7 +125,6 @@
           <div class="flex flex-wrap items-center gap-2">
             <div id="viewToggle" class="flex rounded-full bg-[#f1f3f4] p-0.5">
               <button data-view="folders" class="rounded-full px-4 py-1.5 f-meta font-bold transition">المجلدات</button>
-              <button data-view="flat" class="rounded-full px-4 py-1.5 f-meta font-bold text-gray-500 transition hover:text-gray-700">كل الملفات</button>
             </div>
             <button id="upBtn" class="hidden items-center gap-1.5 rounded-full px-3 py-1.5 f-meta font-bold text-[#1a73e8] transition hover:bg-blue-50">
               <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 15l8-8 8 8"/></svg>
@@ -144,11 +143,6 @@
             <select id="quickSort" class="rounded-full border border-gray-200 bg-white px-3 py-1.5 f-meta font-medium outline-none transition focus:ring-2 focus:ring-[#1a73e8]"></select>
           </div>
         </div>
-
-        <!-- شرائح السنة -->
-        <div id="groupChips" class="mt-4 flex flex-wrap gap-2"></div>
-        <!-- شرائح الموضوع -->
-        <div id="topicChips" class="mt-2 flex flex-wrap gap-2"></div>
 
         <!-- شريط النتائج -->
         <div class="mt-4 flex flex-wrap items-center gap-2 border-b border-gray-100 pb-2">
@@ -409,8 +403,6 @@ async function load(){
   DATA.forEach(f => { f.t = topicOf(f); });
   TREE = buildTree();
   restorePrefs();
-  buildGroupChips();
-  buildTopicChips();
   buildCatList();
   buildExtSelect();
   buildQuickSort();
@@ -423,30 +415,7 @@ function showSkeleton(){
   $('#grid').innerHTML = [1,2,3,4,5,6,7,8,9,10,11,12].map(sk).join('');
 }
 
-/* ================= الشرائح (filter chips بنمط Drive) ================= */
-function chip(label, active, count, key, cls){
-  return '<button data-k="'+esc(key)+'" class="chip '+cls+' flex shrink-0 items-center gap-1.5 rounded-full border px-4 py-1.5 f-meta font-medium transition '+
-    (active ? 'border-transparent bg-[#e8f0fe] text-[#1a73e8]'
-            : 'border-gray-300 bg-white text-gray-700 hover:bg-gray-100')+'">'+
-    (active ? '<span class="grid h-4 w-4 place-items-center text-[#1a73e8]">'+uiIcon('check','h-3.5 w-3.5')+'</span>' : '')+
-    label+' <span class="opacity-60">'+count.toLocaleString('en-US')+'</span></button>';
-}
-function buildGroupChips(){
-  const g = {}; DATA.forEach(f => g[f.g]=(g[f.g]||0)+1);
-  const keys = Object.keys(g).sort((a,b)=> (GROUP_LABELS[a]||a).localeCompare(GROUP_LABELS[b]||b,'ar'));
-  state._groupKeys = keys;
-  state._groupCounts = g;
-  $('#groupChips').innerHTML = keys.map(k => chip(groupLabel(k), state.groups.has(k), g[k], k, '')).join('');
-}
-function buildTopicChips(){
-  const g = {}; DATA.forEach(f => g[f.t]=(g[f.t]||0)+1);
-  state._topicCounts = g;
-  $('#topicChips').innerHTML = TOPICS.map(t => chip(t, state.topics.has(t), g[t]||0, t, '')).join('');
-}
-function rerenderChips(){
-  $('#groupChips').innerHTML = state._groupKeys.map(k => chip(groupLabel(k), state.groups.has(k), state._groupCounts[k], k, '')).join('');
-  $('#topicChips').innerHTML = TOPICS.map(t => chip(t, state.topics.has(t), state._topicCounts[t]||0, t, '')).join('');
-}
+function rerenderChips(){}
 
 /* ================= قائمة الفئات (نقاط تنقل Drive) ================= */
 function buildCatList(){
@@ -490,8 +459,7 @@ function apply(){
     renderFiltered();
   } else {
     $('#viewToggle').classList.remove('opacity-40','pointer-events-none');
-    if(state.view === 'flat') renderFlatAll();
-    else renderNav();
+    renderNav();
   }
   syncViewToggle();
   syncLayoutToggle();
@@ -514,11 +482,6 @@ function renderFiltered(){
   const list = filteredList().sort(sortFiles);
   state.shown = PAGE;
   renderList(list, true);
-}
-
-function renderFlatAll(){
-  state.shown = PAGE;
-  renderList(DATA.slice().sort(sortFiles), false);
 }
 
 function renderList(list, filtered){
@@ -764,8 +727,6 @@ function savePrefs(){
 }
 function restorePrefs(){
   try {
-    const v = localStorage.getItem('dvd2027-view');
-    if(v === 'flat' || v === 'folders') state.view = v;
     const l = localStorage.getItem('dvd2027-layout');
     if(l === 'grid' || l === 'list') state.layout = l;
     const saved = JSON.parse(localStorage.getItem('dvd2027-nav') || '[]');
@@ -807,19 +768,6 @@ $('#emptyHome').onclick = () => { clearAll(); state.nav = []; savePrefs(); apply
 $('#activeChips').addEventListener('click', e => {
   const rm = e.target.closest('[data-rm]'); if(rm){ removeFilter(rm.dataset.rm); }
 });
-
-$('#groupChips').onclick = e => {
-  const b = e.target.closest('.chip'); if(!b) return;
-  const k = b.dataset.k;
-  state.groups.has(k) ? state.groups.delete(k) : state.groups.add(k);
-  rerenderChips(); apply();
-};
-$('#topicChips').onclick = e => {
-  const b = e.target.closest('.chip'); if(!b) return;
-  const k = b.dataset.k;
-  state.topics.has(k) ? state.topics.delete(k) : state.topics.add(k);
-  rerenderChips(); apply();
-};
 
 document.addEventListener('click', e => {
   const copyBtn = e.target.closest('.copy-btn');
