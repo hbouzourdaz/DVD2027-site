@@ -720,15 +720,26 @@
       <!-- ===== المحتوى ===== -->
       <section class="drive-content mt-4 min-w-0 lg:mt-0">
 
-       <!-- شريط الأدوات -->
+        <!-- شريط الأدوات -->
         <div class="drive-toolbar flex flex-wrap items-center justify-between gap-2">
           <div class="flex flex-wrap items-center gap-2">
             <div id="viewToggle" class="flex rounded-full bg-[#f1f3f4] p-0.5">
+              <button data-view="folders" class="rounded-full px-4 py-1.5 f-meta font-bold transition">المجلدات</button>
+              <button data-view="flat" class="rounded-full px-4 py-1.5 f-meta font-bold text-gray-500 transition hover:text-gray-700">كل الملفات</button>
             </div>
-       
-      
-       
-         
+            <button class="toolbar-chip-toggle" type="button" data-chip-toggle="groups" aria-controls="groupChipsWrap" aria-expanded="false">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 7a2 2 0 0 1 2-2h4l2 2.5h6a2 2 0 0 1 2 2v6.5a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7z"/></svg><span data-chip-label>استعرض حسب القسم</span><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <button class="toolbar-chip-toggle" type="button" data-chip-toggle="topics" aria-controls="topicChipsWrap" aria-expanded="false">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 5h14M8 12h8M10 19h4"/></svg><span data-chip-label>تصفية سريعة</span><svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+            </button>
+            <button id="upBtn" class="hidden items-center gap-1.5 rounded-full px-3 py-1.5 f-meta font-bold text-[#1a73e8] transition hover:bg-blue-50">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M4 15l8-8 8 8"/></svg>
+              مستوى أعلى
+            </button>
+            <select id="searchScope" class="rounded-full border border-gray-200 bg-white px-3 py-1.5 f-meta font-medium outline-none transition focus:ring-2 focus:ring-[#1a73e8]" aria-label="نطاق البحث">
+              <option value="all">البحث في الاسم والمسار</option><option value="name">اسم الملف فقط</option><option value="path">المسار فقط</option>
+            </select>
           </div>
           <div class="flex items-center gap-2">
             <div id="layoutToggle" class="flex items-center rounded-full border border-gray-200 bg-white p-0.5">
